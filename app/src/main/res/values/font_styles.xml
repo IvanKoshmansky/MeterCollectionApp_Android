@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+    <style name="TextAppearance.MdcTypographyStyles.HeadlineNormal" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.HeadlineItalic" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.SubtitleNormal" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.SubtitleBold" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.SubtitleItalic" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.SubtitleBoldItalic" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.BodyNormal" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.BodyBold" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.BodyItalic" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="TextAppearance.MdcTypographyStyles.BodyBoldItalic" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

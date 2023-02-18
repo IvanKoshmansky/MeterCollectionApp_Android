@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.metercollectionapp.presentation.AddObjectFragment">
+
+    <data>
+        <variable
+            name="addObjectViewModel"
+            type="com.example.android.metercollectionapp.presentation.viewmodels.AddObjectViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_object_fragment_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/add_object_btn_save"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_grid"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:onClick="@{() -> addObjectViewModel.onSave()}"
+            android:text="@string/btn_save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/add_object_btn_scan" />
+
+        <Button
+            android:id="@+id/add_object_btn_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_grid"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:onClick="@{() -> addObjectViewModel.onCancel()}"
+            android:text="@string/btn_cancel"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_object_btn_scan" />
+
+        <Button
+            android:id="@+id/add_object_btn_scan"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_grid_2x"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:onClick="@{() -> addObjectViewModel.onScan()}"
+            android:text="@string/btn_scan_object"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_object_et_new_uid" />
+
+        <EditText
+            android:id="@+id/add_object_et_new_uid"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_edit_text_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_grid"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/add_object_new_uid_hint"
+            android:inputType="number"
+            android:maxLines="3"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            android:text="@={addObjectViewModel.guidLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_object_et_new_name" />
+
+        <EditText
+            android:id="@+id/add_object_et_new_name"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_edit_text_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/add_object_new_name_hint"
+            android:inputType="textPersonName"
+            android:maxLines="3"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            android:text="@={addObjectViewModel.nameLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

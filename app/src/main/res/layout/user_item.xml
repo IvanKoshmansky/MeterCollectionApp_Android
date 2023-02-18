@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="userUiState"
+            type="com.example.android.metercollectionapp.presentation.uistate.UserUiState" />
+        <variable
+            name="clickListener"
+            type="com.example.android.metercollectionapp.presentation.adapters.UserClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_height"
+        android:onClick="@{() -> clickListener.onClick(userUiState)}">
+
+        <ImageView
+            android:id="@+id/object_item_iw_object_status"
+            android:layout_width="@dimen/standard_icon_size"
+            android:layout_height="@dimen/standard_icon_size"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            app:imageViewSyncStatus48="@{userUiState.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_sync_48" />
+
+        <TextView
+            android:id="@+id/user_item_tw_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{userUiState.name}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/object_item_iw_object_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider"
+            app:layout_constraintTop_toTopOf="@+id/object_item_iw_object_status"
+            tools:text="Инженер ЭХЗ Кубик Рубик" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="@dimen/standard_icon_size"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintStart_toEndOf="@+id/object_item_iw_object_status"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/object_item_iw_object_status" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

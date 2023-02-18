@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="deviceParamUiState"
+            type="com.example.android.metercollectionapp.presentation.uistate.DeviceParamUiState" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/device_param_item_tw_meas_unit"
+            android:layout_width="@dimen/small_column_width"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/small_padding"
+            android:paddingEnd="@dimen/small_padding"
+            android:text="@{deviceParamUiState.measUnit}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/device_param_item_iw_status"
+            app:layout_constraintEnd_toStartOf="@+id/device_param_item_tw_uid"
+            app:layout_constraintTop_toTopOf="@+id/device_param_item_iw_status"
+            tools:text="В" />
+
+        <TextView
+            android:id="@+id/device_param_item_tw_uid"
+            android:layout_width="@dimen/standard_column_width"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/small_padding"
+            android:paddingEnd="@dimen/small_padding"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/device_param_item_iw_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/device_param_item_iw_status"
+            app:longToText="@{deviceParamUiState.uid}"
+            tools:text="12345" />
+
+        <ImageView
+            android:id="@+id/device_param_item_iw_status"
+            android:layout_width="@dimen/small_icon_size"
+            android:layout_height="@dimen/small_icon_size"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            app:imageViewSyncStatus24="@{deviceParamUiState.status}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_sync_24" />
+
+        <View
+            android:id="@+id/device_param_item_div_bottom"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_param_item_iw_status" />
+
+        <TextView
+            android:id="@+id/device_param_item_tw_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{deviceParamUiState.name}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/device_param_item_iw_status"
+            app:layout_constraintEnd_toStartOf="@+id/device_param_item_tw_meas_unit"
+            app:layout_constraintStart_toEndOf="@+id/device_param_item_iw_status"
+            app:layout_constraintTop_toTopOf="@+id/device_param_item_iw_status"
+            tools:text="Сетевое напряжение" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

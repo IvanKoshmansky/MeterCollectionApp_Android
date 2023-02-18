@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.metercollectionapp.presentation.AddDeviceParamFragment">
+
+    <data>
+        <variable
+            name="addDeviceParamViewModel"
+            type="com.example.android.metercollectionapp.presentation.viewmodels.AddDeviceParamViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/add_device_param_fragment_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/add_device_param_tw_data_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:padding="@dimen/small_padding"
+            android:text="@string/add_device_param_data_type_lbl"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_device_param_et_meas_unit" />
+
+        <EditText
+            android:id="@+id/add_device_param_et_meas_unit"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_edit_text_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_grid"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/add_device_param_meas_unit_hint"
+            android:maxLines="3"
+            android:text="@={addDeviceParamViewModel.measUnitLiveData}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_device_param_et_short_name" />
+
+        <EditText
+            android:id="@+id/add_device_param_et_short_name"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_edit_text_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/add_device_param_short_name_hint"
+            android:maxLines="3"
+            android:text="@={addDeviceParamViewModel.shortNameLiveData}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_device_param_et_name" />
+
+        <EditText
+            android:id="@+id/add_device_param_et_name"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_edit_text_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/add_device_param_name_hint"
+            android:maxLines="3"
+            android:text="@={addDeviceParamViewModel.nameLiveData}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_device_param_et_uid" />
+
+        <Button
+            android:id="@+id/add_device_param_btn_save"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginBottom="@dimen/standard_margin"
+            android:onClick="@{() -> addDeviceParamViewModel.onSave()}"
+            android:text="@string/btn_save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4" />
+
+        <Button
+            android:id="@+id/add_device_param_btn_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginBottom="@dimen/standard_margin"
+            android:onClick="@{() -> addDeviceParamViewModel.onCancel()}"
+            android:text="@string/btn_cancel"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline4"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/add_device_param_et_uid"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/large_edit_text_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:hint="@string/add_device_param_uid_hint"
+            android:inputType="number"
+            android:maxLines="3"
+            android:text="@={addDeviceParamViewModel.uidLiveData}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline4"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/add_device_param_sr_data_type"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/standard_spinner_height"
+            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_marginTop="@dimen/standard_margin"
+            android:layout_marginEnd="@dimen/standard_margin"
+            android:selectedItemPosition="@={addDeviceParamViewModel.dataTypeLiveData}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline4"
+            app:layout_constraintTop_toBottomOf="@+id/add_device_param_et_meas_unit" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

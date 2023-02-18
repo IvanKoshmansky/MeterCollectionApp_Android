@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="deviceParamSelectUiState"
+            type="com.example.android.metercollectionapp.presentation.uistate.DeviceParamSelectUiState" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <View
+            android:id="@+id/device_param_select_item_div_bottom"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/device_param_select_item_cb_selected" />
+
+        <TextView
+            android:id="@+id/device_param_select_item_tw_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@{deviceParamSelectUiState.name}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
+            app:layout_constraintBottom_toBottomOf="@+id/device_param_select_item_cb_selected"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/device_param_select_item_cb_selected"
+            app:layout_constraintTop_toTopOf="@+id/device_param_select_item_cb_selected"
+            tools:text="Сетевое напряжение" />
+
+        <CheckBox
+            android:id="@+id/device_param_select_item_cb_selected"
+            android:layout_width="@dimen/checkbox_standard_size"
+            android:layout_height="@dimen/checkbox_standard_size"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:checked="@={deviceParamSelectUiState.checked}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

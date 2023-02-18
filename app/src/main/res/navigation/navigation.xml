@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/navigation"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.android.metercollectionapp.presentation.MainFragment"
+        android:label="@string/main_fragment_label"
+        tools:layout="@layout/fragment_main">
+
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_objectsListFragment"
+            app:destination="@id/objectsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_deviceParamsListFragment"
+            app:destination="@id/deviceParamsListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_deviceParamsSelectFragment"
+            app:destination="@id/deviceParamsSelectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.android.metercollectionapp.presentation.LoginFragment"
+        android:label="@string/login_user_fragment_label"
+        tools:layout="@layout/fragment_login_user">
+        <argument
+            android:name="user_id"
+            app:argType="long" />
+        <argument
+            android:name="is_new"
+            app:argType="boolean" />
+        <action
+            android:id="@+id/action_loginFragment_to_scanObjectFragment"
+            app:destination="@id/selectObjectFragment"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectObjectFragment"
+        android:name="com.example.android.metercollectionapp.presentation.SelectObjectFragment"
+        android:label="@string/select_object_fragment_label"
+        tools:layout="@layout/fragment_select_object" />
+    <fragment
+        android:id="@+id/addObjectFragment"
+        android:name="com.example.android.metercollectionapp.presentation.AddObjectFragment"
+        android:label="@string/add_object_fragment_label"
+        tools:layout="@layout/fragment_add_object" />
+    <fragment
+        android:id="@+id/objectsListFragment"
+        android:name="com.example.android.metercollectionapp.presentation.ObjectsListFragment"
+        android:label="@string/objects_list_fragment_label"
+        tools:layout="@layout/fragment_objects_list" >
+        <action
+            android:id="@+id/action_objectsListFragment_to_addObjectFragment"
+            app:destination="@id/addObjectFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/deviceParamsListFragment"
+        android:name="com.example.android.metercollectionapp.presentation.DeviceParamsListFragment"
+        android:label="@string/device_params_list_fragment_label"
+        tools:layout="@layout/fragment_device_params_list" >
+        <action
+            android:id="@+id/action_deviceParamsListFragment_to_addDeviceParamFragment"
+            app:destination="@id/addDeviceParamFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addDeviceParamFragment"
+        android:name="com.example.android.metercollectionapp.presentation.AddDeviceParamFragment"
+        android:label="@string/add_device_param_fragment_label"
+        tools:layout="@layout/fragment_add_device_param" />
+    <fragment
+        android:id="@+id/deviceParamsSelectFragment"
+        android:name="com.example.android.metercollectionapp.presentation.DeviceParamsSelectFragment"
+        android:label="@string/device_params_select_fragment_label"
+        tools:layout="@layout/fragment_device_params_select" />
+</navigation>
