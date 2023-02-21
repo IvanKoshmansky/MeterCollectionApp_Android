@@ -17,6 +17,8 @@ import com.example.android.metercollectionapp.presentation.adapters.DeviceParams
 import com.example.android.metercollectionapp.presentation.viewmodels.DeviceParamsSelectViewModel
 import javax.inject.Inject
 
+//TODO: вот этот экран нуждается в повторном code review больше остальных
+
 class DeviceParamsSelectFragment : Fragment() {
 
     @Inject
@@ -51,12 +53,14 @@ class DeviceParamsSelectFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null) {
-            deviceParamsSelectViewModel.setup()
+            deviceParamsSelectViewModel.setupObjectsList()
         }
 
         // отслеживание состояния выбора устройства
         deviceParamsSelectViewModel.selectedDeviceSpinnerPos.observe(viewLifecycleOwner) {
             if (it != null) {
+                // отрабатывает в момент перехода в STARTED, в момент присвоения нового адаптера
+                // фильтрация от ненужных подгрузок находится внутри данной функции
                 deviceParamsSelectViewModel.setupParamsForObjectPos(it)
             }
         }
@@ -90,6 +94,10 @@ class DeviceParamsSelectFragment : Fragment() {
                             R.layout.textview_spinner_item,
                             newState.objects.map { it.name }
                         )
+                        // после присвоения нового адаптера позиция сбрасывается в ноль, ее нужно восстановить
+                        deviceParamsSelectViewModel.selectedDeviceSpinnerPos.value?.let { pos ->
+                            binding.deviceParamsSrChooseDevice.setSelection(pos)
+                        }
                     }
                 }
             }
@@ -114,4 +122,4 @@ class DeviceParamsSelectFragment : Fragment() {
 // по разделению на "до" и "после" создания View: особой разницы нет, можно пользоваться одним
 // причина в том, что обозревание начинается уже в состоянии STARTED или RESUMED (надо уточнять),
 // View на этот момент в любом случае уже будут созданы
-// но корректнее все-таки "обозреватели" помещать в onViewCreated()
+// но корректнее исторически все-таки "обозреватели" помещать в onViewCreated()

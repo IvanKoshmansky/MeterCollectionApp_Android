@@ -30,10 +30,10 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     )
     val deviceParamsSelectUiState: LiveData<DeviceParamsSelectUiState>
         get() = _deviceParamsSelectuiState
-    // все-таки желательно делать один посольку это улучшает тестируемость
+    // все-таки желательно делать один UiState посольку это улучшает тестируемость
     // т.е. в тестах будет подставляться только один объект
     // в случае постраничного вывода (ViewPaging) можно делить на отдельные части
-    // но здесь в данном конкретном случае пусть будет два объекта
+    // но здесь в данном конкретном случае пусть будет два объекта (возможный вариант с одним объектом в ветке debug)
 
     // "UiAction"
     private fun setCheckedUiAction(listSelector: ListSelector, changedUid: Long, newState: Boolean) {
@@ -60,11 +60,8 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
 
     // переменные для навигации
 
-    /**
-     * @return: возвращает GUID нулевого объекта в списке
-     */
-    private suspend fun setupObjects(): Long? {
-        var result: Long? = null
+
+    private suspend fun setupObjects() {
         var state = _objectsSelectUiState.value?.copy(isLoading = true, isEmpty = false)
         if (state != null) {
             // состояние загрузки
@@ -74,14 +71,12 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
                 state = state.copy(isLoading = false, isEmpty = false,
                     objects = objectsFromRepo.map { ObjectUiState(it.guid, it.status, it.name) }
                 )
-                result = objectsFromRepo[0].guid
             } else {
                 state = state.copy(isLoading = false, isEmpty = true)
             }
             // обновить состояние
             _objectsSelectUiState.value = state
         }
-        return result
     }
 
     private suspend fun setupParamsForObjectGuid(guid: Long) {
@@ -125,19 +120,22 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
         }
     }
 
-    fun setupParamsForObjectPos(pos: Int) {
-//        val currentObjectsList = _uiState.value!!.objects
-//        val guid = currentObjectsList[pos].uid
-//        viewModelScope.launch {
-//            setupParamsForObjectGuid(guid)
-//        }
+    fun setupObjectsList() {
+        viewModelScope.launch {
+            setupObjects()
+        }
     }
 
-    fun setup() {
-        viewModelScope.launch {
-            val guid = setupObjects()
-            if (guid != null) {
-                setupParamsForObjectGuid(guid)
+    private var lastPos = -1
+    fun setupParamsForObjectPos(pos: Int) {
+        val objects = _objectsSelectUiState.value?.objects
+        if (objects != null) {
+            if ((pos < objects.size) && (pos != lastPos)) {
+                lastPos = pos
+                val guid = objects[pos].uid
+                viewModelScope.launch {
+                    setupParamsForObjectGuid(guid)
+                }
             }
         }
     }
