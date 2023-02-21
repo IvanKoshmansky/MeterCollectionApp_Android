@@ -5,123 +5,166 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.metercollectionapp.domain.Repository
-import com.example.android.metercollectionapp.domain.model.Device
-import com.example.android.metercollectionapp.domain.usecase.GetDeviceParamsAssociatedFromUseCase
-import com.example.android.metercollectionapp.domain.usecase.GetDeviceParamsUnassociatedFromUseCase
+import com.example.android.metercollectionapp.domain.model.DeviceParam
 import com.example.android.metercollectionapp.presentation.uistate.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DeviceParamsSelectViewModel @Inject constructor (
-    private val repository: Repository,
-    private val getDeviceParamsAssociatedFromUseCase: GetDeviceParamsAssociatedFromUseCase,
-    private val getDeviceParamsUnassociatedFromUseCase: GetDeviceParamsUnassociatedFromUseCase
-) : ViewModel() {
+class DeviceParamsSelectViewModel @Inject constructor (private val repository: Repository) : ViewModel() {
+
+    private enum class ListSelector {
+        AVAILABLE,
+        SELECTED
+    }
 
     // переменные LiveData для двустороннего датабайндинга
     val selectedDeviceSpinnerPos = MutableLiveData(0)
 
     // UiState
-    // выбор объекта для редактирования
-    private val _selectObjectUiState = MutableLiveData(SelectObjectUiState(listIsLoading = true))
-    val selectObjectUiState: LiveData<SelectObjectUiState>
-        get() = _selectObjectUiState
+    private val _objectsSelectUiState = MutableLiveData(ObjectSelectUiState(isLoading = true))
+    val objectsSelectUiState: LiveData<ObjectSelectUiState>
+        get() = _objectsSelectUiState
 
-    // левый список
-    private val _availableParamsUiState = MutableLiveData(DeviceParamsSelectUiState(isLoading = true))
-    val availableParamsUiState: LiveData<DeviceParamsSelectUiState>
-        get() = _availableParamsUiState
+    private val _deviceParamsSelectuiState = MutableLiveData(DeviceParamsSelectUiState(
+        availableParamsLoading = true, selectedParamsLoading = true)
+    )
+    val deviceParamsSelectUiState: LiveData<DeviceParamsSelectUiState>
+        get() = _deviceParamsSelectuiState
+    // все-таки желательно делать один посольку это улучшает тестируемость
+    // т.е. в тестах будет подставляться только один объект
+    // в случае постраничного вывода (ViewPaging) можно делить на отдельные части
+    // но здесь в данном конкретном случае пусть будет два объекта
 
-    // правый список
-    private val _selectedParamsUiState = MutableLiveData(DeviceParamsSelectUiState(isLoading = true))
-    val selectedParamsUiState: LiveData<DeviceParamsSelectUiState>
-        get() = _selectedParamsUiState
-
-    // внутренние переменные ViewModel
-    private var listOfObjects = listOf<Device>()
-
-    // переменные для навигации
-
-
-    // загрузить оба списка параметров для объекта с данным guid
-    private suspend fun setupParamsForObjectGuid(guid: Long) {
-        _selectedParamsUiState.value = DeviceParamsSelectUiState(isLoading = true)
-        _availableParamsUiState.value = DeviceParamsSelectUiState(isLoading = true)
-        val associatedParams = getDeviceParamsAssociatedFromUseCase.execute(guid)
-        if (associatedParams.isNotEmpty()) {
-            // список присвоенных параметров (справа) не пустой
-            val associatedParamsUiState = DeviceParamsSelectUiState(
-                paramsUiState = associatedParams.map {
-                    DeviceParamSelectUiState(it.uid, it.name, MutableLiveData(false))
-                },
-                isLoading = false,
-                isEmpty = false
-            )
-            _selectedParamsUiState.value = associatedParamsUiState
-        } else {
-            // список присвоенных параметров пуст
-            _selectedParamsUiState.value = DeviceParamsSelectUiState(isLoading = false, isEmpty = true)
-        }
-        // загрузить список всех доступных для данного устройства параметров
-        val availableParams = getDeviceParamsUnassociatedFromUseCase.execute(guid)
-        if (availableParams.isNotEmpty()) {
-            // список доступных параметров (слева) не пустой
-            val availableParamsUiState = DeviceParamsSelectUiState(
-                paramsUiState = availableParams.map {
-                    DeviceParamSelectUiState(it.uid, it.name, MutableLiveData(false))
-                },
-                isLoading = false,
-                isEmpty = false
-            )
-            _availableParamsUiState.value = availableParamsUiState
-        } else {
-            // список доступных параметров пуст
-            _availableParamsUiState.value = DeviceParamsSelectUiState(isLoading = false, isEmpty = true)
+    // "UiAction"
+    private fun setCheckedUiAction(listSelector: ListSelector, changedUid: Long, newState: Boolean) {
+        val state = _deviceParamsSelectuiState.value
+        if (state != null) {
+            when (listSelector) {
+                ListSelector.AVAILABLE -> {
+                    _deviceParamsSelectuiState.value = state.copy(
+                        availableParams = state.availableParams.map {
+                            if (it.uid == changedUid) { it.copy(checked = newState) } else { it.copy() }
+                        }
+                    )
+                }
+                ListSelector.SELECTED -> {
+                    _deviceParamsSelectuiState.value = state.copy(
+                        selectedParams = state.selectedParams.map {
+                            if (it.uid == changedUid) { it.copy(checked = newState) } else { it.copy() }
+                        }
+                    )
+                }
+            }
         }
     }
 
-    // подгрузить списки параметров для устройства с позицией pos в списке
+    // переменные для навигации
+
+    /**
+     * @return: возвращает GUID нулевого объекта в списке
+     */
+    private suspend fun setupObjects(): Long? {
+        var result: Long? = null
+        var state = _objectsSelectUiState.value?.copy(isLoading = true, isEmpty = false)
+        if (state != null) {
+            // состояние загрузки
+            _objectsSelectUiState.value = state
+            val objectsFromRepo = repository.getAllDevices()
+            if (objectsFromRepo.isNotEmpty()) {
+                state = state.copy(isLoading = false, isEmpty = false,
+                    objects = objectsFromRepo.map { ObjectUiState(it.guid, it.status, it.name) }
+                )
+                result = objectsFromRepo[0].guid
+            } else {
+                state = state.copy(isLoading = false, isEmpty = true)
+            }
+            // обновить состояние
+            _objectsSelectUiState.value = state
+        }
+        return result
+    }
+
+    private suspend fun setupParamsForObjectGuid(guid: Long) {
+        var state = _deviceParamsSelectuiState.value?.copy(availableParamsLoading = true, selectedParamsLoading = true,
+            availableParamsEmpty = false, selectedParamsEmpty = false)
+        if (state != null) {
+            // состояние загрузки
+            _deviceParamsSelectuiState.value = state
+            var paramsFromRepo: List<DeviceParam>
+            var uiParamsList: List<DeviceParamSelectUiState>
+            paramsFromRepo = repository.getDeviceParamsUnassociatedFrom(guid)
+            if (paramsFromRepo.isNotEmpty()) {
+                uiParamsList = paramsFromRepo.map {
+                    DeviceParamSelectUiState(uid = it.uid, name = it.name,
+                        checkingLambda = { newState ->
+                            setCheckedUiAction(ListSelector.AVAILABLE, it.uid, newState)
+                        }
+                    )
+                }
+                state = state.copy(availableParamsLoading = false, availableParamsEmpty = false,
+                    availableParams = uiParamsList)
+            } else {
+                state = state.copy(availableParamsLoading = false, availableParamsEmpty = true)
+            }
+            paramsFromRepo = repository.getDeviceParamsAssociatedFrom(guid)
+            if (paramsFromRepo.isNotEmpty()) {
+                uiParamsList = paramsFromRepo.map {
+                    DeviceParamSelectUiState(uid = it.uid, name = it.name,
+                        checkingLambda = { newState ->
+                            setCheckedUiAction(ListSelector.SELECTED, it.uid, newState)
+                        }
+                    )
+                }
+                state = state.copy(selectedParamsLoading = false, selectedParamsEmpty = false,
+                    selectedParams = uiParamsList)
+            } else {
+                state = state.copy(selectedParamsLoading = false, selectedParamsEmpty = true)
+            }
+            // обновить состояние
+            _deviceParamsSelectuiState.value = state
+        }
+    }
+
     fun setupParamsForObjectPos(pos: Int) {
-        if (pos < listOfObjects.size) {
-            val guid = listOfObjects[pos].guid
-            viewModelScope.launch {
+//        val currentObjectsList = _uiState.value!!.objects
+//        val guid = currentObjectsList[pos].uid
+//        viewModelScope.launch {
+//            setupParamsForObjectGuid(guid)
+//        }
+    }
+
+    fun setup() {
+        viewModelScope.launch {
+            val guid = setupObjects()
+            if (guid != null) {
                 setupParamsForObjectGuid(guid)
             }
         }
     }
 
-    // выполнять один раз при создании ViewModel (при создании фрагмента без учета "пересозданий"
-    // фрагмента при повороте экрана
-    fun setupObjectSelector() {
-        viewModelScope.launch {
-            // подгрузить список устройств для выбора устройства
-            listOfObjects = repository.getAllDevices()
-            if (listOfObjects.isNotEmpty()) {
-                // есть устройства
-                val selectObjectState = SelectObjectUiState(
-                    listOfObjects = listOfObjects.map {
-                        ObjectUiState(it.guid, it.status, it.name)
-                    },
-                    listIsLoading = false,
-                    listIsEmpty = false,
-                    listChanged = true
-                )
-                _selectObjectUiState.value = selectObjectState
-            } else {
-                // в репозитории нет ни одного объекта
-                _selectObjectUiState.value = SelectObjectUiState(listIsLoading = false, listIsEmpty = true)
-            }
-        }
+    // манипуляции с отображаемыми списками параметров
+    private fun moveParams(from: ListSelector, all: Boolean) {
+//        val state = _uiState.value!!.copy(availableParamsChanged = false, selectedParamsChanged = false)
+//        val fromAvailable = from == ListSelector.AVAILABLE
+//        val listFrom: MutableList<DeviceParamSelectUiState> = (if (fromAvailable) state.availableParams else state.selectedParams).toMutableList()
+//        val listTo: MutableList<DeviceParamSelectUiState> = (if (fromAvailable) state.selectedParams else state.availableParams).toMutableList()
+//
+//        var index = listFrom.lastIndex
+//        while (index >= 0) {
+//            val element = listFrom[index]
+//            if (element.checked || all) {
+//                listFrom.remove(element)
+//                listTo.add(element.copy(checked = false))
+//            }
+//            index--
+//        }
+//        // for и forEach создают итераторы и возможно исключение ConcurrentModificationException
+//
+//        _uiState.value = state.copy(
+//            availableParamsChanged = true, selectedParamsChanged = true,
+//            availableParams = if (fromAvailable) listFrom else listTo,
+//            selectedParams = if (!fromAvailable) listFrom else listTo
+//        )
     }
 
 }
-
-
-
-// если бы при перекидывании из левого списка в правый список требовался бы "нырок" репозиторий,
-// то здесь требовался бы UseCase, который бы проводил все манипуляции с репозиторием
-// но поскольку есть кнопка "Сохранить", то такой подход не нужен, достаточно просто репозитория
-// UseCase нужен для вычитывания списка параметров (в "доменном" формате) которые ассоциированы с
-// данным объектом
-// тоже самое можно сделать и на уровне репозитория, но это усложняет репозиторий и переносит
-// часть бизнес логики в него, а репозиторий должен быть максимально "тупым", это просто поставщик данных

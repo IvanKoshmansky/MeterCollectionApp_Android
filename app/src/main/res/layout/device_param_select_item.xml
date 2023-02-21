@@ -49,7 +49,7 @@
             android:layout_height="@dimen/checkbox_standard_size"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="@dimen/small_margin"
-            android:checked="@={deviceParamSelectUiState.checked}"
+            android:checked="@{deviceParamSelectUiState.checked}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

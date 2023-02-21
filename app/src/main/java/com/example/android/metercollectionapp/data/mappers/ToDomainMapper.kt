@@ -7,9 +7,8 @@ import com.example.android.metercollectionapp.domain.model.Device
 import com.example.android.metercollectionapp.domain.model.DeviceParam
 import com.example.android.metercollectionapp.domain.model.DeviceParamType
 import com.example.android.metercollectionapp.domain.model.User
-import javax.inject.Inject
 
-class ToDomainMapper @Inject constructor () {
+class ToDomainMapper {
 
     fun mapUser(dbUser: DBUser) = User(
         _id = dbUser.id,

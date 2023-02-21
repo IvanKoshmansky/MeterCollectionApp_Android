@@ -19,6 +19,9 @@ class DeviceParamsSelectListAdapter : ListAdapter<DeviceParamSelectUiState, Devi
     override fun onBindViewHolder(holder: SelectParamViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.deviceParamSelectUiState = item
+        holder.binding.deviceParamSelectItemCbSelected.setOnCheckedChangeListener { _, isChecked ->
+            item.checkingLambda(isChecked)
+        }
         holder.binding.executePendingBindings()
     }
 

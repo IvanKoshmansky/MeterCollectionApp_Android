@@ -5,9 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
-// замечание: для работы со связанными таблицами через Relation
-// интерфейс надо будет заменить на абстрактный класс
-
 @Dao
 interface DatabaseDao {
 
@@ -39,6 +36,10 @@ interface DatabaseDao {
     // получить список параметров устройств с требуемыми Id
     @Query("select * from params_table where uid in (:ids)")
     fun getDeviceParamsByParamsIds(ids: List<Long>): List<DBDeviceParam>
+
+    // получить список всех параметров устройств исключая параметры в списке
+    @Query ("select * from params_table where uid not in (:ids)")
+    fun getDeviceParamsExcludingParamsIds(ids: List<Long>): List<DBDeviceParam>
 
     // добавить новый параметр устройств в локальную БД
     @Insert(onConflict = OnConflictStrategy.REPLACE)

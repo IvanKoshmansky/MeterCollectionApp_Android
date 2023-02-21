@@ -49,7 +49,10 @@ class DeviceParamsSelectFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        deviceParamsSelectViewModel.setupObjectSelector()
+
+        if (savedInstanceState == null) {
+            deviceParamsSelectViewModel.setup()
+        }
 
         // отслеживание состояния выбора устройства
         deviceParamsSelectViewModel.selectedDeviceSpinnerPos.observe(viewLifecycleOwner) {
@@ -58,53 +61,47 @@ class DeviceParamsSelectFragment : Fragment() {
             }
         }
 
-        deviceParamsSelectViewModel.selectObjectUiState.observe(viewLifecycleOwner) { selectUiState ->
-            if (selectUiState != null) {
+        val leftAdapter = DeviceParamsSelectListAdapter()
+        binding.deviceParamsSelectRwLeft.adapter = leftAdapter
+        val rightAdapter = DeviceParamsSelectListAdapter()
+        binding.deviceParamsSelectRwRight.adapter = rightAdapter
+
+        // отслеживание изменений UiState
+        deviceParamsSelectViewModel.objectsSelectUiState.observe(viewLifecycleOwner) { newState ->
+            if (newState != null) {
                 when {
-                    selectUiState.listIsLoading -> {
+                    newState.isLoading -> {
                         binding.deviceParamsSrChooseDevice.adapter = ArrayAdapter<String>(
-                            requireActivity(),  // не activity!!, a requireActivity() для получения контекста
+                            requireActivity(),
                             R.layout.textview_spinner_item,
                             arrayOf(getString(R.string.state_loading))
                         )
                     }
-                    selectUiState.listIsEmpty -> {
+                    newState.isEmpty -> {
                         binding.deviceParamsSrChooseDevice.adapter = ArrayAdapter<String>(
                             requireActivity(),
                             R.layout.textview_spinner_item,
                             arrayOf(getString(R.string.device_params_select_no_device))
                         )
                     }
-                    selectUiState.listChanged -> {
+                    else -> {
                         binding.deviceParamsSrChooseDevice.adapter = ArrayAdapter<String>(
                             requireActivity(),
                             R.layout.textview_spinner_item,
-                            selectUiState.listOfObjects.map { it.name }
+                            newState.objects.map { it.name }
                         )
                     }
                 }
             }
         }
 
-        // отслеживание состояния списков
-        val leftAdapter = DeviceParamsSelectListAdapter()
-        binding.deviceParamsSelectRwLeft.adapter = leftAdapter
-
-        deviceParamsSelectViewModel.availableParamsUiState.observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (!(it.isLoading || it.isEmpty)) {
-                    leftAdapter.submitList(it.paramsUiState)
+        deviceParamsSelectViewModel.deviceParamsSelectUiState.observe(viewLifecycleOwner) { newState ->
+            if (newState != null) {
+                if (!(newState.availableParamsLoading || newState.availableParamsEmpty)) {
+                    leftAdapter.submitList(newState.availableParams)
                 }
-            }
-        }
-
-        val rightAdapter = DeviceParamsSelectListAdapter()
-        binding.deviceParamsSelectRwRight.adapter = rightAdapter
-
-        deviceParamsSelectViewModel.selectedParamsUiState.observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (!(it.isLoading || it.isEmpty)) {
-                    rightAdapter.submitList(it.paramsUiState)
+                if (!(newState.selectedParamsLoading || newState.selectedParamsEmpty)) {
+                    leftAdapter.submitList(newState.selectedParams)
                 }
             }
         }
@@ -113,3 +110,8 @@ class DeviceParamsSelectFragment : Fragment() {
     // навигация
 
 }
+
+// по разделению на "до" и "после" создания View: особой разницы нет, можно пользоваться одним
+// причина в том, что обозревание начинается уже в состоянии STARTED или RESUMED (надо уточнять),
+// View на этот момент в любом случае уже будут созданы
+// но корректнее все-таки "обозреватели" помещать в onViewCreated()

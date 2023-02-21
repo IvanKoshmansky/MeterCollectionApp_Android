@@ -4,8 +4,6 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.data.RepositoryImpl
 import com.example.android.metercollectionapp.data.localdb.LocalDatabase
 import com.example.android.metercollectionapp.data.localdb.getDatabase
-import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
-import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
 import com.example.android.metercollectionapp.data.storage.Storage
 import com.example.android.metercollectionapp.data.storage.getSharedPreferencesStorage
 import com.example.android.metercollectionapp.domain.Repository
@@ -31,17 +29,8 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideToDomainMapper(): ToDomainMapper {
-        return ToDomainMapper()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRepository(localDatabase: LocalDatabase,
-                          storage: Storage,
-                          toDomainMapper: ToDomainMapper,
-                          fromDomainMapper: FromDomainMapper): Repository {
-        return RepositoryImpl(localDatabase, storage, toDomainMapper, fromDomainMapper)
+    fun provideRepository(localDatabase: LocalDatabase, storage: Storage): Repository {
+        return RepositoryImpl(localDatabase, storage)
     }
 
 }
