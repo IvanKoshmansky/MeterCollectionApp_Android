@@ -34,7 +34,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-
+            android:onClick="@{() -> deviceParamsSelectViewModel.onSave()}"
             android:layout_marginStart="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
             android:layout_marginBottom="@dimen/standard_margin"
@@ -51,7 +51,7 @@
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
-
+            android:onClick="@{() -> deviceParamsSelectViewModel.onDeleteAll()}"
             android:text="@string/device_params_select_btn_delete_all"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/device_params_select_btn_delete_selected"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="@dimen/standard_margin"
-
+            android:onClick="@{() -> deviceParamsSelectViewModel.onDeleteSelected()}"
             android:text="@string/device_params_select_btn_delete_selected"
             app:layout_constraintStart_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/device_params_sr_choose_device" />
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/small_margin"
-
+            android:onClick="@{() -> deviceParamsSelectViewModel.onAddSelected()}"
             android:text="@string/device_params_select_btn_add_selected"
             app:layout_constraintEnd_toStartOf="@+id/guideline5"
             app:layout_constraintTop_toBottomOf="@+id/device_params_sr_choose_device" />
@@ -89,7 +89,7 @@
             android:layout_marginStart="@dimen/standard_margin"
             android:layout_marginTop="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/small_margin"
-
+            android:onClick="@{() -> deviceParamsSelectViewModel.onAddAll()}"
             android:text="@string/device_params_select_btn_add_all"
             app:layout_constraintEnd_toStartOf="@+id/device_params_select_btn_add_selected"
             app:layout_constraintStart_toStartOf="parent"

@@ -29,6 +29,7 @@ interface Repository {
     suspend fun addNewDeviceParam(deviceParam: DeviceParam)
     suspend fun getDeviceParamsAssociatedFrom(guid: Long): List<DeviceParam>
     suspend fun getDeviceParamsUnassociatedFrom(guid: Long): List<DeviceParam>
+    suspend fun setDeviceParamsAssociatedTo(guid: Long, ids: List<Long>)
 
     suspend fun sync() // будет вызываться переодически из WorkManager, синхронизация по цепочке начиная с пользователей
 

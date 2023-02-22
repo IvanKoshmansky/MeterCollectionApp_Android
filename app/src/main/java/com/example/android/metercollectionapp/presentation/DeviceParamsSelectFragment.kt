@@ -105,11 +105,19 @@ class DeviceParamsSelectFragment : Fragment() {
 
         deviceParamsSelectViewModel.deviceParamsSelectUiState.observe(viewLifecycleOwner) { newState ->
             if (newState != null) {
-                if (!(newState.availableParamsLoading || newState.availableParamsEmpty)) {
-                    leftAdapter.submitList(newState.availableParams)
+                if (!newState.availableParamsLoading) {
+                    if (!newState.availableParamsEmpty) {
+                        leftAdapter.submitList(newState.availableParams)
+                    } else {
+                        leftAdapter.submitList(listOf())
+                    }
                 }
-                if (!(newState.selectedParamsLoading || newState.selectedParamsEmpty)) {
-                    leftAdapter.submitList(newState.selectedParams)
+                if (!newState.selectedParamsLoading) {
+                    if (!newState.selectedParamsEmpty) {
+                        rightAdapter.submitList(newState.selectedParams)
+                    } else {
+                        rightAdapter.submitList(listOf())
+                    }
                 }
             }
         }

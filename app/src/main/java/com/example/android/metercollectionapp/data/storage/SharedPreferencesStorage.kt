@@ -17,11 +17,7 @@ class SharedPreferencesStorage(private val context: MeterCollectionApplication) 
         var result = listOf<Long>()
         try {
             val setOfIds = pref.getStringSet(stringGuid, null)
-            if (setOfIds != null) {
-                result = setOfIds.toList().map {
-                    it.toLong()
-                }
-            }
+            if (setOfIds != null) { result = setOfIds.toList().map { it.toLong() } }
         } catch (e: IOException) {
             e.printStackTrace()
         } catch (e: NumberFormatException) {
@@ -32,15 +28,14 @@ class SharedPreferencesStorage(private val context: MeterCollectionApplication) 
 
     override suspend fun setDeviceParamsIdsAssociatedTo(guid: Long, paramsIds: List<Long>) {
         val stringGuid = guid.toString()
-        val setOfIds = paramsIds.map {
-            it.toString()
-        }.toSet()
+        val setOfIds = paramsIds.map { it.toString() }.toSet()
         val pref = context.getSharedPreferences(SHARED_PREFERENCES_FILE_NAME, Context.MODE_PRIVATE)
         try {
             val editor = pref.edit()
-//            вопрос с необходиостью удаления ключа перед изменением его значения открытый
-//            editor.remove(stringGuid)
-            editor.putStringSet(stringGuid, setOfIds)
+            editor.remove(stringGuid)
+            if (setOfIds.isNotEmpty()) {
+                editor.putStringSet(stringGuid, setOfIds)
+            }
             editor.apply()
         } catch (e: IOException) {
             e.printStackTrace()

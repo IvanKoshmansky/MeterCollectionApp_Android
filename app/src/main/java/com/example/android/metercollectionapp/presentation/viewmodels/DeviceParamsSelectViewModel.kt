@@ -72,7 +72,7 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
                     objects = objectsFromRepo.map { ObjectUiState(it.guid, it.status, it.name) }
                 )
             } else {
-                state = state.copy(isLoading = false, isEmpty = true)
+                state = state.copy(isLoading = false, isEmpty = true, objects = emptyList())
             }
             // обновить состояние
             _objectsSelectUiState.value = state
@@ -81,7 +81,9 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
 
     private suspend fun setupParamsForObjectGuid(guid: Long) {
         var state = _deviceParamsSelectuiState.value?.copy(availableParamsLoading = true, selectedParamsLoading = true,
-            availableParamsEmpty = false, selectedParamsEmpty = false)
+            availableParamsEmpty = false, selectedParamsEmpty = false, availableParams = emptyList(),
+            selectedParams = emptyList()
+        )
         if (state != null) {
             // состояние загрузки
             _deviceParamsSelectuiState.value = state
@@ -142,27 +144,68 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
 
     // манипуляции с отображаемыми списками параметров
     private fun moveParams(from: ListSelector, all: Boolean) {
-//        val state = _uiState.value!!.copy(availableParamsChanged = false, selectedParamsChanged = false)
-//        val fromAvailable = from == ListSelector.AVAILABLE
-//        val listFrom: MutableList<DeviceParamSelectUiState> = (if (fromAvailable) state.availableParams else state.selectedParams).toMutableList()
-//        val listTo: MutableList<DeviceParamSelectUiState> = (if (fromAvailable) state.selectedParams else state.availableParams).toMutableList()
-//
-//        var index = listFrom.lastIndex
-//        while (index >= 0) {
-//            val element = listFrom[index]
-//            if (element.checked || all) {
-//                listFrom.remove(element)
-//                listTo.add(element.copy(checked = false))
-//            }
-//            index--
-//        }
-//        // for и forEach создают итераторы и возможно исключение ConcurrentModificationException
-//
-//        _uiState.value = state.copy(
-//            availableParamsChanged = true, selectedParamsChanged = true,
-//            availableParams = if (fromAvailable) listFrom else listTo,
-//            selectedParams = if (!fromAvailable) listFrom else listTo
-//        )
+        val state = _deviceParamsSelectuiState.value
+        if (state != null) {
+            val fromAvailable = from == ListSelector.AVAILABLE
+            val listFrom: MutableList<DeviceParamSelectUiState> =
+                (if (fromAvailable) state.availableParams else state.selectedParams).toMutableList()
+            val listTo: MutableList<DeviceParamSelectUiState> =
+                (if (fromAvailable) state.selectedParams else state.availableParams).toMutableList()
+
+            var index = listFrom.lastIndex
+            while (index >= 0) {
+                val element = listFrom[index]
+                if (element.checked || all) {
+                    listFrom.remove(element)
+                    val modified = element.copy(checked = false, checkingLambda = { newState -> setCheckedUiAction(
+                        if (fromAvailable) ListSelector.SELECTED else ListSelector.AVAILABLE, element.uid, newState) })
+                    listTo.add(modified)
+                }
+                index--
+            }
+            // for и forEach создают итераторы и возможно исключение ConcurrentModificationException
+            // при модификации исходного списка
+
+            val newState = state.copy(
+                availableParams = if (fromAvailable) listFrom else listTo,
+                selectedParams = if (fromAvailable) listTo else listFrom,
+                availableParamsEmpty = (if (fromAvailable) listFrom else listTo).isEmpty(),
+                selectedParamsEmpty = (if (fromAvailable) listTo else listFrom).isEmpty()
+            )
+            _deviceParamsSelectuiState.value = newState
+        }
     }
 
+    // обработчики нажатий на кнопки
+    fun onAddSelected() {
+        moveParams(ListSelector.AVAILABLE, false)
+    }
+
+    fun onAddAll() {
+        moveParams(ListSelector.AVAILABLE, true)
+    }
+
+    fun onDeleteSelected() {
+        moveParams(ListSelector.SELECTED, false)
+    }
+
+    fun onDeleteAll() {
+        moveParams(ListSelector.SELECTED, true)
+    }
+
+    fun onSave() {
+        val objects = _objectsSelectUiState.value?.objects
+        if (!objects.isNullOrEmpty()) {
+            val pos = selectedDeviceSpinnerPos.value
+            if ((pos != null) && (pos >= 0) && (pos < objects.size)) {
+                val guid = objects[pos].uid
+                val associatedIds = _deviceParamsSelectuiState.value?.selectedParams?.map { it.uid }
+                if (associatedIds != null) {
+                    viewModelScope.launch {
+                        repository.setDeviceParamsAssociatedTo(guid, associatedIds)
+                    }
+                }
+            }
+        }
+    }
 }

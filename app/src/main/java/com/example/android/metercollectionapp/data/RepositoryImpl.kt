@@ -100,6 +100,12 @@ class RepositoryImpl @Inject constructor (
     // все "составные" запросы лучше перенести на уровень базы данных для обеспечения атомарности
     // (пусть не в данном конкретном случае) и недопущения загрузки в RAM всего только для применения фильтра
 
+    override suspend fun setDeviceParamsAssociatedTo(guid: Long, ids: List<Long>) {
+        withContext(Dispatchers.IO) {
+            storage.setDeviceParamsIdsAssociatedTo(guid, ids)
+        }
+    }
+
     override suspend fun sync() {
         TODO("Not yet implemented")
     }
