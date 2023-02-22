@@ -60,7 +60,7 @@ class MainFragment : Fragment() {
         binding.mainRwSelectUser.adapter = adapter
         mainViewModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
-                adapter.submitList(it.usersUiState)
+                adapter.submitList(it.users)
             }
         }
 

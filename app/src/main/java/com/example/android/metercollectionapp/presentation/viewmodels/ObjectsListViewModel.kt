@@ -1,6 +1,5 @@
 package com.example.android.metercollectionapp.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,9 +33,9 @@ class ObjectsListViewModel @Inject constructor (private val repository: Reposito
                         ObjectUiState(uid = it.guid, status = it.status, name = it.name)
                     )
                 }
-                _uiState.value = ObjectsUiState(objectsUiState = viewObjectsUiState, isLoading = false, isEmpty = false)
+                _uiState.value = ObjectsUiState(objects = viewObjectsUiState, isLoading = false)
             } else {
-                _uiState.value = ObjectsUiState(isLoading = false, isEmpty = true)
+                _uiState.value = ObjectsUiState(objects = emptyList(), isLoading = false)
             }
         }
     }
@@ -45,12 +44,12 @@ class ObjectsListViewModel @Inject constructor (private val repository: Reposito
         if (pattern.isNotEmpty()) {
             val newViewList = shadowObjectsUiState.filter { it.name.contains(pattern) }
             if (newViewList.isNotEmpty()) {
-                _uiState.value = ObjectsUiState(objectsUiState = newViewList, isLoading = false, isEmpty = false)
+                _uiState.value = ObjectsUiState(objects = newViewList, isLoading = false)
             } else {
-                _uiState.value = ObjectsUiState(isLoading = false, isEmpty = true)
+                _uiState.value = ObjectsUiState(objects = emptyList(), isLoading = false)
             }
         } else {
-            _uiState.value = ObjectsUiState(objectsUiState = shadowObjectsUiState, isLoading = false, isEmpty = false)
+            _uiState.value = ObjectsUiState(objects = shadowObjectsUiState, isLoading = false)
         }
     }
 

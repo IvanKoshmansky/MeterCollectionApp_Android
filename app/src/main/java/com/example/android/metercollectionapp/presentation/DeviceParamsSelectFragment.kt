@@ -15,6 +15,7 @@ import com.example.android.metercollectionapp.databinding.FragmentDeviceParamsSe
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.presentation.adapters.DeviceParamsSelectListAdapter
 import com.example.android.metercollectionapp.presentation.viewmodels.DeviceParamsSelectViewModel
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 //TODO: вот этот экран нуждается в повторном code review больше остальных
@@ -81,7 +82,7 @@ class DeviceParamsSelectFragment : Fragment() {
                             arrayOf(getString(R.string.state_loading))
                         )
                     }
-                    newState.isEmpty -> {
+                    newState.objects.isEmpty() -> {
                         binding.deviceParamsSrChooseDevice.adapter = ArrayAdapter<String>(
                             requireActivity(),
                             R.layout.textview_spinner_item,
@@ -106,18 +107,21 @@ class DeviceParamsSelectFragment : Fragment() {
         deviceParamsSelectViewModel.deviceParamsSelectUiState.observe(viewLifecycleOwner) { newState ->
             if (newState != null) {
                 if (!newState.availableParamsLoading) {
-                    if (!newState.availableParamsEmpty) {
-                        leftAdapter.submitList(newState.availableParams)
-                    } else {
-                        leftAdapter.submitList(listOf())
-                    }
+                    leftAdapter.submitList(newState.availableParams)
                 }
                 if (!newState.selectedParamsLoading) {
-                    if (!newState.selectedParamsEmpty) {
-                        rightAdapter.submitList(newState.selectedParams)
-                    } else {
-                        rightAdapter.submitList(listOf())
-                    }
+                    rightAdapter.submitList(newState.selectedParams)
+                }
+            }
+        }
+
+        deviceParamsSelectViewModel.saveStatusUiState.observe(viewLifecycleOwner) {
+            if (it != null) {
+                when {
+                    it.saveSuccess -> Snackbar.make(binding.root, R.string.device_params_select_save_success,
+                        Snackbar.LENGTH_SHORT).show()
+                    it.saveError -> Snackbar.make(binding.root, R.string.device_params_select_save_success,
+                        Snackbar.LENGTH_SHORT).show()
                 }
             }
         }

@@ -50,12 +50,8 @@ class DeviceParamsListFragment : Fragment() {
         binding.deviceParamsRw.adapter = adapter
         deviceParamsListViewModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
-                when {
-                    it.isEmpty -> adapter.submitList(listOf())
-                    it.isLoading -> {}
-                    else -> {
-                        adapter.submitList(it.paramsUiState)
-                    }
+                if (!it.isLoading) {
+                    adapter.submitList(it.paramsUiState)
                 }
             }
         }

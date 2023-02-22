@@ -71,4 +71,7 @@
 
     <string name="state_loading">Загрузка…</string>
 
+    <string name="device_params_select_save_success">Сохранено успешно</string>
+    <string name="device_params_select_save_error">Не выбрано устройство</string>
+
 </resources>

@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
@@ -52,12 +51,8 @@ class ObjectsListFragment : Fragment() {
         binding.objectsListRwObjectsList.adapter = adapter
         objectsListModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
-                when {
-                    it.isEmpty -> adapter.submitList(listOf())
-                    it.isLoading -> {}
-                    else -> {
-                        adapter.submitList(it.objectsUiState)
-                    }
+                if (!it.isLoading) {
+                    adapter.submitList(it.objects)
                 }
             }
         }

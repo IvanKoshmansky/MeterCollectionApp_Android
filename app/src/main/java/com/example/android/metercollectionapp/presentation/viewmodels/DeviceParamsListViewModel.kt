@@ -29,9 +29,9 @@ class DeviceParamsListViewModel @Inject constructor (private val repository: Rep
                         status = it.status
                     )
                 }
-                _uiState.value = DeviceParamsUiState(paramsUiState = params, isLoading = false, isEmpty = false)
+                _uiState.value = DeviceParamsUiState(paramsUiState = params, isLoading = false)
             } else {
-                _uiState.value = DeviceParamsUiState(isLoading = false, isEmpty = true)
+                _uiState.value = DeviceParamsUiState(paramsUiState = emptyList(), isLoading = false)
             }
         }
     }

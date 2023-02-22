@@ -25,15 +25,19 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     val objectsSelectUiState: LiveData<ObjectSelectUiState>
         get() = _objectsSelectUiState
 
-    private val _deviceParamsSelectuiState = MutableLiveData(DeviceParamsSelectUiState(
-        availableParamsLoading = true, selectedParamsLoading = true)
+    private val _deviceParamsSelectuiState = MutableLiveData(DeviceParamsSelectUiState(availableParamsLoading = true,
+        selectedParamsLoading = true)
     )
     val deviceParamsSelectUiState: LiveData<DeviceParamsSelectUiState>
         get() = _deviceParamsSelectuiState
+
+    private val _saveStatusUiState = MutableLiveData<DeviceParamsSelectSaveStatusUiState>()
+    val saveStatusUiState: LiveData<DeviceParamsSelectSaveStatusUiState>
+        get() = _saveStatusUiState
     // все-таки желательно делать один UiState посольку это улучшает тестируемость
     // т.е. в тестах будет подставляться только один объект
     // в случае постраничного вывода (ViewPaging) можно делить на отдельные части
-    // но здесь в данном конкретном случае пусть будет два объекта (возможный вариант с одним объектом в ветке debug)
+    // но здесь в данном конкретном случае пусть будут раздельные объекты (возможный вариант с одним объектом в ветке debug)
 
     // "UiAction"
     private fun setCheckedUiAction(listSelector: ListSelector, changedUid: Long, newState: Boolean) {
@@ -62,17 +66,17 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
 
 
     private suspend fun setupObjects() {
-        var state = _objectsSelectUiState.value?.copy(isLoading = true, isEmpty = false)
+        var state = _objectsSelectUiState.value?.copy(isLoading = true, objects = emptyList())
         if (state != null) {
             // состояние загрузки
             _objectsSelectUiState.value = state
             val objectsFromRepo = repository.getAllDevices()
             if (objectsFromRepo.isNotEmpty()) {
-                state = state.copy(isLoading = false, isEmpty = false,
-                    objects = objectsFromRepo.map { ObjectUiState(it.guid, it.status, it.name) }
-                )
+                state = state.copy(isLoading = false, objects = objectsFromRepo.map {
+                    ObjectUiState(it.guid, it.status, it.name)
+                })
             } else {
-                state = state.copy(isLoading = false, isEmpty = true, objects = emptyList())
+                state = state.copy(isLoading = false, objects = emptyList())
             }
             // обновить состояние
             _objectsSelectUiState.value = state
@@ -80,8 +84,8 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     }
 
     private suspend fun setupParamsForObjectGuid(guid: Long) {
-        var state = _deviceParamsSelectuiState.value?.copy(availableParamsLoading = true, selectedParamsLoading = true,
-            availableParamsEmpty = false, selectedParamsEmpty = false, availableParams = emptyList(),
+        var state = _deviceParamsSelectuiState.value?.copy(
+            availableParamsLoading = true, selectedParamsLoading = true, availableParams = emptyList(),
             selectedParams = emptyList()
         )
         if (state != null) {
@@ -98,10 +102,9 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
                         }
                     )
                 }
-                state = state.copy(availableParamsLoading = false, availableParamsEmpty = false,
-                    availableParams = uiParamsList)
+                state = state.copy(availableParamsLoading = false, availableParams = uiParamsList)
             } else {
-                state = state.copy(availableParamsLoading = false, availableParamsEmpty = true)
+                state = state.copy(availableParamsLoading = false, availableParams = emptyList())
             }
             paramsFromRepo = repository.getDeviceParamsAssociatedFrom(guid)
             if (paramsFromRepo.isNotEmpty()) {
@@ -112,10 +115,9 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
                         }
                     )
                 }
-                state = state.copy(selectedParamsLoading = false, selectedParamsEmpty = false,
-                    selectedParams = uiParamsList)
+                state = state.copy(selectedParamsLoading = false, selectedParams = uiParamsList)
             } else {
-                state = state.copy(selectedParamsLoading = false, selectedParamsEmpty = true)
+                state = state.copy(selectedParamsLoading = false, selectedParams = emptyList())
             }
             // обновить состояние
             _deviceParamsSelectuiState.value = state
@@ -129,17 +131,24 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     }
 
     private var lastPos = -1
-    fun setupParamsForObjectPos(pos: Int) {
+
+    private fun setupParamsForObjectPosition(pos: Int, forced: Boolean) {
         val objects = _objectsSelectUiState.value?.objects
-        if (objects != null) {
-            if ((pos < objects.size) && (pos != lastPos)) {
-                lastPos = pos
-                val guid = objects[pos].uid
-                viewModelScope.launch {
-                    setupParamsForObjectGuid(guid)
+        if (!objects.isNullOrEmpty()) {
+            if (pos < objects.size) {
+                if ((pos != lastPos) || forced) {
+                    lastPos = pos
+                    val guid = objects[pos].uid
+                    viewModelScope.launch {
+                        setupParamsForObjectGuid(guid)
+                    }
                 }
             }
         }
+    }
+
+    fun setupParamsForObjectPos(pos: Int) {
+        setupParamsForObjectPosition(pos, false)
     }
 
     // манипуляции с отображаемыми списками параметров
@@ -168,9 +177,7 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
 
             val newState = state.copy(
                 availableParams = if (fromAvailable) listFrom else listTo,
-                selectedParams = if (fromAvailable) listTo else listFrom,
-                availableParamsEmpty = (if (fromAvailable) listFrom else listTo).isEmpty(),
-                selectedParamsEmpty = (if (fromAvailable) listTo else listFrom).isEmpty()
+                selectedParams = if (fromAvailable) listTo else listFrom
             )
             _deviceParamsSelectuiState.value = newState
         }
@@ -203,9 +210,19 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
                 if (associatedIds != null) {
                     viewModelScope.launch {
                         repository.setDeviceParamsAssociatedTo(guid, associatedIds)
+                        _saveStatusUiState.value = DeviceParamsSelectSaveStatusUiState(saveSuccess = true)
                     }
                 }
             }
+        } else {
+            _saveStatusUiState.value = DeviceParamsSelectSaveStatusUiState(saveError = true)
+        }
+    }
+
+    fun onCancel() {
+        val pos = selectedDeviceSpinnerPos.value
+        if ((pos != null) && (pos >= 0)) {
+            setupParamsForObjectPosition(pos, true)
         }
     }
 }

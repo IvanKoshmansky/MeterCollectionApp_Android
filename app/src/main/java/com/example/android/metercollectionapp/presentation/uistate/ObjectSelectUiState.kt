@@ -1,6 +1,6 @@
 package com.example.android.metercollectionapp.presentation.uistate
 
-data class UsersUiState (
-    val users: List<UserUiState> = emptyList(),
+data class ObjectSelectUiState (
+    val objects: List<ObjectUiState> = emptyList(),
     val isLoading: Boolean = false
 )
