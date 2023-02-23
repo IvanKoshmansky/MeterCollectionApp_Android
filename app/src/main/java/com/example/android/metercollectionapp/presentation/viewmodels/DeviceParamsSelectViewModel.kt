@@ -21,107 +21,90 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     val selectedDeviceSpinnerPos = MutableLiveData(0)
 
     // UiState
-    private val _objectsSelectUiState = MutableLiveData(ObjectSelectUiState(isLoading = true))
-    val objectsSelectUiState: LiveData<ObjectSelectUiState>
-        get() = _objectsSelectUiState
-
-    private val _deviceParamsSelectuiState = MutableLiveData(DeviceParamsSelectUiState(availableParamsLoading = true,
-        selectedParamsLoading = true)
-    )
-    val deviceParamsSelectUiState: LiveData<DeviceParamsSelectUiState>
-        get() = _deviceParamsSelectuiState
+    private val _uiState = MutableLiveData(DeviceParamsSelectUiState())
+    val uiState: LiveData<DeviceParamsSelectUiState>
+        get() = _uiState
 
     private val _saveStatusUiState = MutableLiveData<DeviceParamsSelectSaveStatusUiState>()
     val saveStatusUiState: LiveData<DeviceParamsSelectSaveStatusUiState>
         get() = _saveStatusUiState
-    // все-таки желательно делать один UiState посольку это улучшает тестируемость
+    // желательно делать один UiState посольку это улучшает тестируемость
     // т.е. в тестах будет подставляться только один объект
     // в случае постраничного вывода (ViewPaging) можно делить на отдельные части
-    // но здесь в данном конкретном случае пусть будут раздельные объекты (возможный вариант с одним объектом в ветке debug)
 
     // "UiAction"
     private fun setCheckedUiAction(listSelector: ListSelector, changedUid: Long, newState: Boolean) {
-        val state = _deviceParamsSelectuiState.value
-        if (state != null) {
-            when (listSelector) {
-                ListSelector.AVAILABLE -> {
-                    _deviceParamsSelectuiState.value = state.copy(
-                        availableParams = state.availableParams.map {
-                            if (it.uid == changedUid) { it.copy(checked = newState) } else { it.copy() }
-                        }
-                    )
-                }
-                ListSelector.SELECTED -> {
-                    _deviceParamsSelectuiState.value = state.copy(
-                        selectedParams = state.selectedParams.map {
-                            if (it.uid == changedUid) { it.copy(checked = newState) } else { it.copy() }
-                        }
-                    )
-                }
+        val state = _uiState.value ?: return
+        when (listSelector) {
+            ListSelector.AVAILABLE -> {
+                _uiState.value = state.copy(
+                    availableParams = state.availableParams.map {
+                        if (it.uid == changedUid) { it.copy(checked = newState) } else { it.copy() }
+                    }
+                )
+            }
+            ListSelector.SELECTED -> {
+                _uiState.value = state.copy(
+                    selectedParams = state.selectedParams.map {
+                        if (it.uid == changedUid) { it.copy(checked = newState) } else { it.copy() }
+                    }
+                )
             }
         }
     }
 
-    // переменные для навигации
-
-
     private suspend fun setupObjects() {
-        var state = _objectsSelectUiState.value?.copy(isLoading = true, objects = emptyList())
-        if (state != null) {
-            // состояние загрузки
-            _objectsSelectUiState.value = state
-            val objectsFromRepo = repository.getAllDevices()
-            if (objectsFromRepo.isNotEmpty()) {
-                state = state.copy(isLoading = false, objects = objectsFromRepo.map {
-                    ObjectUiState(it.guid, it.status, it.name)
-                })
-            } else {
-                state = state.copy(isLoading = false, objects = emptyList())
-            }
-            // обновить состояние
-            _objectsSelectUiState.value = state
+        var state = _uiState.value?.copy(objectsLoading = true, objects = emptyList()) ?: return
+        // состояние загрузки
+        _uiState.value = state
+        val objectsFromRepo = repository.getAllDevices()
+        if (objectsFromRepo.isNotEmpty()) {
+            state = state.copy(objectsLoading = false, objects = objectsFromRepo.map {
+                ObjectUiState(it.guid, it.status, it.name) })
+        } else {
+            state = state.copy(objectsLoading = false, objects = emptyList())
         }
+        // обновить состояние
+        _uiState.value = state
     }
 
     private suspend fun setupParamsForObjectGuid(guid: Long) {
-        var state = _deviceParamsSelectuiState.value?.copy(
+        var state = _uiState.value?.copy(
             availableParamsLoading = true, selectedParamsLoading = true, availableParams = emptyList(),
             selectedParams = emptyList()
-        )
-        if (state != null) {
-            // состояние загрузки
-            _deviceParamsSelectuiState.value = state
-            var paramsFromRepo: List<DeviceParam>
-            var uiParamsList: List<DeviceParamSelectUiState>
-            paramsFromRepo = repository.getDeviceParamsUnassociatedFrom(guid)
-            if (paramsFromRepo.isNotEmpty()) {
-                uiParamsList = paramsFromRepo.map {
-                    DeviceParamSelectUiState(uid = it.uid, name = it.name,
-                        checkingLambda = { newState ->
-                            setCheckedUiAction(ListSelector.AVAILABLE, it.uid, newState)
-                        }
-                    )
-                }
-                state = state.copy(availableParamsLoading = false, availableParams = uiParamsList)
-            } else {
-                state = state.copy(availableParamsLoading = false, availableParams = emptyList())
+        ) ?: return
+        // состояние загрузки
+        _uiState.value = state
+        var paramsFromRepo: List<DeviceParam>
+        var uiParamsList: List<DeviceParamSelectUiState>
+        paramsFromRepo = repository.getDeviceParamsUnassociatedFrom(guid)
+        if (paramsFromRepo.isNotEmpty()) {
+            uiParamsList = paramsFromRepo.map {
+                DeviceParamSelectUiState(uid = it.uid, name = it.name,
+                    checkingLambda = { newState ->
+                        setCheckedUiAction(ListSelector.AVAILABLE, it.uid, newState)
+                    }
+                )
             }
-            paramsFromRepo = repository.getDeviceParamsAssociatedFrom(guid)
-            if (paramsFromRepo.isNotEmpty()) {
-                uiParamsList = paramsFromRepo.map {
-                    DeviceParamSelectUiState(uid = it.uid, name = it.name,
-                        checkingLambda = { newState ->
-                            setCheckedUiAction(ListSelector.SELECTED, it.uid, newState)
-                        }
-                    )
-                }
-                state = state.copy(selectedParamsLoading = false, selectedParams = uiParamsList)
-            } else {
-                state = state.copy(selectedParamsLoading = false, selectedParams = emptyList())
-            }
-            // обновить состояние
-            _deviceParamsSelectuiState.value = state
+            state = state.copy(availableParamsLoading = false, availableParams = uiParamsList)
+        } else {
+            state = state.copy(availableParamsLoading = false, availableParams = emptyList())
         }
+        paramsFromRepo = repository.getDeviceParamsAssociatedFrom(guid)
+        if (paramsFromRepo.isNotEmpty()) {
+            uiParamsList = paramsFromRepo.map {
+                DeviceParamSelectUiState(uid = it.uid, name = it.name,
+                    checkingLambda = { newState ->
+                        setCheckedUiAction(ListSelector.SELECTED, it.uid, newState)
+                    }
+                )
+            }
+            state = state.copy(selectedParamsLoading = false, selectedParams = uiParamsList)
+        } else {
+            state = state.copy(selectedParamsLoading = false, selectedParams = emptyList())
+        }
+        // обновить состояние
+        _uiState.value = state
     }
 
     fun setupObjectsList() {
@@ -133,8 +116,8 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     private var lastPos = -1
 
     private fun setupParamsForObjectPosition(pos: Int, forced: Boolean) {
-        val objects = _objectsSelectUiState.value?.objects
-        if (!objects.isNullOrEmpty()) {
+        val objects = _uiState.value?.objects ?: return
+        if (objects.isNotEmpty()) {
             if (pos < objects.size) {
                 if ((pos != lastPos) || forced) {
                     lastPos = pos
@@ -153,34 +136,32 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
 
     // манипуляции с отображаемыми списками параметров
     private fun moveParams(from: ListSelector, all: Boolean) {
-        val state = _deviceParamsSelectuiState.value
-        if (state != null) {
-            val fromAvailable = from == ListSelector.AVAILABLE
-            val listFrom: MutableList<DeviceParamSelectUiState> =
-                (if (fromAvailable) state.availableParams else state.selectedParams).toMutableList()
-            val listTo: MutableList<DeviceParamSelectUiState> =
-                (if (fromAvailable) state.selectedParams else state.availableParams).toMutableList()
+        val state = _uiState.value ?: return
+        val fromAvailable = from == ListSelector.AVAILABLE
+        val listFrom: MutableList<DeviceParamSelectUiState> =
+            (if (fromAvailable) state.availableParams else state.selectedParams).toMutableList()
+        val listTo: MutableList<DeviceParamSelectUiState> =
+            (if (fromAvailable) state.selectedParams else state.availableParams).toMutableList()
 
-            var index = listFrom.lastIndex
-            while (index >= 0) {
-                val element = listFrom[index]
-                if (element.checked || all) {
-                    listFrom.remove(element)
-                    val modified = element.copy(checked = false, checkingLambda = { newState -> setCheckedUiAction(
-                        if (fromAvailable) ListSelector.SELECTED else ListSelector.AVAILABLE, element.uid, newState) })
-                    listTo.add(modified)
-                }
-                index--
+        var index = listFrom.lastIndex
+        while (index >= 0) {
+            val element = listFrom[index]
+            if (element.checked || all) {
+                listFrom.remove(element)
+                val modified = element.copy(checked = false, checkingLambda = { newState -> setCheckedUiAction(
+                    if (fromAvailable) ListSelector.SELECTED else ListSelector.AVAILABLE, element.uid, newState) })
+                listTo.add(modified)
             }
-            // for и forEach создают итераторы и возможно исключение ConcurrentModificationException
-            // при модификации исходного списка
-
-            val newState = state.copy(
-                availableParams = if (fromAvailable) listFrom else listTo,
-                selectedParams = if (fromAvailable) listTo else listFrom
-            )
-            _deviceParamsSelectuiState.value = newState
+            index--
         }
+        // for и forEach создают итераторы и возможно исключение ConcurrentModificationException
+        // при модификации исходного списка
+
+        val newState = state.copy(
+            availableParams = if (fromAvailable) listFrom else listTo,
+            selectedParams = if (fromAvailable) listTo else listFrom
+        )
+        _uiState.value = newState
     }
 
     // обработчики нажатий на кнопки
@@ -201,12 +182,12 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
     }
 
     fun onSave() {
-        val objects = _objectsSelectUiState.value?.objects
-        if (!objects.isNullOrEmpty()) {
+        val objects = _uiState.value?.objects ?: return
+        if (objects.isNotEmpty()) {
             val pos = selectedDeviceSpinnerPos.value
             if ((pos != null) && (pos >= 0) && (pos < objects.size)) {
                 val guid = objects[pos].uid
-                val associatedIds = _deviceParamsSelectuiState.value?.selectedParams?.map { it.uid }
+                val associatedIds = _uiState.value?.selectedParams?.map { it.uid }
                 if (associatedIds != null) {
                     viewModelScope.launch {
                         repository.setDeviceParamsAssociatedTo(guid, associatedIds)
