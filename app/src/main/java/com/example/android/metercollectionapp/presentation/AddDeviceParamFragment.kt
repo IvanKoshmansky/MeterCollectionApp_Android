@@ -15,6 +15,7 @@ import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentAddDeviceParamBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.domain.model.DeviceParamType
+import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
 import com.example.android.metercollectionapp.presentation.viewmodels.AddDeviceParamViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -47,12 +48,13 @@ class AddDeviceParamFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.addDeviceParamViewModel = addDeviceParamViewModel
 
-        // для Spinner'а с кастомными элементами можно использовать BaseAdapter
-        binding.addDeviceParamSrDataType.adapter = ArrayAdapter<String>(
-            requireActivity(),  // не activity!!, a requireActivity() для получения контекста
+        binding.addDeviceParamSrDataType.adapter = ArrayAdapter(
+            requireActivity(),
             R.layout.textview_spinner_item,
-            DeviceParamType.values().map { it.name }.toTypedArray()
+            DeviceParamType.values().map { it.name }
         )
+        // для простейших применений spinner можно использовать ArrayAdapter, но ArrayAdapter не дает доступ к списку,
+        // с которым он сейчас работает, здесь применен BaseAdapter чтобы иметь такой доступ
 
         return binding.root
     }
