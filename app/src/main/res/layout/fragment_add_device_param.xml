@@ -77,6 +77,10 @@
         <Button
             android:id="@+id/add_device_param_btn_save"
             style="@style/Widget.MaterialComponents.Button.TextButton"
+
+            android:textSize="?attr/bodyTextSize"
+            android:textStyle="bold"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/standard_margin"

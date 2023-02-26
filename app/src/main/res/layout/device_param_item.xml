@@ -48,7 +48,7 @@
 
         <ImageView
             android:id="@+id/device_param_item_iw_status"
-            android:layout_width="@dimen/small_icon_size"
+            android:layout_width="?attr/iconSize"
             android:layout_height="@dimen/small_icon_size"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginTop="@dimen/small_margin"
@@ -59,17 +59,26 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_sync_24" />
 
-        <View
-            android:id="@+id/device_param_item_div_bottom"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginStart="@dimen/small_margin"
-            android:layout_marginTop="@dimen/small_margin"
-            android:layout_marginEnd="@dimen/small_margin"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/device_param_item_iw_status" />
+        <include
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/device_param_item_iw_status"
+          android:id="@+id/device_param_item_div_bottom"
+          layout="@layout/view_divider" />
+
+<!--        <View-->
+<!--            android:id="@+id/device_param_item_div_bottom"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="?attr/dividerHeight"-->
+<!--            android:layout_marginStart="?attr/dividerSpacing"-->
+<!--            android:layout_marginTop="?attr/dividerSpacing"-->
+<!--            android:layout_marginEnd="?attr/dividerSpacing"-->
+<!--            android:background="?android:attr/listDivider"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/device_param_item_iw_status" />-->
 
         <TextView
             android:id="@+id/device_param_item_tw_name"

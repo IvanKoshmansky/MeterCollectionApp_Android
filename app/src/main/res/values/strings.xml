@@ -29,6 +29,7 @@
     <string name="objects_list_search">Поиск объекта…</string>
     <string name="btn_add_object">Добавить новый объект</string>
 
+    <!-- Add new object screen. -->
     <string name="add_object_fragment_label">Добавить новый объект</string>
     <string name="add_object_new_name_hint">Введите название нового объекта</string>
     <string name="add_object_new_uid_hint">Введите идентификатор нового объекта</string>

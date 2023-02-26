@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+
+    <dimen name="size_24">24dp</dimen>
+
+    <dimen name="icon_size">@dimen/size_24</dimen>
+
     <dimen name="small_grid">4dp</dimen>
+
     <dimen name="standard_grid">8dp</dimen>>
     <dimen name="standard_grid_2x">16dp</dimen>
     <dimen name="standard_grid_3x">24dp</dimen>
     <dimen name="standard_grid_4x">32dp</dimen>
     <dimen name="standard_grid_5x">40dp</dimen>
+
     <dimen name="small_margin">4dp</dimen>
     <dimen name="standard_margin">8dp</dimen>
     <dimen name="standard_icon_size">48dp</dimen>

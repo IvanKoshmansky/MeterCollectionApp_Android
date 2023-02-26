@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentDeviceParamsListBinding
@@ -47,7 +49,10 @@ class DeviceParamsListFragment : Fragment() {
         binding.deviceParamsListViewModel = deviceParamsListViewModel
 
         val adapter = DeviceParamsListAdapter()
-        binding.deviceParamsRw.adapter = adapter
+        binding.deviceParamsRw.apply {
+            this.adapter = adapter
+            addItemDecoration(DividerItemDecoration(requireContext(), RecyclerView.HORIZONTAL))
+        }
         deviceParamsListViewModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
                 if (!it.isLoading) {

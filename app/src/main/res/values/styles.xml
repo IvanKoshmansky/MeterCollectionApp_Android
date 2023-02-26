@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="background_drawable" format="reference"/>
+	<style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark">
+		<!-- иконка back (стрелка) белого цвета, символ OverflowMenu (три точки) -->
+		<item name="colorControlNormal">?attr/colorOnPrimary</item>
+		<!-- редактируемый текст в поле поиска -->
+		<item name="android:editTextColor">?attr/colorOnPrimary</item>
+		<!-- иконка поиска -->
+		<item name="iconTint">?attr/colorOnPrimary</item>
+		<!-- текст в выпадающем меню -->
+		<item name="android:textColorPrimary">@color/black</item>
+	</style>
 </resources>
+
+
+<!-- dimens, colors - просто палитра, не должны знать ничего о контексте (размеры - планшет/телефон,
+     цветовая палитра - дневная/ночная и тд)  <- самый низкий слой
+
+     themes, attrs (темы и атрибуты для них)  <- предоставляют контекстозависимые (размеры, цветовая палитра)
+     реализации для всего: цветов, размеров и даже отдельных компонентов - кнопок, тулбаров и тд,
+      позволяют создавать группы абстракций -> размеры для кнопок или иконок какого-то типа в принципе <- средний слой
+
+     стили (styles.xml, хардкод напрямую в layout-ах) <- предоставляют реализации для отдельных компонентов
+     (кнопки, тулбары и тд). как и в коде, желательна инверсия зависимостей,
+      то есть эти отдельные компоненты не должны зависеть от реализаций, а только от абстракций,
+      то есть вместо конкретного цвета из colors.xml они должны использовать атрибуты тем <- самый высокий слой
+
+      https://m3.material.io/foundations/design-tokens/how-to-read-tokens
+     -->
