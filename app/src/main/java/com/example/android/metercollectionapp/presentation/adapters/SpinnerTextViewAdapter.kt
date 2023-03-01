@@ -10,12 +10,10 @@ import android.widget.TextView
 class SpinnerTextViewAdapter<T : Any> (
     private val context: Context,
     private val resId: Int,
-    private val items: List<T>,
     private val itemToString: (T) -> String
 ) : BaseAdapter() {
 
-    val currentList: List<T>
-        get() = items
+    private var items: List<T> = emptyList()
 
     override fun getCount(): Int {
         return items.size
@@ -32,5 +30,12 @@ class SpinnerTextViewAdapter<T : Any> (
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         return convertView ?: (LayoutInflater.from(context).inflate(resId, null, false) as TextView)
             .apply { text = itemToString(items[position]) }
+    }
+
+    fun submitList(newList: List<T>) {
+        if (newList != items) {
+            items = newList
+            notifyDataSetChanged()  // вызывает перерисовку всех элементов без задействования механизма DiffUtil
+        }
     }
 }

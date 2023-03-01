@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
+import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.databinding.FragmentDeviceParamsSelectBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.presentation.adapters.DeviceParamsSelectListAdapter
 import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
+import com.example.android.metercollectionapp.presentation.uistate.ObjectUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.DeviceParamsSelectViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -32,6 +33,10 @@ class DeviceParamsSelectFragment : Fragment() {
     private val binding: FragmentDeviceParamsSelectBinding
         get() = _binding!!
 
+    private lateinit var spinnerAdapter: SpinnerTextViewAdapter<ObjectUiState>
+    private lateinit var leftAdapter: DeviceParamsSelectListAdapter
+    private lateinit var rightAdapter: DeviceParamsSelectListAdapter
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         (getContext()?.applicationContext as MeterCollectionApplication).appComponent.inject(this)
@@ -46,6 +51,19 @@ class DeviceParamsSelectFragment : Fragment() {
         _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_params_select, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.deviceParamsSelectViewModel = deviceParamsSelectViewModel
+
+        // разделяем конструирование интерфейса (здесь) и присвоение новых списков адаптерам (в
+        // onViewCreated()
+        spinnerAdapter = SpinnerTextViewAdapter(requireContext(), R.layout.textview_spinner_item) {
+            it.name
+        }
+        binding.deviceParamsSrChooseDevice.adapter = spinnerAdapter
+
+        leftAdapter = DeviceParamsSelectListAdapter()
+        binding.deviceParamsSelectRwLeft.adapter = leftAdapter
+        rightAdapter = DeviceParamsSelectListAdapter()
+        binding.deviceParamsSelectRwRight.adapter = rightAdapter
+
         return binding.root
     }
 
@@ -65,45 +83,25 @@ class DeviceParamsSelectFragment : Fragment() {
             }
         }
 
-        val leftAdapter = DeviceParamsSelectListAdapter()
-        binding.deviceParamsSelectRwLeft.adapter = leftAdapter
-        val rightAdapter = DeviceParamsSelectListAdapter()
-        binding.deviceParamsSelectRwRight.adapter = rightAdapter
-
         // отслеживание изменений UiState
         deviceParamsSelectViewModel.uiState.observe(viewLifecycleOwner) {
             val newState = it ?: return@observe
 
-            if (newState.objectsLoading) {
-                binding.deviceParamsSrChooseDevice.adapter = ArrayAdapter(
-                    requireActivity(),
-                    R.layout.textview_spinner_item,
-                    arrayOf(getString(R.string.state_loading))
-                )
-            } else if (newState.objects.isEmpty()) {
-                binding.deviceParamsSrChooseDevice.adapter = ArrayAdapter(
-                    requireActivity(),
-                    R.layout.textview_spinner_item,
-                    arrayOf(getString(R.string.device_params_select_no_device))
-                )
-            } else {
-                // TODO: уточнить почему нельзя сделать safe cast с указанием типа обобщения?
-                val currentAdapter = binding.deviceParamsSrChooseDevice.adapter as? SpinnerTextViewAdapter<*>
-                val needToSet = if (currentAdapter == null) { true } else currentAdapter.currentList != newState.objects
-                if (needToSet) {
-                    binding.deviceParamsSrChooseDevice.adapter = SpinnerTextViewAdapter(
-                        requireActivity(),
-                        R.layout.textview_spinner_item,
-                        newState.objects
-                    ) { item -> item.name }
-                    deviceParamsSelectViewModel.selectedDeviceSpinnerPos.value?.let { pos ->
-                        binding.deviceParamsSrChooseDevice.setSelection(pos)
-                    }
+            // здесь только отправка новых данных адапетрам, причем SpinnerAdapter не чувствителен
+            // к передаче повторяющихся списков
+            when {
+                newState.objectsLoading -> {
+                    spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
+                        getString(R.string.state_loading))))
+                }
+                newState.objects.isEmpty() -> {
+                    spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
+                        getString(R.string.device_params_select_no_device))))
+                } else -> {
+                    spinnerAdapter.submitList(newState.objects)
                 }
             }
 
-            // эти адаптеры не реагируют на передачу "старого" списка (проверка по ссылке)
-            // TODO: уточнить можно ли как-то избежать "анимации" при передаче нового списка адаптеру?
             if (!newState.availableParamsLoading) {
                 leftAdapter.submitList(newState.availableParams)
             }
