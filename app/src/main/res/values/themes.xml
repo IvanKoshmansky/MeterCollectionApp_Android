@@ -31,5 +31,7 @@
         <item name="spinnerHeight">@dimen/size_32</item>
         <!-- КПОПКИ -->
         <item name="smallFixedButtonWidth">@dimen/size_64</item>
+        <!-- РАЗДЕЛИТЕЛЬ -->
+        <item name="dividerSpaces">@dimen/space_4</item>
     </style>
 </resources>

@@ -12,4 +12,5 @@
     <attr name="largeFixedColumnWidth" format="integer" />
     <attr name="spinnerHeight" format="integer" />
     <attr name="smallFixedButtonWidth" format="integer" />
+    <attr name="dividerSpaces" format="integer" />
 </resources>
