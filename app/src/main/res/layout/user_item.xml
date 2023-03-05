@@ -16,14 +16,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_height"
+        android:layout_height="@dimen/size_72"
         android:onClick="@{() -> clickListener.onClick(userUiState)}">
 
         <ImageView
             android:id="@+id/iw_object_status"
-            android:layout_width="@dimen/standard_icon_size"
-            android:layout_height="@dimen/standard_icon_size"
-            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_width="?largeIconSize"
+            android:layout_height="?largeIconSize"
+            android:layout_marginStart="@dimen/space_8"
             android:adjustViewBounds="true"
             android:scaleType="center"
             app:imageViewSyncStatus48="@{userUiState.status}"
@@ -35,12 +35,12 @@
             android:id="@+id/tw_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_8"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{userUiState.name}"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
+            android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintBottom_toBottomOf="@+id/iw_object_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider"
@@ -50,8 +50,8 @@
         <View
             android:id="@+id/divider"
             android:layout_width="1dp"
-            android:layout_height="@dimen/standard_icon_size"
-            android:layout_marginStart="@dimen/standard_margin"
+            android:layout_height="?largeIconSize"
+            android:layout_marginStart="@dimen/space_8"
             android:background="?android:attr/listDivider"
             app:layout_constraintStart_toEndOf="@+id/iw_object_status"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,9 +60,9 @@
             android:id="@+id/divider3"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginStart="@dimen/standard_margin"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="@dimen/standard_margin"
+            android:layout_marginStart="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_12"
+            android:layout_marginEnd="@dimen/space_8"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

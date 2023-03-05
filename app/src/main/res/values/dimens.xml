@@ -1,30 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="small_grid">4dp</dimen>
-    <dimen name="standard_grid">8dp</dimen>>
-    <dimen name="standard_grid_2x">16dp</dimen>
-    <dimen name="standard_grid_3x">24dp</dimen>
-    <dimen name="standard_grid_4x">32dp</dimen>
-    <dimen name="standard_grid_5x">40dp</dimen>
-    <dimen name="small_margin">4dp</dimen>
-    <dimen name="standard_margin">8dp</dimen>
-    <dimen name="standard_icon_size">48dp</dimen>
-    <dimen name="small_icon_size">24dp</dimen>
-    <dimen name="large_icon_width">96dp</dimen>
-    <dimen name="large_icon_height">48dp</dimen>
-    <dimen name="card_height">72dp</dimen>
-    <dimen name="card_elevation">4dp</dimen>
-    <dimen name="card_margin">8dp</dimen>
-    <dimen name="card_content_padding">4dp</dimen>
-    <dimen name="card_corner_radius">10dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="small_padding">4dp</dimen>
-    <dimen name="edit_text_height">48dp</dimen>
-    <dimen name="large_edit_text_height">64dp</dimen>
-    <dimen name="standard_padding">8dp</dimen>
-    <dimen name="standard_column_width">128dp</dimen>
-    <dimen name="small_column_width">72dp</dimen>
-    <dimen name="standard_spinner_height">32dp</dimen>
-    <dimen name="short_btn_width">64dp</dimen>
-    <dimen name="checkbox_standard_size">24dp</dimen>
+<!--здесь аналогичный подход: в файле dimens содержится только палитра всех возможных размеров-->
+<!--см. принцип в руководстве по Material Design-->
+<!--"палитра" размеров текста-->
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+
+<!--"палитра" "свободных пространств": отступы, паддинги, марджины-->
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+
+<!--"палитра" "габаритных размеров" компонентов и контейнеров-->
+    <dimen name="size_8">8dp</dimen>
+    <dimen name="size_16">16dp</dimen>
+    <dimen name="size_24">24dp</dimen>
+    <dimen name="size_32">32dp</dimen>
+    <dimen name="size_48">48dp</dimen>
+    <dimen name="size_64">64dp</dimen>
+    <dimen name="size_72">72dp</dimen>
+    <dimen name="size_128">128dp</dimen>
 </resources>

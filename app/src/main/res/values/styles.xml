@@ -1,4 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <attr name="background_drawable" format="reference"/>
+<!-- здесь задается итоговый вид только НАЧЕРТАНИЯ шрифта для всех компонентов -->
+<!-- при необходимости выделить группу компонентов с одинаковым внешним видом, то будет дополнительно применяться стиль, -->
+<!-- т.е. для конечного элемента управления из TextAppearance берется начертание, все остальное из стиля -->
+<!-- все конечные константы (размеры и цвета) берутся из темы -->
+    <style name="BodyTextAppearance" parent="">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">?bodyTextSize</item>
+    </style>
+    <style name="SubtitleTextAppearance" parent="">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">?subtitleTextSize</item>
+    </style>
+
+    <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.Dark">
+        <!-- иконка (стрелка) "back" белого цвета, символ OverflowMenu (три точки) тоже белого цвета -->
+        <item name="colorControlNormal">?colorOnPrimary</item>
+        <!-- редактируемый текст в поле поиска -->
+        <item name="android:editTextColor">?colorOnPrimary</item>
+        <!-- иконка поиска -->
+        <item name="iconTint">?colorOnPrimary</item>
+        <!-- текст в выпадающем меню -->
+        <item name="android:textColorPrimary">?colorOnSecondary</item>
+    </style>
 </resources>

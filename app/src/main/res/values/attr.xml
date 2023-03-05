@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="background_drawable" format="reference"/>
+    <attr name="bodyTextSize" format="integer" />
+    <attr name="subtitleTextSize" format="integer" />
+    <attr name="smallIconSize" format="integer" />
+    <attr name="largeIconSize" format="integer" />
+    <attr name="smallCheckboxSize" format="integer" />
+    <attr name="smallEditTextHeight" format="integer" />
+    <attr name="largeEditTextHeight" format="integer" />
+    <attr name="smallFixedColumnWidth" format="integer" />
+    <attr name="largeFixedColumnWidth" format="integer" />
+    <attr name="spinnerHeight" format="integer" />
+    <attr name="smallFixedButtonWidth" format="integer" />
+</resources>

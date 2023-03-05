@@ -12,18 +12,24 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-        <!-- FontFamily -->
+        <!-- ШРИФТЫ: тип шрифта и размерный ряд (остальное задается в TextAppearance) -->
         <item name="fontFamily">@font/mark_pro</item>
-    </style>
-
-    <style name="ToolbarStyle" parent="ThemeOverlay.AppCompat.Dark">
-        <!-- иконка back (стрелка) белого цвета, символ OverflowMenu (три точки) -->
-        <item name="colorControlNormal">?attr/colorOnPrimary</item>
-        <!-- редактируемый текст в поле поиска -->
-        <item name="android:editTextColor">?attr/colorOnPrimary</item>
-        <!-- иконка поиска -->
-        <item name="iconTint">?attr/colorOnPrimary</item>
-        <!-- текст в выпадающем меню -->
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="bodyTextSize">@dimen/text_14</item>
+        <item name="subtitleTextSize">@dimen/text_16</item>
+        <!-- ИКОНКИ -->
+        <item name="smallIconSize">@dimen/size_24</item>
+        <item name="largeIconSize">@dimen/size_48</item>
+        <!-- ЧЕКБОКСЫ -->
+        <item name="smallCheckboxSize">@dimen/size_24</item>
+        <!-- ПОЛЯ ВВОДА -->
+        <item name="smallEditTextHeight">@dimen/size_48</item>
+        <item name="largeEditTextHeight">@dimen/size_64</item>
+        <!-- ШИРИНА КОЛОНОК ТАБЛИЦ -->
+        <item name="smallFixedColumnWidth">@dimen/size_72</item>
+        <item name="largeFixedColumnWidth">@dimen/size_128</item>
+        <!-- SPINNER -->
+        <item name="spinnerHeight">@dimen/size_32</item>
+        <!-- КПОПКИ -->
+        <item name="smallFixedButtonWidth">@dimen/size_64</item>
     </style>
 </resources>
