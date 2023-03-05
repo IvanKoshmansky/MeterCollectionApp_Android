@@ -58,12 +58,12 @@ class LoginFragment : Fragment() {
 
         loginViewModel.loginUiState.observe(viewLifecycleOwner) {
             if (it.isNewUser) {
-                binding.loginTwUserName.setText(R.string.login_lbl_new_user)
+                binding.loginTwUserName.setText(R.string.new_trackman)
             } else {
                 binding.loginTwUserName.text = it.name
             }
             if (it.loginError) {
-                Snackbar.make(binding.root, R.string.error_message_wrong_pass, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.error_pass, Snackbar.LENGTH_SHORT).show()
             }
         }
 

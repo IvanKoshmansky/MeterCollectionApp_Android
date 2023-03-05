@@ -24,7 +24,7 @@
             android:layout_marginTop="@dimen/standard_grid"
             android:layout_marginEnd="@dimen/standard_margin"
             android:onClick="@{() -> loginViewModel.onNext()}"
-            android:text="@string/login_btn_next"
+            android:text="@string/next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_et_login" />
@@ -35,10 +35,10 @@
             android:layout_height="@dimen/edit_text_height"
             android:layout_marginStart="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
-            android:hint="@string/login_et_pass_hint"
+            android:hint="@string/enter_pass"
             android:inputType="textPersonName"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             android:text="@={loginViewModel.passTextLiveData}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/login_lbl_pass" />
@@ -51,7 +51,7 @@
             android:layout_marginTop="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
             android:padding="@dimen/small_padding"
-            android:text="@string/login_lbl_pass"
+            android:text="@string/pass"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -67,7 +67,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Новый инженер ЭХЗ" />
+            tools:text="Новый обходчик" />
 
         <EditText
             android:id="@+id/login_et_login"
@@ -75,10 +75,10 @@
             android:layout_height="@dimen/edit_text_height"
             android:layout_marginStart="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
-            android:hint="@string/login_et_login_hint"
+            android:hint="@string/enter_login"
             android:inputType="textPersonName"
-            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             android:text="@={loginViewModel.loginTextLiveData}"
+            android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/login_lbl_login" />
@@ -91,7 +91,7 @@
             android:layout_marginTop="@dimen/standard_margin"
             android:layout_marginEnd="@dimen/standard_margin"
             android:padding="@dimen/small_padding"
-            android:text="@string/login_lbl_login"
+            android:text="@string/login"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintHorizontal_bias="0.0"

@@ -1,77 +1,63 @@
+<!--    изменения в принципе работы со строковыми ресурсами:-->
+<!--    строковый ресурс именуется просто в виде англоязычного сокращения текста-->
+<!--    который он обозначает, т.е. как с цветами и размерами - строковые ресурсы это просто некая "палитра"-->
 <resources>
-    <string name="app_name">Meter Collection App</string>
-
-    <string name="main_fragment_label">Начало работы</string>
-    <string name="main_lbl_select_user">Инженеры ЭХЗ</string>
-    <string name="main_btn_add_user">Добавить инженера ЭХЗ</string>
-
-    <string name="login_user_fragment_label">Авторизация</string>
-    <string name="login_lbl_new_user">Новый инженер ЭХЗ</string>
-    <string name="login_et_login_hint">Логин</string>
-    <string name="login_lbl_login">Логин</string>
-    <string name="login_lbl_pass">Пароль</string>
-    <string name="login_et_pass_hint">Пароль</string>
-    <string name="login_btn_next">Далее</string>
-
-    <string name="error_message_wrong_pass">Неверный пароль</string>
-    <string name="error_message_user_not_found_local">Инженер ЭХЗ не найден</string>
-    <string name="main_lbl_no_users">Отсутствуют зарегистрированные инженеры ЭХЗ. Добавьте нового инженера ЭХЗ</string>
-    <string name="main_lbl_loading">Обновление списка инженеров ЭХЗ…</string>
-    <string name="select_object_fragment_label">Выбор объекта</string>
-    <string name="btn_scan_object">Считать QR-код</string>
-
-    <string name="main_menu_edit_objects_list">Редактировать список объектов</string>
-    <string name="main_menu_edit_params_list">Редактировать список параметров</string>
-    <string name="main_menu_set_params_to_objects">Выбор параметров для объектов</string>
-
-    <string name="objects_list_lbl_name">Имя объекта</string>
-    <string name="objects_list_lbl_uid">Идентификатор</string>
-    <string name="objects_list_search">Поиск объекта…</string>
-    <string name="btn_add_object">Добавить новый объект</string>
-
-    <string name="add_object_fragment_label">Добавить новый объект</string>
-    <string name="add_object_new_name_hint">Введите название нового объекта</string>
-    <string name="add_object_new_uid_hint">Введите идентификатор нового объекта</string>
-    <string name="btn_cancel">Отмена</string>
-    <string name="btn_save">Сохранить</string>
-
-    <string name="objects_list_fragment_label">Список объектов</string>
-    <string name="main_menu_global_settings">Настройки</string>
-
-    <string name="snackbar_empty_object_name">Введите имя нового объекта</string>
-    <string name="snackbar_empty_object_guid">Осканируйте QR код или введите ID объекта</string>
-    <string name="snackbar_new_object_success">Новый объект успешно сохранен</string>
-    <string name="snackbar_new_object_error">Ошибка при сохранении нового объекта</string>
-
-    <string name="snackbar_empty_param_fields">Заполните все поля</string>
-    <string name="snackbar_new_device_param_success">Новый параметр успешно сохранен</string>
-    <string name="snackbar_new_device_param_error">Ошибка при сохранении нового параметра</string>
-
-    <string name="device_params_list_fragment_label">Параметры устройств</string>
-    <string name="btn_add_device_param">Добавить новый параметр</string>
-    <string name="device_params_list_lbl_name">Название параметра</string>
-    <string name="device_params_list_lbl_meas_unit">Ед.изм.</string>
-    <string name="device_params_list_lbl_uid">UID</string>
-
-    <string name="add_device_param_fragment_label">Новый параметр</string>
-    <string name="add_device_param_uid_hint">Введите уникальный идентификатор параметра для синхронизации</string>
-    <string name="add_device_param_name_hint">Введите название параметра</string>
-    <string name="add_device_param_short_name_hint">Введите сокращенное название</string>
-    <string name="add_device_param_meas_unit_hint">Введите единицу измерения</string>
-    <string name="add_device_param_data_type_lbl">Выберите тип данных</string>
-
-<!--    предпочтительный формат-->
-    <string name="device_params_select_fragment_label">Выбор параметров для объектов</string>
-    <string name="device_params_select_lbl_choose">Выберите устройство</string>
-    <string name="device_params_select_no_device">Устройств нет</string>
-    <string name="device_params_select_btn_add_all">Добавить все</string>
-    <string name="device_params_select_btn_add_selected"><![CDATA[>>]]></string>
-    <string name="device_params_select_btn_delete_selected"><![CDATA[<<]]></string>
-    <string name="device_params_select_btn_delete_all">Убрать все</string>
-
-    <string name="state_loading">Загрузка…</string>
-
-    <string name="device_params_select_save_success">Сохранено успешно</string>
-    <string name="device_params_select_save_error">Не выбрано устройство</string>
-
+    <string name="app_name">Ручной сбор данных</string>
+    <string name="begin_work">Начало работы</string>
+    <string name="trackmans">Обходчики</string>
+    <string name="add_trackman">Добавить обходчика</string>
+    <string name="auth">Авторизация</string>
+    <string name="new_trackman">Новый обходчик</string>
+    <string name="login">Логин</string>
+    <string name="pass">Пароль</string>
+    <string name="enter_login">Введите логин</string>
+    <string name="enter_pass">Введите пароль</string>
+    <string name="next">Далее</string>
+    <string name="error_pass">Неверный пароль</string>
+    <string name="trackman_not_found">Обходчик не найден</string>
+    <string name="no_registered_trackmans">Отсутствуют зарегистрированные обходчики. Добавьте нового обходчика</string>
+    <string name="loading_list_of_trackmans">Загрузка списка обходчиков</string>
+    <string name="select_object">Выбор объекта</string>
+    <string name="take_qr_code">Считать QR код</string>
+    <string name="edit_objects_list">Редактировать список объектов</string>
+    <string name="edit_params_list">Редактировать список параметров</string>
+    <string name="select_params_for_objects">Выбор параметров для объектов</string>
+    <string name="object_name">Имя объекта</string>
+    <string name="identifier">Идентификатор</string>
+    <string name="search_object">Поиск объекта</string>
+    <string name="add_new_object">Добавить новый объект</string>
+    <string name="enter_name_of_new_object">Введите название нового объекта</string>
+    <string name="enter_id_of_new_object">Введите идентификатор нового объекта</string>
+    <string name="cancel">Отмена</string>
+    <string name="save">Сохранить</string>
+    <string name="objects_list">Список объектов</string>
+    <string name="settings">Настройки</string>
+    <string name="scan_qr_code_or_enter_object_id">Отсканируйте QR код или введите ID объекта</string>
+    <string name="new_object_save_success">Новый объект успешно сохранен</string>
+    <string name="new_object_save_error">Ошибка при сохранении нового объекта</string>
+    <string name="fill_all_fields">Заполните все поля</string>
+    <string name="new_param_save_success">Новый параметр успешно сохранен</string>
+    <string name="new_param_save_error">Ошибка при сохранении нового параметра</string>
+    <string name="devices_params">Параметры устройств</string>
+    <string name="add_new_param">Добавить новый параметр</string>
+    <string name="param_name">Название параметра</string>
+    <string name="meas_unit_abbr">Ед.изм.</string>
+    <string name="uid">UID</string>
+    <string name="new_param">Новый параметр</string>
+    <string name="enter_uid_of_param_for_sync">Введите уникальный идентификатор параметра для синхронизации</string>
+    <string name="enter_param_name">Введите название параметра</string>
+    <string name="enter_abbr_name">Введите сокращенное название</string>
+    <string name="enter_meas_unit">Введите единицу измерения</string>
+    <string name="select_data_type">Выберите тип данных</string>
+    <string name="selection_params_for_objects">Выбор параметров для объектов</string>
+    <string name="select_device">Выберите устройство</string>
+    <string name="no_devices">Устройств нет</string>
+    <string name="right_arrow"><![CDATA[>>]]></string>
+    <string name="left_arrow"><![CDATA[<<]]></string>
+    <string name="add_all">Добавить все</string>
+    <string name="remove_all">Убрать все</string>
+    <string name="loading">Загрузка…</string>
+    <string name="save_success">Сохранено успешно</string>
+    <string name="save_error">Ошибка при сохранении</string>
+    <string name="no_selected_device">Не выбрано устройство</string>
 </resources>

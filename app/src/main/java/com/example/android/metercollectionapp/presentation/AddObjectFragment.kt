@@ -61,13 +61,13 @@ class AddObjectFragment : Fragment() {
         addObjectViewModel.addObjectUiState.observe(viewLifecycleOwner) {
             if (it != null) {
                 when {
-                    it.emptyName -> Snackbar.make(binding.root, R.string.snackbar_empty_object_name,
+                    it.emptyName -> Snackbar.make(binding.root, R.string.enter_name_of_new_object,
                         Snackbar.LENGTH_SHORT).show()
-                    it.emptyGuid -> Snackbar.make(binding.root, R.string.snackbar_empty_object_guid,
+                    it.emptyGuid -> Snackbar.make(binding.root, R.string.scan_qr_code_or_enter_object_id,
                         Snackbar.LENGTH_SHORT).show()
-                    it.success -> Snackbar.make(binding.root, R.string.snackbar_new_object_success,
+                    it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
                         Snackbar.LENGTH_SHORT).show()
-                    it.error -> Snackbar.make(binding.root, R.string.snackbar_new_object_error,
+                    it.error -> Snackbar.make(binding.root, R.string.new_object_save_error,
                         Snackbar.LENGTH_SHORT).show()
                     // обработка дубликатов
                     else -> {}

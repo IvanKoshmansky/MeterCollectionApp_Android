@@ -92,11 +92,11 @@ class DeviceParamsSelectFragment : Fragment() {
             when {
                 newState.objectsLoading -> {
                     spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
-                        getString(R.string.state_loading))))
+                        getString(R.string.loading))))
                 }
                 newState.objects.isEmpty() -> {
                     spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
-                        getString(R.string.device_params_select_no_device))))
+                        getString(R.string.no_devices))))
                 } else -> {
                     spinnerAdapter.submitList(newState.objects)
                 }
@@ -114,9 +114,9 @@ class DeviceParamsSelectFragment : Fragment() {
         deviceParamsSelectViewModel.saveStatusUiState.observe(viewLifecycleOwner) {
             if (it != null) {
                 when {
-                    it.saveSuccess -> Snackbar.make(binding.root, R.string.device_params_select_save_success,
+                    it.saveSuccess -> Snackbar.make(binding.root, R.string.save_success,
                         Snackbar.LENGTH_SHORT).show()
-                    it.saveError -> Snackbar.make(binding.root, R.string.device_params_select_save_success,
+                    it.saveError -> Snackbar.make(binding.root, R.string.save_error,
                         Snackbar.LENGTH_SHORT).show()
                 }
             }

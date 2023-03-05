@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/main_menu_edit_objects_list_id"
-        android:title="@string/main_menu_edit_objects_list" />
+        android:title="@string/edit_objects_list" />
     <item
         android:id="@+id/main_menu_device_params_list_id"
-        android:title="@string/main_menu_edit_params_list" />
+        android:title="@string/edit_params_list" />
     <item
         android:id="@+id/main_menu_set_params_to_object_id"
-        android:title="@string/main_menu_set_params_to_objects" />
+        android:title="@string/select_params_for_objects" />
     <item
         android:id="@+id/main_menu_global_settings_id"
-        android:title="@string/main_menu_global_settings" />
+        android:title="@string/settings" />
 </menu>
