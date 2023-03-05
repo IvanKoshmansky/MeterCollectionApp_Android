@@ -57,12 +57,12 @@ class DeviceParamsSelectFragment : Fragment() {
         spinnerAdapter = SpinnerTextViewAdapter(requireContext(), R.layout.textview_spinner_item) {
             it.name
         }
-        binding.deviceParamsSrChooseDevice.adapter = spinnerAdapter
+        binding.srSelectDevice.adapter = spinnerAdapter
 
         leftAdapter = DeviceParamsSelectListAdapter()
-        binding.deviceParamsSelectRwLeft.adapter = leftAdapter
+        binding.rwLeft.adapter = leftAdapter
         rightAdapter = DeviceParamsSelectListAdapter()
-        binding.deviceParamsSelectRwRight.adapter = rightAdapter
+        binding.rwRight.adapter = rightAdapter
 
         return binding.root
     }

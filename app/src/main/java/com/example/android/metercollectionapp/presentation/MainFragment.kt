@@ -44,7 +44,7 @@ class MainFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mainViewModel = mainViewModel
 
-        binding.mainBtnAddUser.setOnClickListener {
+        binding.btnAddUser.setOnClickListener {
             findNavController().navigate(
                 MainFragmentDirections.actionMainFragmentToLoginFragment(0, true)
             )
@@ -57,7 +57,7 @@ class MainFragment : Fragment() {
                 )
             }
         )
-        binding.mainRwSelectUser.adapter = adapter
+        binding.rwSelectUser.adapter = adapter
         mainViewModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
                 adapter.submitList(it.users)

@@ -11,12 +11,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/add_object_fragment_id"
+        android:id="@+id/fragment_add_object"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/add_object_btn_save"
+            android:id="@+id/btn_save"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,10 +27,10 @@
             android:text="@string/save"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline4"
-            app:layout_constraintTop_toBottomOf="@+id/add_object_btn_scan" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_scan" />
 
         <Button
-            android:id="@+id/add_object_btn_cancel"
+            android:id="@+id/btn_cancel"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -41,10 +41,10 @@
             android:text="@string/cancel"
             app:layout_constraintEnd_toStartOf="@+id/guideline4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_object_btn_scan" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_scan" />
 
         <Button
-            android:id="@+id/add_object_btn_scan"
+            android:id="@+id/btn_scan"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -55,10 +55,10 @@
             android:text="@string/take_qr_code"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_object_et_new_uid" />
+            app:layout_constraintTop_toBottomOf="@+id/et_new_uid" />
 
         <EditText
-            android:id="@+id/add_object_et_new_uid"
+            android:id="@+id/et_new_uid"
             android:layout_width="0dp"
             android:layout_height="@dimen/large_edit_text_height"
             android:layout_marginStart="@dimen/standard_margin"
@@ -70,12 +70,11 @@
             android:text="@={addObjectViewModel.guidLiveData}"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_object_et_new_name" />
+            app:layout_constraintTop_toBottomOf="@+id/et_new_name" />
 
         <EditText
-            android:id="@+id/add_object_et_new_name"
+            android:id="@+id/et_new_name"
             android:layout_width="0dp"
             android:layout_height="@dimen/large_edit_text_height"
             android:layout_marginStart="@dimen/standard_margin"

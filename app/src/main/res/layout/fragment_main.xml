@@ -11,12 +11,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main_fragment_id"
+        android:id="@+id/fragment_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <TextView
-            android:id="@+id/main_lbl_no_users"
+            android:id="@+id/tw_no_users"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_grid"
@@ -26,10 +26,10 @@
             app:goneUnless="@{mainViewModel.uiState.users.isEmpty()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_item_tw_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_name" />
 
         <TextView
-            android:id="@+id/user_item_tw_name"
+            android:id="@+id/tw_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_margin"
@@ -41,19 +41,19 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/main_rw_select_user"
+            android:id="@+id/rw_select_user"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/standard_margin"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/main_btn_add_user"
+            app:layout_constraintBottom_toTopOf="@+id/btn_add_user"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user_item_tw_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_name" />
 
         <Button
-            android:id="@+id/main_btn_add_user"
+            android:id="@+id/btn_add_user"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

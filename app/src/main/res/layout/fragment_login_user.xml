@@ -11,12 +11,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/login_fragment_id"
+        android:id="@+id/fragment_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/login_btn_next"
+            android:id="@+id/btn_next"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -27,10 +27,10 @@
             android:text="@string/next"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_et_login" />
+            app:layout_constraintTop_toBottomOf="@+id/et_login" />
 
         <EditText
-            android:id="@+id/login_et_pass"
+            android:id="@+id/et_pass"
             android:layout_width="0dp"
             android:layout_height="@dimen/edit_text_height"
             android:layout_marginStart="@dimen/standard_margin"
@@ -41,10 +41,10 @@
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/login_lbl_pass" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_pass" />
 
         <TextView
-            android:id="@+id/login_lbl_pass"
+            android:id="@+id/tw_pass"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/standard_margin"
@@ -55,10 +55,10 @@
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/login_tw_user_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_user_name" />
 
         <TextView
-            android:id="@+id/login_tw_user_name"
+            android:id="@+id/tw_user_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/standard_margin"
@@ -70,7 +70,7 @@
             tools:text="Новый обходчик" />
 
         <EditText
-            android:id="@+id/login_et_login"
+            android:id="@+id/et_login"
             android:layout_width="0dp"
             android:layout_height="@dimen/edit_text_height"
             android:layout_marginStart="@dimen/standard_margin"
@@ -81,10 +81,10 @@
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.SubtitleNormal"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_lbl_login" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_login" />
 
         <TextView
-            android:id="@+id/login_lbl_login"
+            android:id="@+id/tw_login"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/standard_margin"
@@ -96,7 +96,7 @@
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_tw_user_name" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_user_name" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"

@@ -48,7 +48,7 @@ class ObjectsListFragment : Fragment() {
         binding.objectsListViewModel = objectsListModel
 
         val adapter = ObjectsListAdapter()
-        binding.objectsListRwObjectsList.adapter = adapter
+        binding.rwObjects.adapter = adapter
         objectsListModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
                 if (!it.isLoading) {

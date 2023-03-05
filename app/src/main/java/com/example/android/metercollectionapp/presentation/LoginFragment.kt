@@ -58,9 +58,9 @@ class LoginFragment : Fragment() {
 
         loginViewModel.loginUiState.observe(viewLifecycleOwner) {
             if (it.isNewUser) {
-                binding.loginTwUserName.setText(R.string.new_trackman)
+                binding.twUserName.setText(R.string.new_trackman)
             } else {
-                binding.loginTwUserName.text = it.name
+                binding.twUserName.text = it.name
             }
             if (it.loginError) {
                 Snackbar.make(binding.root, R.string.error_pass, Snackbar.LENGTH_SHORT).show()

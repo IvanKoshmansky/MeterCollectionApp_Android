@@ -47,7 +47,7 @@ class DeviceParamsListFragment : Fragment() {
         binding.deviceParamsListViewModel = deviceParamsListViewModel
 
         val adapter = DeviceParamsListAdapter()
-        binding.deviceParamsRw.adapter = adapter
+        binding.rwParams.adapter = adapter
         deviceParamsListViewModel.uiState.observe(viewLifecycleOwner) {
             it?.let {
                 if (!it.isLoading) {

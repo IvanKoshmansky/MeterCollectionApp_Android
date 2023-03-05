@@ -15,7 +15,6 @@ import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentAddDeviceParamBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.domain.model.DeviceParamType
-import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
 import com.example.android.metercollectionapp.presentation.viewmodels.AddDeviceParamViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -48,7 +47,7 @@ class AddDeviceParamFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.addDeviceParamViewModel = addDeviceParamViewModel
 
-        binding.addDeviceParamSrDataType.adapter = ArrayAdapter(
+        binding.srDataType.adapter = ArrayAdapter(
             requireActivity(),
             R.layout.textview_spinner_item,
             DeviceParamType.values().map { it.name }

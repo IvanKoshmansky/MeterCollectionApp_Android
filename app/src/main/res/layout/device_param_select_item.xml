@@ -16,7 +16,7 @@
         android:layout_height="wrap_content">
 
         <View
-            android:id="@+id/device_param_select_item_div_bottom"
+            android:id="@+id/div_bottom"
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="@dimen/small_margin"
@@ -25,10 +25,10 @@
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/device_param_select_item_cb_selected" />
+            app:layout_constraintTop_toBottomOf="@+id/cb_selected" />
 
         <TextView
-            android:id="@+id/device_param_select_item_tw_name"
+            android:id="@+id/tw_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin"
@@ -37,14 +37,14 @@
             android:maxLines="1"
             android:text="@{deviceParamSelectUiState.name}"
             android:textAppearance="@style/TextAppearance.MdcTypographyStyles.BodyNormal"
-            app:layout_constraintBottom_toBottomOf="@+id/device_param_select_item_cb_selected"
+            app:layout_constraintBottom_toBottomOf="@+id/cb_selected"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/device_param_select_item_cb_selected"
-            app:layout_constraintTop_toTopOf="@+id/device_param_select_item_cb_selected"
+            app:layout_constraintStart_toEndOf="@+id/cb_selected"
+            app:layout_constraintTop_toTopOf="@+id/cb_selected"
             tools:text="Сетевое напряжение" />
 
         <CheckBox
-            android:id="@+id/device_param_select_item_cb_selected"
+            android:id="@+id/cb_selected"
             android:layout_width="@dimen/checkbox_standard_size"
             android:layout_height="@dimen/checkbox_standard_size"
             android:layout_marginStart="@dimen/small_margin"
