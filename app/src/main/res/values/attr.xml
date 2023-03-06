@@ -3,6 +3,7 @@
     <attr name="background_drawable" format="reference"/>
     <attr name="bodyTextSize" format="integer" />
     <attr name="subtitleTextSize" format="integer" />
+    <attr name="textColorPrimary" format="color" />
     <attr name="smallIconSize" format="integer" />
     <attr name="largeIconSize" format="integer" />
     <attr name="smallCheckboxSize" format="integer" />

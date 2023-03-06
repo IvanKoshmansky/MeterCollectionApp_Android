@@ -21,6 +21,6 @@
         <!-- иконка поиска -->
         <item name="iconTint">?colorOnPrimary</item>
         <!-- текст в выпадающем меню -->
-        <item name="android:textColorPrimary">?colorOnSecondary</item>
+        <item name="android:textColorPrimary">?textColorPrimary</item>
     </style>
 </resources>
