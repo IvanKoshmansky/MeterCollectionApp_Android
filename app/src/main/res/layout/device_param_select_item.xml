@@ -36,7 +36,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{deviceParamSelectUiState.name}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/cb_selected"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/cb_selected"

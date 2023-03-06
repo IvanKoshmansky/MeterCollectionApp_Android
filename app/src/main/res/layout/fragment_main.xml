@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/space_8"
             android:gravity="center"
             android:text="@string/no_registered_trackmans"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:goneUnless="@{mainViewModel.uiState.users.isEmpty()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/space_8"
             android:gravity="center"
             android:text="@string/trackmans"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

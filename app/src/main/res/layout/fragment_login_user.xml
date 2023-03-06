@@ -38,7 +38,7 @@
             android:hint="@string/enter_pass"
             android:inputType="textPersonName"
             android:text="@={loginViewModel.passTextLiveData}"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/tw_pass" />
@@ -52,7 +52,7 @@
             android:layout_marginEnd="@dimen/space_8"
             android:padding="@dimen/space_4"
             android:text="@string/pass"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
             app:layout_constraintTop_toBottomOf="@+id/tw_user_name" />
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_8"
             android:gravity="center"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -78,7 +78,7 @@
             android:hint="@string/enter_login"
             android:inputType="textPersonName"
             android:text="@={loginViewModel.loginTextLiveData}"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tw_login" />
@@ -92,7 +92,7 @@
             android:layout_marginEnd="@dimen/space_8"
             android:padding="@dimen/space_4"
             android:text="@string/login"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tw_user_name" />

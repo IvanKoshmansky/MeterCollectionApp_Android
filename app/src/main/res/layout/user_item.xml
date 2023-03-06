@@ -40,7 +40,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{userUiState.name}"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintBottom_toBottomOf="@+id/iw_object_status"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/divider"

@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/space_8"
             android:padding="@dimen/space_8"
             android:text="@string/select_data_type"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_meas_unit" />
 
@@ -37,7 +37,7 @@
             android:hint="@string/enter_meas_unit"
             android:maxLines="3"
             android:text="@={addDeviceParamViewModel.measUnitLiveData}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_short_name" />
@@ -52,7 +52,7 @@
             android:hint="@string/enter_abbr_name"
             android:maxLines="3"
             android:text="@={addDeviceParamViewModel.shortNameLiveData}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_name" />
@@ -67,7 +67,7 @@
             android:hint="@string/enter_param_name"
             android:maxLines="3"
             android:text="@={addDeviceParamViewModel.nameLiveData}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_uid" />
@@ -111,7 +111,7 @@
             android:inputType="number"
             android:maxLines="3"
             android:text="@={addDeviceParamViewModel.uidLiveData}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

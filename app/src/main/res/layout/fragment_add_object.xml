@@ -68,7 +68,7 @@
             android:inputType="number"
             android:maxLines="3"
             android:text="@={addObjectViewModel.guidLiveData}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_new_name" />
@@ -84,7 +84,7 @@
             android:inputType="textPersonName"
             android:maxLines="3"
             android:text="@={addObjectViewModel.nameLiveData}"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

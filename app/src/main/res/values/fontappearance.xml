@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="NormalMarkProTextAppearance">
+        <item name="fontFamily">@font/mark_pro</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <style name="BoldMarkProTextAppearance">
+        <item name="fontFamily">@font/mark_pro</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="ItalicMarkProTextAppearance">
+        <item name="fontFamily">@font/mark_pro</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+</resources>
+<!--здесь описывается базовое начертание шрифта, "типография", без привязки к конкретному размеру-->
+<!--такой текстаппиренс состоит только из фонтфэмили и типа начертания: normal|bold|italic-->

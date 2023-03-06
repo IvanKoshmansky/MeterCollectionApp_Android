@@ -26,7 +26,7 @@
             android:paddingStart="@dimen/space_4"
             android:paddingEnd="@dimen/space_4"
             android:text="@string/uid"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,7 +40,7 @@
             android:paddingStart="@dimen/space_4"
             android:paddingEnd="@dimen/space_4"
             android:text="@string/meas_unit_abbr"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toStartOf="@+id/tw_uid"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -69,7 +69,7 @@
             android:paddingStart="@dimen/space_4"
             android:paddingEnd="@dimen/space_4"
             android:text="@string/param_name"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

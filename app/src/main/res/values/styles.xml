@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!-- здесь задается итоговый вид только НАЧЕРТАНИЯ шрифта для всех компонентов -->
-<!-- при необходимости выделить группу компонентов с одинаковым внешним видом, то будет дополнительно применяться стиль, -->
-<!-- т.е. для конечного элемента управления из TextAppearance берется начертание, все остальное из стиля -->
-<!-- все конечные константы (размеры и цвета) берутся из темы -->
-    <style name="BodyTextAppearance" parent="">
-        <item name="android:textStyle">normal</item>
+    <style name="MainBodyTextStyle" parent="">
+        <item name="android:textAppearance">?mainNormalTextAppearance</item>
         <item name="android:textSize">?bodyTextSize</item>
+        <item name="android:textColor">?textColorPrimary</item>
     </style>
-    <style name="SubtitleTextAppearance" parent="">
-        <item name="android:textStyle">normal</item>
+    <style name="MainSubtitleTextStyle" parent="">
+        <item name="android:textAppearance">?mainNormalTextAppearance</item>
         <item name="android:textSize">?subtitleTextSize</item>
+        <item name="android:textColor">?textColorPrimary</item>
     </style>
-
     <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.Dark">
-        <!-- иконка (стрелка) "back" белого цвета, символ OverflowMenu (три точки) тоже белого цвета -->
         <item name="colorControlNormal">?colorOnPrimary</item>
-        <!-- редактируемый текст в поле поиска -->
         <item name="android:editTextColor">?colorOnPrimary</item>
-        <!-- иконка поиска -->
         <item name="iconTint">?colorOnPrimary</item>
-        <!-- текст в выпадающем меню -->
-        <item name="android:textColorPrimary">?colorOnSecondary</item>
+        <item name="android:textColorPrimary">?textColorPrimary</item>
+        <!--иконка (стрелка) "back" белого цвета, символ OverflowMenu (три точки) тоже белого цвета-->
+        <!--редактируемый текст в поле поиска-->
+        <!--иконка поиска-->
+        <!--текст в выпадающем меню-->
     </style>
 </resources>
+<!--здесь описываются стили как результат композиции всех возможных элементов-->
+<!--для шрифтов делается "финишная" настройка как с участием textappearance,-->
+<!--так и с добавлением финальных элементов стиля: размер шрифта, цвет,... все с зависимостями от темы-->
+<!--попытка реализации принципа Composition Over Inheritance для компоновки и настройки шрифтов-->

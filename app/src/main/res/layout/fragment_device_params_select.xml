@@ -103,7 +103,7 @@
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_8"
             android:text="@string/select_device"
-            android:textAppearance="@style/SubtitleTextAppearance"
+            style="@style/MainSubtitleTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

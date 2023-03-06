@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--здесь аналогичный подход: в файле dimens содержится только палитра всех возможных размеров-->
-<!--см. принцип в руководстве по Material Design-->
-<!--"палитра" размеров текста-->
     <dimen name="text_14">14sp</dimen>
     <dimen name="text_16">16sp</dimen>
 
-<!--"палитра" "свободных пространств": отступы, паддинги, марджины-->
     <dimen name="space_4">4dp</dimen>
     <dimen name="space_8">8dp</dimen>
     <dimen name="space_12">12dp</dimen>
     <dimen name="space_16">16dp</dimen>
 
-<!--"палитра" "габаритных размеров" компонентов и контейнеров-->
     <dimen name="size_8">8dp</dimen>
     <dimen name="size_16">16dp</dimen>
     <dimen name="size_24">24dp</dimen>
@@ -22,3 +17,6 @@
     <dimen name="size_72">72dp</dimen>
     <dimen name="size_128">128dp</dimen>
 </resources>
+<!--"палитра" размеров текста-->
+<!--"палитра" "свободных пространств": отступы, паддинги, марджины-->
+<!--"палитра" "габаритных размеров" компонентов и контейнеров-->

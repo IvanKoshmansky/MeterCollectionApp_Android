@@ -7,6 +7,6 @@
     android:layout_height="wrap_content"
     android:ellipsize="end"
     android:maxLines="1"
-    android:textAppearance="@style/BodyTextAppearance"
+    style="@style/MainBodyTextStyle"
     tools:text="FLOAT">
 </TextView>

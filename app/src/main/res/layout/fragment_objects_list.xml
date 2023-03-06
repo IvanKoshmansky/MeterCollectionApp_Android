@@ -41,7 +41,7 @@
             android:paddingStart="@dimen/space_8"
             android:paddingEnd="@dimen/space_8"
             android:text="@string/object_name"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +64,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@string/identifier"
-            android:textAppearance="@style/BodyTextAppearance"
+            style="@style/MainBodyTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline3"
             app:layout_constraintTop_toTopOf="parent" />
