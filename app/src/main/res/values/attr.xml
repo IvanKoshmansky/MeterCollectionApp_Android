@@ -4,6 +4,9 @@
     <attr name="bodyTextSize" format="integer" />
     <attr name="subtitleTextSize" format="integer" />
     <attr name="textColorPrimary" format="color" />
+    <attr name="defaultScannerAutoFocusButtonColor" format="color" />
+    <attr name="defaultScannerFlashButtonColor" format="color" />
+    <attr name="defaultScannerMaskColor" format="color" />
     <attr name="smallIconSize" format="integer" />
     <attr name="largeIconSize" format="integer" />
     <attr name="smallCheckboxSize" format="integer" />

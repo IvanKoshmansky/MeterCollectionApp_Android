@@ -49,4 +49,8 @@ abstract class ViewModelsModule {
     @ViewModelKey(AddDeviceParamViewModel::class)
     abstract fun bindAddDeviceParamViewModel(addDeviceParamViewModel: AddDeviceParamViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScannerViewModel::class)
+    abstract fun bindScannerViewModel(scannerViewModel: ScannerViewModel): ViewModel
 }

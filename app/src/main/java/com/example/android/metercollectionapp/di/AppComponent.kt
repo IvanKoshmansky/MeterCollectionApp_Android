@@ -27,6 +27,7 @@ interface AppComponent {
     fun inject(deviceParamsListFragment: DeviceParamsListFragment)
     fun inject(addDeviceParamFragment: AddDeviceParamFragment)
     fun inject(deviceParamsSelectFragment: DeviceParamsSelectFragment)
+    fun inject(scannerFragment: ScannerFragment)
 
     // singleton, доступен везде, где доступен AppComponent
     fun getUserManager(): UserManager
@@ -43,3 +44,5 @@ interface AppComponent {
         fun build(): AppComponent
     }
 }
+
+//@BindsInstance работает в @Component.Builder или @Component.Factory

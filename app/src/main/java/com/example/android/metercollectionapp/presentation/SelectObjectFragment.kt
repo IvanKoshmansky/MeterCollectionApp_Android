@@ -6,6 +6,7 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentSelectObjectBinding
@@ -39,5 +40,17 @@ class SelectObjectFragment : Fragment() {
         binding.selectObjectViewModel = selectObjectViewModel
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        selectObjectViewModel.navigateToScan.observe(viewLifecycleOwner) {
+            if (it == true) {
+                findNavController().navigate(
+                    SelectObjectFragmentDirections.actionSelectObjectFragmentToScannerFragment()
+                )
+                selectObjectViewModel.navigateToScanDone()
+            }
+        }
     }
 }

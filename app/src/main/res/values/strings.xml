@@ -60,4 +60,5 @@
     <string name="save_success">Сохранено успешно</string>
     <string name="save_error">Ошибка при сохранении</string>
     <string name="no_selected_device">Не выбрано устройство</string>
+    <string name="scanning_process">Процесс сканирования</string>
 </resources>

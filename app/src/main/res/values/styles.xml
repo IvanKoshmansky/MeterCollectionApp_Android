@@ -23,4 +23,11 @@
         <!-- текст в выпадающем меню -->
         <item name="android:textColorPrimary">?textColorPrimary</item>
     </style>
+
+    <!-- стиль отображения сканнера qr кодов (один основной сканнер) -->
+    <style name="MainScannerStyle" parent="">
+        <item name="autoFocusButtonColor">?defaultScannerAutoFocusButtonColor</item>
+        <item name="flashButtonColor">?defaultScannerFlashButtonColor</item>
+        <item name="maskColor">?defaultScannerMaskColor</item>
+    </style>
 </resources>

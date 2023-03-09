@@ -46,7 +46,11 @@
         android:id="@+id/selectObjectFragment"
         android:name="com.example.android.metercollectionapp.presentation.SelectObjectFragment"
         android:label="@string/select_object"
-        tools:layout="@layout/fragment_select_object" />
+        tools:layout="@layout/fragment_select_object" >
+        <action
+            android:id="@+id/action_selectObjectFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addObjectFragment"
         android:name="com.example.android.metercollectionapp.presentation.AddObjectFragment"
@@ -80,4 +84,9 @@
         android:name="com.example.android.metercollectionapp.presentation.DeviceParamsSelectFragment"
         android:label="@string/select_params_for_objects"
         tools:layout="@layout/fragment_device_params_select" />
+    <fragment
+        android:id="@+id/scannerFragment"
+        android:name="com.example.android.metercollectionapp.presentation.ScannerFragment"
+        android:label="@string/scanning_process"
+        tools:layout="@layout/fragment_scanner" />
 </navigation>
