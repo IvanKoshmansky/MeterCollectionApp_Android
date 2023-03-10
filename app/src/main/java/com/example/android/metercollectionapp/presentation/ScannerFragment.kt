@@ -73,11 +73,15 @@ class ScannerFragment : Fragment() {
             isFlashEnabled = false
 
             decodeCallback = DecodeCallback {
-                binding.twStatus.text = it.text
+                activity?.runOnUiThread {
+                    binding.twStatus.text = it.text
+                }
             }
 
             errorCallback = ErrorCallback {
-                Log.d("debug", "ScannerError")
+                activity?.runOnUiThread {
+                    Log.d("debug", "ScannerError")
+                }
             }
         }
 
