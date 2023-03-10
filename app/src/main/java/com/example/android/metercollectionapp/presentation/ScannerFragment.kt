@@ -1,15 +1,18 @@
 package com.example.android.metercollectionapp.presentation
 
+import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
@@ -20,10 +23,10 @@ import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentScannerBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.presentation.viewmodels.ScannerViewModel
-import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-private const val CAMERA_REQUEST_CODE = 101
+// TODO: сделать привязку к обрбаотке событий жизненного цикла через сообщения
+// TODO: сделать при необходимости отдельный компонент Dagger для работы с камерой
 
 class ScannerFragment : Fragment() {
 
@@ -32,6 +35,7 @@ class ScannerFragment : Fragment() {
 
     private lateinit var scannerViewModel: ScannerViewModel
     private lateinit var binding: FragmentScannerBinding
+    private lateinit var requestPermission: ActivityResultLauncher<String>
     private lateinit var codeScanner: CodeScanner
 
     override fun onAttach(context: Context) {
@@ -53,12 +57,11 @@ class ScannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupPermissions()
-        codeScanner()
+        setupCodeScanner()
     }
 
-    private fun codeScanner() {
+    private fun setupCodeScanner() {
         codeScanner = CodeScanner(requireContext(), binding.scannerView)
         codeScanner.apply {
             camera = CodeScanner.CAMERA_BACK
@@ -94,27 +97,17 @@ class ScannerFragment : Fragment() {
     }
 
     private fun setupPermissions() {
-        val permission = ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA)
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            makeRequest()
-        }
-    }
-
-    private fun makeRequest() {
-        ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CAMERA),
-            CAMERA_REQUEST_CODE)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        when (requestCode) {
-            CAMERA_REQUEST_CODE -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Snackbar.make(binding.root, "You need to grant permission for the camera",
-                        Snackbar.LENGTH_SHORT).show()
-                } else {
-                    // OK
-                }
+        requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted) {
+                // вернуться на предыдущий фрагмент
+                findNavController().navigateUp()
             }
         }
+        // проверить возможно разрешение было дано в предыдущий запуск приложения
+        if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.CAMERA) !=
+            PackageManager.PERMISSION_GRANTED) {
+            requestPermission.launch(Manifest.permission.CAMERA)
+        }
     }
+
 }
