@@ -25,9 +25,9 @@
     </style>
 
     <!-- стиль отображения сканнера qr кодов (один основной сканнер) -->
-    <style name="MainScannerStyle" parent="">
-        <item name="autoFocusButtonColor">?defaultScannerAutoFocusButtonColor</item>
-        <item name="flashButtonColor">?defaultScannerFlashButtonColor</item>
-        <item name="maskColor">?defaultScannerMaskColor</item>
-    </style>
+<!--    <style name="MainScannerStyle" parent="">-->
+<!--        <item name="autoFocusButtonColor">?defaultScannerAutoFocusButtonColor</item>-->
+<!--        <item name="flashButtonColor">?defaultScannerFlashButtonColor</item>-->
+<!--        <item name="maskColor">?defaultScannerMaskColor</item>-->
+<!--    </style>-->
 </resources>
