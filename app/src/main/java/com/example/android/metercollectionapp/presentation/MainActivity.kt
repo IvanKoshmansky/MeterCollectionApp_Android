@@ -1,7 +1,11 @@
 package com.example.android.metercollectionapp.presentation
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -23,11 +27,29 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
+
+        managePermissions()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.navHostFragment)
         return NavigationUI.navigateUp(navController, null)
+    }
+
+    private fun managePermissions() {
+        // создать объект для запроса разрешений
+        val requestPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                (applicationContext as MeterCollectionApplication).setCameraPermissionGranted()
+            }
+        }
+        // проверить возможно разрешение было дано в предыдущий запуск приложения
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
+            PackageManager.PERMISSION_GRANTED) {
+            requestPermission.launch(Manifest.permission.CAMERA)
+        } else {
+            (applicationContext as MeterCollectionApplication).setCameraPermissionGranted()
+        }
     }
 
 }

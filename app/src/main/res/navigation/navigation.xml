@@ -55,7 +55,11 @@
         android:id="@+id/addObjectFragment"
         android:name="com.example.android.metercollectionapp.presentation.AddObjectFragment"
         android:label="@string/add_new_object"
-        tools:layout="@layout/fragment_add_object" />
+        tools:layout="@layout/fragment_add_object" >
+        <action
+            android:id="@+id/action_addObjectFragment_to_scannerFragment"
+            app:destination="@id/scannerFragment" />
+    </fragment>
     <fragment
         android:id="@+id/objectsListFragment"
         android:name="com.example.android.metercollectionapp.presentation.ObjectsListFragment"

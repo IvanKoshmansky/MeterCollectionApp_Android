@@ -13,6 +13,7 @@
     <string name="enter_login">Введите логин</string>
     <string name="enter_pass">Введите пароль</string>
     <string name="next">Далее</string>
+    <string name="back">Назад</string>
     <string name="error_pass">Неверный пароль</string>
     <string name="trackman_not_found">Обходчик не найден</string>
     <string name="no_registered_trackmans">Отсутствуют зарегистрированные обходчики. Добавьте нового обходчика</string>
@@ -61,4 +62,6 @@
     <string name="save_error">Ошибка при сохранении</string>
     <string name="no_selected_device">Не выбрано устройство</string>
     <string name="scanning_process">Процесс сканирования</string>
+    <string name="camera_permission_not_granted">Разрешение на запуск камеры не было предоставлено</string>
+    <string name="scanning_status">Статус сканирования</string>
 </resources>

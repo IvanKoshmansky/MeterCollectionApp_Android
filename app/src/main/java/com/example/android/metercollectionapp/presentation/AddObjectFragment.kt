@@ -58,6 +58,15 @@ class AddObjectFragment : Fragment() {
             }
         }
 
+        addObjectViewModel.navigateToScanner.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(
+                    AddObjectFragmentDirections.actionAddObjectFragmentToScannerFragment()
+                )
+                addObjectViewModel.navigateToScannerDone()
+            }
+        }
+
         addObjectViewModel.addObjectUiState.observe(viewLifecycleOwner) {
             if (it != null) {
                 when {
@@ -69,8 +78,10 @@ class AddObjectFragment : Fragment() {
                         Snackbar.LENGTH_SHORT).show()
                     it.error -> Snackbar.make(binding.root, R.string.new_object_save_error,
                         Snackbar.LENGTH_SHORT).show()
+                    it.cameraNotGranted -> Snackbar.make(binding.root, R.string.camera_permission_not_granted,
+                        Snackbar.LENGTH_SHORT).show()
                     // обработка дубликатов
-                    else -> {}
+                    it.duplicatedGuid -> {}
                 }
             }
         }

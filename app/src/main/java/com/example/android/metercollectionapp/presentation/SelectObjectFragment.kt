@@ -12,6 +12,7 @@ import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentSelectObjectBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.presentation.viewmodels.SelectObjectViewModel
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class SelectObjectFragment : Fragment() {
@@ -22,6 +23,8 @@ class SelectObjectFragment : Fragment() {
     private var _selectObjectViewModel: SelectObjectViewModel? = null
     private val selectObjectViewModel: SelectObjectViewModel
         get() = _selectObjectViewModel!!
+
+    private lateinit var binding: FragmentSelectObjectBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -34,11 +37,9 @@ class SelectObjectFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding: FragmentSelectObjectBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_object,
-            container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_select_object, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.selectObjectViewModel = selectObjectViewModel
-
         return binding.root
     }
 
@@ -50,6 +51,14 @@ class SelectObjectFragment : Fragment() {
                     SelectObjectFragmentDirections.actionSelectObjectFragmentToScannerFragment()
                 )
                 selectObjectViewModel.navigateToScanDone()
+            }
+        }
+        selectObjectViewModel.uiState.observe(viewLifecycleOwner) {
+            val newState = it ?: return@observe
+            when {
+                newState.cameraNotGranted -> {
+                    Snackbar.make(binding.root, R.string.camera_permission_not_granted, Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }

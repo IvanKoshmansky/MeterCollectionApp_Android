@@ -6,4 +6,5 @@ data class AddObjectUiState (
     val success: Boolean = false,
     val error: Boolean = false,
     val duplicatedGuid: Boolean = false,
+    val cameraNotGranted: Boolean = false
 )

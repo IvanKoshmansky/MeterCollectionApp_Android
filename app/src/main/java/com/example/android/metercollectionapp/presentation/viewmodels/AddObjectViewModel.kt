@@ -1,16 +1,18 @@
 package com.example.android.metercollectionapp.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.domain.Repository
 import com.example.android.metercollectionapp.presentation.uistate.AddObjectUiState
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
 import javax.inject.Inject
 
-class AddObjectViewModel @Inject constructor (private val repository: Repository) : ViewModel() {
+class AddObjectViewModel @Inject constructor (
+    private val application: MeterCollectionApplication,
+    private val repository: Repository
+) : AndroidViewModel(application) {
 
     // для Databinding с полями ввода
     val nameLiveData = MutableLiveData("")
@@ -26,9 +28,20 @@ class AddObjectViewModel @Inject constructor (private val repository: Repository
     val navigateUp: LiveData<Boolean>
         get() = _navigateUp
 
+    private val _navigateToScanner = MutableLiveData(false)
+    val navigateToScanner: LiveData<Boolean>
+        get() = _navigateToScanner
+    fun navigateToScannerDone() {
+        _navigateToScanner.value = false
+    }
+
     // запустить камеру для сканирования QR кодов
     fun onScan() {
-
+        if (application.cameraPermissionGranted) {
+            _navigateToScanner.value = true
+        } else {
+            _newObjectUiState.value = AddObjectUiState(cameraNotGranted = true)
+        }
     }
 
     fun onSave() {
