@@ -35,9 +35,8 @@
         <!-- РАЗДЕЛИТЕЛЬ -->
         <item name="dividerSpaces">@dimen/space_4</item>
         <!-- СКАННЕР QR КОДОВ -->
-<!--        <item name="defaultScannerAutoFocusButtonColor">@color/white</item>-->
-<!--        <item name="defaultScannerFlashButtonColor">@color/white</item>-->
-<!--        <item name="defaultScannerMaskColor">@color/grey_alfa_50</item>-->
-
+        <item name="defaultScannerBorderColor">?colorOnPrimary</item>
+        <item name="defaultScannerOverlayColor">@color/grey_alfa_30</item>
+        <item name="defaultScannerBorderWidth">@dimen/size_4</item>
     </style>
 </resources>

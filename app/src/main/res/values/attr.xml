@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="ScannerOverlayView">
+        <attr name="borderColor" format="color" />
+        <attr name="overlayColor" format="color" />
+        <attr name="borderWidth" format="dimension" />
+    </declare-styleable>
+
+    <!-- атрибуты которые используются в теме -->
     <attr name="background_drawable" format="reference"/>
     <attr name="bodyTextSize" format="integer" />
     <attr name="subtitleTextSize" format="integer" />
     <attr name="textColorPrimary" format="color" />
-    <attr name="defaultScannerAutoFocusButtonColor" format="color" />
-    <attr name="defaultScannerFlashButtonColor" format="color" />
-    <attr name="defaultScannerMaskColor" format="color" />
+    <attr name="defaultScannerBorderColor" format="color" />
+    <attr name="defaultScannerOverlayColor" format="color" />
+    <attr name="defaultScannerBorderWidth" format="dimension" />
     <attr name="smallIconSize" format="integer" />
     <attr name="largeIconSize" format="integer" />
     <attr name="smallCheckboxSize" format="integer" />
@@ -18,3 +25,5 @@
     <attr name="smallFixedButtonWidth" format="integer" />
     <attr name="dividerSpaces" format="integer" />
 </resources>
+
+<!-- <declare-styleable> доступно через AttributeSet и TypedArray -->

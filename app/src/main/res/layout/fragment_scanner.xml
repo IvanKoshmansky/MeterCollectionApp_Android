@@ -23,7 +23,8 @@
             android:layout_marginEnd="@dimen/space_8"
             android:layout_marginBottom="@dimen/space_8"
             android:text="@string/next"
-            app:goneUnless="@{!(scannerViewModel.uiState.inProcess || scannerViewModel.uiState.scanError)}"
+            android:visibility="gone"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6" />
@@ -60,8 +61,20 @@
 
         <androidx.camera.view.PreviewView
             android:id="@+id/preview_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_400"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline7"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.example.android.metercollectionapp.presentation.ScannerOverlayView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:borderColor="?defaultScannerBorderColor"
+            app:borderWidth="?defaultScannerBorderWidth"
+            app:overlayColor="?defaultScannerOverlayColor"
+            app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +102,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

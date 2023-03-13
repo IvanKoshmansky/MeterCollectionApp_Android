@@ -59,6 +59,7 @@ class QrCodeAnalyzer (
         } catch (e: NotFoundException) {
             e.printStackTrace()
         }
+        // обязательно закрыть image для недопущения утечки памяти
         image.close()
     }
 

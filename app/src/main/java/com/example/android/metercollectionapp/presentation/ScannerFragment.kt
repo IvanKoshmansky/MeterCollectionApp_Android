@@ -52,6 +52,23 @@ class ScannerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        scannerViewModel.uiState.observe(viewLifecycleOwner) {
+            val newState = it ?: return@observe
+            when {
+                newState.inProcess -> binding.twStatusResult.text = getText(R.string.scanning_process)
+                newState.scanningDone -> {
+                    if (!newState.scanError) {
+                        // распозналось без ошибок
+                        binding.twStatusLabel.text = getText(R.string.device_recognized)
+                        binding.twStatusResult.text = newState.objectName
+                        binding.btnNext.visibility = View.VISIBLE
+                    } else {
+                        // в qr коде не соответствующий формат
+                        binding.twStatusResult.text = getText(R.string.device_recognized)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -60,52 +77,38 @@ class ScannerFragment : Fragment() {
     }
 
     private fun startCamera() {
-        // ProcessCameraProvider позволяет привязать жизненный цикл камеры к жизненному циклу другого компонента
-        // ListenableFuture - это Future (объект которых хранит результат выполнения асинхронной задачи),
-        // который может иметь listener'ы - callback'и которые выполняются когда задача выполнилсь
+
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
 
         cameraProviderFuture.addListener({
-            // 1. Runnable, который запуститься когда в закончится процесс извлечения CameraProvider из переданного контекста
-            // Used to bind the lifecycle of cameras to the lifecycle owner
+
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get() // извлечь результат из Future
 
-            // Preview
-            // Так называемый UseCase для работы камеры в режиме Preview
             val preview = Preview.Builder()
                 .build()
                 .also {
-                    // назначить в качестве SurfaceProvider для объекта Preview визуальный компонент
-                    // androidx.camera.view.PreviewView
                     it.setSurfaceProvider(binding.previewView.surfaceProvider)
                 }
 
-            // use case для ImageAnalyser
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, QrCodeAnalyzer { result ->
                         Log.d("scanner", result.text)
+                        //scannerViewModel.scanningDone(result.text)
+                        scannerViewModel.scanningDone("123:0:name")
                     })
                 }
 
-            // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
-                // Unbind use cases before rebinding
                 cameraProvider.unbindAll()
-
-                // Bind use cases to camera
-                // ключевой момент: привязать BACK камеру к жизненному циклу Activity
-                // камера работает в use case Preview, ImageCapture, ImageAnalyser и Recorder
                 cameraProvider.bindToLifecycle(viewLifecycleOwner, cameraSelector, preview, imageAnalyzer)
             } catch(exc: Exception) {
                 Log.e("scanner", "Use case binding failed", exc)
             }
         },
-        // 2. Executor, который будет управлять процессом выполнения Runnable (первый параметр)
-        // передается Executor который связан с потоком MainThread
         ContextCompat.getMainExecutor(requireContext()))
     }
 }

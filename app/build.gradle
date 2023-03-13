@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.android.todoplanner"
+        applicationId "com.example.android.metercollectionapp"
         minSdk 23
         targetSdk 33
         versionCode 1

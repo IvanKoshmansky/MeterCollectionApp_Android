@@ -13,6 +13,7 @@
     <dimen name="space_16">16dp</dimen>
 
 <!--"палитра" "габаритных размеров" компонентов и контейнеров-->
+    <dimen name="size_4">4dp</dimen>
     <dimen name="size_8">8dp</dimen>
     <dimen name="size_16">16dp</dimen>
     <dimen name="size_24">24dp</dimen>
