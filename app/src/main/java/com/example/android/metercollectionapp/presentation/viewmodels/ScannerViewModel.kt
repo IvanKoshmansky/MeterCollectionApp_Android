@@ -34,11 +34,11 @@ class ScannerViewModel @Inject constructor (private val repository: Repository) 
                 val guid = info[0].toLong()
                 val devType = info[1].toInt()
                 val name = info[2]
-                _uiState.postValue(ScannerUiState(objectGuid = guid, objectName = name, inProcess = false,
-                    scanningDone = true, scanError = false))
+                _uiState.value = ScannerUiState(objectGuid = guid, objectName = name, inProcess = false,
+                    scanningDone = true, scanError = false)
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
-                _uiState.postValue(ScannerUiState(inProcess = false, scanningDone = true, scanError = true))
+                _uiState.value = ScannerUiState(inProcess = false, scanningDone = true, scanError = true)
             }
         }
     }

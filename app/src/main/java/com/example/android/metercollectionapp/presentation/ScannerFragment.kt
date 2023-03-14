@@ -95,8 +95,10 @@ class ScannerFragment : Fragment() {
                 .also {
                     it.setAnalyzer(cameraExecutor, QrCodeAnalyzer { result ->
                         Log.d("scanner", result.text)
-                        //scannerViewModel.scanningDone(result.text)
-                        scannerViewModel.scanningDone("123:0:name")
+                        activity?.runOnUiThread {
+                            //scannerViewModel.scanningDone(result.text)
+                            scannerViewModel.scanningDone("123:0:name")
+                        }
                     })
                 }
 
