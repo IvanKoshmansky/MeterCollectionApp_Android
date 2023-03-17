@@ -53,4 +53,9 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(ScannerViewModel::class)
     abstract fun bindScannerViewModel(scannerViewModel: ScannerViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WriteValuesViewModel::class)
+    abstract fun bindWriteValuesViewModel(writeValuesViewModel: WriteValuesViewModel): ViewModel
 }

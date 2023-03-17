@@ -28,6 +28,7 @@ interface AppComponent {
     fun inject(addDeviceParamFragment: AddDeviceParamFragment)
     fun inject(deviceParamsSelectFragment: DeviceParamsSelectFragment)
     fun inject(scannerFragment: ScannerFragment)
+    fun inject(writeValuesFragment: WriteValuesFragment)
 
     // singleton, доступен везде, где доступен AppComponent
     fun getUserManager(): UserManager

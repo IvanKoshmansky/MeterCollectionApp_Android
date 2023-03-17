@@ -10,6 +10,7 @@
     <attr name="background_drawable" format="reference"/>
     <attr name="bodyTextSize" format="integer" />
     <attr name="subtitleTextSize" format="integer" />
+    <attr name="titleTextSize" format="integer" />
     <attr name="textColorPrimary" format="color" />
     <attr name="defaultScannerBorderColor" format="color" />
     <attr name="defaultScannerOverlayColor" format="color" />
@@ -19,6 +20,7 @@
     <attr name="smallCheckboxSize" format="integer" />
     <attr name="smallEditTextHeight" format="integer" />
     <attr name="largeEditTextHeight" format="integer" />
+    <attr name="largeFixedExitTextWidth" format="integer" />
     <attr name="smallFixedColumnWidth" format="integer" />
     <attr name="largeFixedColumnWidth" format="integer" />
     <attr name="spinnerHeight" format="integer" />

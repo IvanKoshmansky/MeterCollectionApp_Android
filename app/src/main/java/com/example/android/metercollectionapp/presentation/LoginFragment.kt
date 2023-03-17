@@ -22,13 +22,8 @@ class LoginFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _loginViewModel: LoginViewModel? = null
-    private val loginViewModel: LoginViewModel
-        get() = _loginViewModel!!
-
-    private var _binding: FragmentLoginUserBinding? = null
-    private val binding: FragmentLoginUserBinding
-        get() = _binding!!
+    private lateinit var loginViewModel: LoginViewModel
+    private lateinit var binding: FragmentLoginUserBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,11 +32,11 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _loginViewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
+        loginViewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login_user, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_login_user, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.loginViewModel = loginViewModel
 
@@ -68,13 +63,11 @@ class LoginFragment : Fragment() {
         }
 
         loginViewModel.navigationNextLiveData.observe(viewLifecycleOwner) {
-            it?.let {
-                if (it) {
-                    findNavController().navigate(
-                        LoginFragmentDirections.actionLoginFragmentToScanObjectFragment(),
-                    )
-                    loginViewModel.navigationNextDone()
-                }
+            if (it) {
+                findNavController().navigate(
+                    LoginFragmentDirections.actionLoginFragmentToScanObjectFragment(),
+                )
+                loginViewModel.navigationNextDone()
             }
         }
     }

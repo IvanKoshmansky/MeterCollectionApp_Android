@@ -24,13 +24,8 @@ class AddDeviceParamFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _addDeviceParamViewModel: AddDeviceParamViewModel? = null
-    private val addDeviceParamViewModel: AddDeviceParamViewModel
-        get() = _addDeviceParamViewModel!!
-
-    private var _binding: FragmentAddDeviceParamBinding? = null
-    private val binding: FragmentAddDeviceParamBinding
-        get() = _binding!!
+    private lateinit var addDeviceParamViewModel: AddDeviceParamViewModel
+    private lateinit var binding: FragmentAddDeviceParamBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,11 +34,11 @@ class AddDeviceParamFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _addDeviceParamViewModel = ViewModelProvider(this, viewModelFactory).get(AddDeviceParamViewModel::class.java)
+        addDeviceParamViewModel = ViewModelProvider(this, viewModelFactory).get(AddDeviceParamViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_device_param, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_device_param, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.addDeviceParamViewModel = addDeviceParamViewModel
 
@@ -62,24 +57,20 @@ class AddDeviceParamFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addDeviceParamViewModel.navigateUp.observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (it) {
-                    findNavController().navigateUp()
-                }
+            if (it) {
+                findNavController().navigateUp()
             }
         }
 
         addDeviceParamViewModel.addParamUiState.observe(viewLifecycleOwner) {
-            it?.let {
-                when {
-                    it.emptyFields -> Snackbar.make(binding.root, R.string.fill_all_fields,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.error -> Snackbar.make(binding.root, R.string.new_param_save_error,
-                        Snackbar.LENGTH_SHORT).show()
-                    else -> {}
-                }
+            when {
+                it.emptyFields -> Snackbar.make(binding.root, R.string.fill_all_fields,
+                    Snackbar.LENGTH_SHORT).show()
+                it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
+                    Snackbar.LENGTH_SHORT).show()
+                it.error -> Snackbar.make(binding.root, R.string.new_param_save_error,
+                    Snackbar.LENGTH_SHORT).show()
+                else -> {}
             }
         }
     }

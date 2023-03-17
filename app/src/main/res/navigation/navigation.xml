@@ -45,8 +45,8 @@
     <fragment
         android:id="@+id/selectObjectFragment"
         android:name="com.example.android.metercollectionapp.presentation.SelectObjectFragment"
-        android:label="@string/select_object"
-        tools:layout="@layout/fragment_select_object" >
+        android:label="@string/available_objects"
+        tools:layout="@layout/fragment_select_object">
         <action
             android:id="@+id/action_selectObjectFragment_to_scannerFragment"
             app:destination="@id/scannerFragment" />
@@ -58,7 +58,8 @@
         tools:layout="@layout/fragment_add_object" >
         <action
             android:id="@+id/action_addObjectFragment_to_scannerFragment"
-            app:destination="@id/scannerFragment" />
+            app:destination="@id/scannerFragment"
+            app:popUpTo="@id/objectsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/objectsListFragment"
@@ -92,5 +93,25 @@
         android:id="@+id/scannerFragment"
         android:name="com.example.android.metercollectionapp.presentation.ScannerFragment"
         android:label="@string/scanning_process"
-        tools:layout="@layout/fragment_scanner" />
+        tools:layout="@layout/fragment_scanner" >
+        <action
+            android:id="@+id/action_scannerFragment_to_writeValuesFragment"
+            app:destination="@id/writeValuesFragment"
+            app:popUpTo="@id/selectObjectFragment" />
+        <argument
+            android:name="scanner_feature"
+            app:argType="com.example.android.metercollectionapp.presentation.ScannerFeature" />
+    </fragment>
+    <fragment
+        android:id="@+id/writeValuesFragment"
+        android:name="com.example.android.metercollectionapp.presentation.WriteValuesFragment"
+        android:label="@string/enter_values"
+        tools:layout="@layout/fragment_write_values" >
+        <argument
+            android:name="guid"
+            app:argType="long" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
 </navigation>

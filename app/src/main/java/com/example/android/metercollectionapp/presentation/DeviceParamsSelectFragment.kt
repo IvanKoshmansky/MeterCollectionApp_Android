@@ -25,13 +25,8 @@ class DeviceParamsSelectFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _deviceParamsSelectViewModel: DeviceParamsSelectViewModel? = null
-    private val deviceParamsSelectViewModel: DeviceParamsSelectViewModel
-        get() = _deviceParamsSelectViewModel!!
-
-    private var _binding: FragmentDeviceParamsSelectBinding? = null
-    private val binding: FragmentDeviceParamsSelectBinding
-        get() = _binding!!
+    private lateinit var deviceParamsSelectViewModel: DeviceParamsSelectViewModel
+    private lateinit var binding: FragmentDeviceParamsSelectBinding
 
     private lateinit var spinnerAdapter: SpinnerTextViewAdapter<ObjectUiState>
     private lateinit var leftAdapter: DeviceParamsSelectListAdapter
@@ -44,11 +39,12 @@ class DeviceParamsSelectFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _deviceParamsSelectViewModel = ViewModelProvider(this, viewModelFactory).get(DeviceParamsSelectViewModel::class.java)
+        deviceParamsSelectViewModel =
+            ViewModelProvider(this, viewModelFactory).get(DeviceParamsSelectViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_params_select, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_params_select, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.deviceParamsSelectViewModel = deviceParamsSelectViewModel
 
@@ -76,49 +72,36 @@ class DeviceParamsSelectFragment : Fragment() {
 
         // отслеживание состояния выбора устройства
         deviceParamsSelectViewModel.selectedDeviceSpinnerPos.observe(viewLifecycleOwner) {
-            if (it != null) {
-                // отрабатывает в момент перехода в STARTED, в момент присвоения нового адаптера
-                // фильтрация от ненужных подгрузок находится внутри данной функции
-                deviceParamsSelectViewModel.setupParamsForObjectPos(it)
-            }
+            // отрабатывает в момент перехода жизненного цикла в состояние STARTED
+            // фильтрация от ненужных подгрузок находится внутри данной функции
+            deviceParamsSelectViewModel.setupParamsForObjectPos(it)
         }
 
         // отслеживание изменений UiState
-        deviceParamsSelectViewModel.uiState.observe(viewLifecycleOwner) {
-            val newState = it ?: return@observe
-
+        deviceParamsSelectViewModel.uiState.observe(viewLifecycleOwner) { newState ->
             // здесь только отправка новых данных адапетрам, причем SpinnerAdapter не чувствителен
-            // к передаче повторяющихся списков
+            // к передаче ссылки на один и тот же список
             when {
-                newState.objectsLoading -> {
-                    spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
-                        getString(R.string.loading))))
-                }
-                newState.objects.isEmpty() -> {
-                    spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
-                        getString(R.string.no_devices))))
-                } else -> {
-                    spinnerAdapter.submitList(newState.objects)
-                }
+                newState.objectsLoading -> spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
+                    getString(R.string.loading))))
+                newState.objects.isEmpty() -> spinnerAdapter.submitList(listOf(ObjectUiState(0, SyncStatus.UNKNOWN,
+                    getString(R.string.no_devices))))
+                else -> spinnerAdapter.submitList(newState.objects)
             }
-
             if (!newState.availableParamsLoading) {
                 leftAdapter.submitList(newState.availableParams)
             }
             if (!newState.selectedParamsLoading) {
                 rightAdapter.submitList(newState.selectedParams)
             }
-
         }
 
         deviceParamsSelectViewModel.saveStatusUiState.observe(viewLifecycleOwner) {
-            if (it != null) {
-                when {
-                    it.saveSuccess -> Snackbar.make(binding.root, R.string.save_success,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.saveError -> Snackbar.make(binding.root, R.string.save_error,
-                        Snackbar.LENGTH_SHORT).show()
-                }
+            when {
+                it.saveSuccess -> Snackbar.make(binding.root, R.string.save_success,
+                    Snackbar.LENGTH_SHORT).show()
+                it.saveError -> Snackbar.make(binding.root, R.string.save_error,
+                    Snackbar.LENGTH_SHORT).show()
             }
         }
     }
@@ -127,4 +110,4 @@ class DeviceParamsSelectFragment : Fragment() {
 // по разделению на "до" и "после" создания View: особой разницы нет, можно пользоваться одним
 // причина в том, что обозревание начинается уже в состоянии STARTED или RESUMED (надо уточнять),
 // View на этот момент в любом случае уже будут созданы
-// но корректнее исторически все-таки "обозреватели" помещать в onViewCreated()
+// но корректнее "исторически" все-таки обозреватели помещать в onViewCreated()

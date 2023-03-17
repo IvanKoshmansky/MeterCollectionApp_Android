@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.metercollectionapp.databinding.ObjectItemBinding
 import com.example.android.metercollectionapp.presentation.uistate.ObjectUiState
 
-class ObjectsListAdapter : ListAdapter<ObjectUiState, ObjectsListAdapter.ObjectViewHolder>(DiffCallback()) {
+class ObjectsListAdapter (
+    private val objectClickListener: ObjectClickListener?
+) : ListAdapter<ObjectUiState, ObjectsListAdapter.ObjectViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -19,6 +21,9 @@ class ObjectsListAdapter : ListAdapter<ObjectUiState, ObjectsListAdapter.ObjectV
     override fun onBindViewHolder(holder: ObjectViewHolder, position: Int) {
         val item = getItem(position)
         holder.binding.objectUiState = item
+        if (objectClickListener != null) {
+            holder.binding.clickListener = objectClickListener
+        }
         holder.binding.executePendingBindings()
     }
 
@@ -33,4 +38,10 @@ class ObjectsListAdapter : ListAdapter<ObjectUiState, ObjectsListAdapter.ObjectV
         }
     }
 
+}
+
+class ObjectClickListener (val clickLambda: (id: Long) -> Unit) {
+    fun onClick(objectUiState: ObjectUiState) {
+        clickLambda(objectUiState.uid)
+    }
 }

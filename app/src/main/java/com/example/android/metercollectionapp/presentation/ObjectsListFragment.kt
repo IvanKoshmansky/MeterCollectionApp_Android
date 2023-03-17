@@ -24,13 +24,8 @@ class ObjectsListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _objectsListViewModel: ObjectsListViewModel? = null
-    private val objectsListModel: ObjectsListViewModel
-        get() = _objectsListViewModel!!
-
-    private var _binding: FragmentObjectsListBinding? = null
-    private val binding: FragmentObjectsListBinding
-        get() = _binding!!
+    private lateinit var objectsListViewModel: ObjectsListViewModel
+    private lateinit var binding: FragmentObjectsListBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -39,32 +34,28 @@ class ObjectsListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _objectsListViewModel = ViewModelProvider(this, viewModelFactory).get(ObjectsListViewModel::class.java)
+        objectsListViewModel = ViewModelProvider(this, viewModelFactory).get(ObjectsListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_objects_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_objects_list, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.objectsListViewModel = objectsListModel
+        binding.objectsListViewModel = objectsListViewModel
 
-        val adapter = ObjectsListAdapter()
+        val adapter = ObjectsListAdapter(null)
         binding.rwObjects.adapter = adapter
-        objectsListModel.uiState.observe(viewLifecycleOwner) {
-            it?.let {
-                if (!it.isLoading) {
-                    adapter.submitList(it.objects)
-                }
+        objectsListViewModel.uiState.observe(viewLifecycleOwner) {
+            if (!it.isLoading) {
+                adapter.submitList(it.objects)
             }
         }
 
-        objectsListModel.navigateToAdd.observe(viewLifecycleOwner) {
-            it?.let {
-                if (it) {
-                    findNavController().navigate(
-                        ObjectsListFragmentDirections.actionObjectsListFragmentToAddObjectFragment()
-                    )
-                    objectsListModel.navigateToAddDone()
-                }
+        objectsListViewModel.navigateToAdd.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(
+                    ObjectsListFragmentDirections.actionObjectsListFragmentToAddObjectFragment()
+                )
+                objectsListViewModel.navigateToAddDone()
             }
         }
 
@@ -73,7 +64,7 @@ class ObjectsListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        objectsListModel.setup()
+        objectsListViewModel.setup()
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -92,7 +83,7 @@ class ObjectsListFragment : Fragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         newText?.let {
-                            objectsListModel.filtered(it)
+                            objectsListViewModel.filtered(it)
                         }
                         return true
                     }

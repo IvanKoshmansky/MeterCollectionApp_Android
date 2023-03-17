@@ -24,9 +24,7 @@ class MainFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _mainViewModel: MainViewModel? = null
-    private val mainViewModel: MainViewModel
-        get() = _mainViewModel!!
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -35,7 +33,7 @@ class MainFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        mainViewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -59,7 +57,7 @@ class MainFragment : Fragment() {
         )
         binding.rwSelectUser.adapter = adapter
         mainViewModel.uiState.observe(viewLifecycleOwner) {
-            it?.let {
+            if (!it.isLoading) {
                 adapter.submitList(it.users)
             }
         }
@@ -105,9 +103,7 @@ class MainFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
     }
-
 }
 
 //onCreateView()

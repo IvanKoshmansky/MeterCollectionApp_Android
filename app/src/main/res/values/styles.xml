@@ -12,6 +12,10 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">?subtitleTextSize</item>
     </style>
+    <style name="TitleTextAppearance" parent="">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">?titleTextSize</item>
+    </style>
 
     <style name="MainToolbarStyle" parent="ThemeOverlay.AppCompat.Dark">
         <!-- иконка (стрелка) "back" белого цвета, символ OverflowMenu (три точки) тоже белого цвета -->

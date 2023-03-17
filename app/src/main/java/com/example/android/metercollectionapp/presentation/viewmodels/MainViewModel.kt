@@ -17,8 +17,6 @@ class MainViewModel @Inject constructor (private val repository: Repository) : V
         get() = _uiState
 
     fun setup() {
-        val newState = _uiState.value!!.copy(isLoading = true)
-        _uiState.value = newState
         viewModelScope.launch {
             val users = repository.getAllUsers()
             if (users.isNotEmpty()) {

@@ -1,4 +1,4 @@
-package com.example.android.metercollectionapp.presentation
+package com.example.android.metercollectionapp.domain
 
 import android.graphics.ImageFormat.*
 import android.util.Log

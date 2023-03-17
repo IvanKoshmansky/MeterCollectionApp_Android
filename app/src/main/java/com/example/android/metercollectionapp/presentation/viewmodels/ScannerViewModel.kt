@@ -3,44 +3,117 @@ package com.example.android.metercollectionapp.presentation.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.android.metercollectionapp.domain.Repository
+import com.example.android.metercollectionapp.presentation.ScannerFeature
 import com.example.android.metercollectionapp.presentation.uistate.ScannerUiState
+import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 class ScannerViewModel @Inject constructor (private val repository: Repository) : ViewModel() {
 
-    enum class ScannerFeature {
-        SCAN_FOR_NEW,
-        SCAN_FOR_EXISTING
+    // цель запуска фрагмента сканирования qr кодов
+    // используется для определения определения логики работы кнопки "Далее"
+    private var scannerFeature: ScannerFeature = ScannerFeature.SCAN_FOR_NEW
+    fun setupScannerFeature(feature: ScannerFeature) {
+        scannerFeature = feature
     }
 
-    // используется для определения назначения навигации по кнопке "Далее"
-    private var _scannerFeature: ScannerFeature = ScannerFeature.SCAN_FOR_NEW
-    val scannerFeauture: ScannerFeature
-        get() = _scannerFeature
-    fun setupScannerFeature(scannerFeature: ScannerFeature) {
-        _scannerFeature = scannerFeature
-    }
-
-    private val _uiState = MutableLiveData(ScannerUiState(inProcess = true))
+    // UiState
+//    private val _uiState = MutableLiveData(ScannerUiState(inProcess = true))
+    private val _uiState = MutableLiveData(ScannerUiState(objectName = "name", objectGuid = 777))
     val uiState: LiveData<ScannerUiState>
         get() = _uiState
 
+    // переменные для навигации
+    private val _navigationToWriteValuesLiveData = MutableLiveData(false)
+    val navigationToWriteValuesLiveData: LiveData<Boolean>
+        get() = _navigationToWriteValuesLiveData
+
+    fun navigationToWriteValuesLiveDataDone() {
+        _navigationToWriteValuesLiveData.value = false
+    }
+
+    private val _navigationBackLiveData = MutableLiveData(false)
+    val navigationBackLiveData: LiveData<Boolean>
+        get() = _navigationBackLiveData
+
+    fun navigationBackDone() {
+        _navigationBackLiveData.value = false
+    }
+
+    // callback который вызывается когда библиотека распознавания qr кодов распознала qr код
     fun scanningDone(scannedCode: String) {
+        val state = ScannerUiState(inProcess = false)
         val info = scannedCode.split(":")
+        var guid = 0L
+        var devType = 0
+        var name = ""
+        var formatError = false
         if (info.size == 3) {
             // отсканировано успешно
             try {
-                val guid = info[0].toLong()
-                val devType = info[1].toInt()
-                val name = info[2]
-                _uiState.value = ScannerUiState(objectGuid = guid, objectName = name, inProcess = false,
-                    scanningDone = true, scanError = false)
+                guid = info[0].toLong()
+                devType = info[1].toInt()
+                name = info[2]
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
-                _uiState.value = ScannerUiState(inProcess = false, scanningDone = true, scanError = true)
+                formatError = true
+            }
+        } else {
+            formatError = true
+        }
+        if (formatError) {
+            // ошибка формата qr кода
+            _uiState.value = state.copy(scanFormatError = true)
+        } else {
+            // распозналось успешно
+            if (scannerFeature == ScannerFeature.SCAN_FOR_EXISTING) {
+                // проверить на наличие в локальной БД
+                viewModelScope.launch {
+                    if (testExisting(guid)) {
+                        _uiState.value = state.copy(scanSuccess = true, objectGuid = guid, objectName = name)
+                    } else {
+                        _uiState.value = state.copy(scanNotFound = true, objectGuid = guid, objectName = name)
+                    }
+                }
+            } else {
+                // новый объект - проверка наличия в локальной БД не требуется
+                _uiState.value = state.copy(scanSuccess = true, objectGuid = guid, objectName = name)
             }
         }
+    }
+
+    private suspend fun testExisting(guid: Long) =
+        try {
+            repository.getDeviceById(guid)
+            true
+        } catch (e: IOException) {
+            e.printStackTrace()
+            false
+        }
+
+    fun onNext() {
+        if (scannerFeature == ScannerFeature.SCAN_FOR_NEW) {
+            // сохранить новый объект в локальную БД
+            _uiState.value?.let {
+                viewModelScope.launch {
+                    repository.addNewDeviceById(it.objectName, it.objectGuid)
+                    // сообщение "новый объект успешно сохранен"
+                    _uiState.value = ScannerUiState(newObjectSaved = true)
+                    // вернуться к списку устройств (должно добавиться новое устройство)
+                    _navigationBackLiveData.value = true
+                }
+            }
+        } else {
+            // перейти по навигации на экран ввода значений
+            _navigationToWriteValuesLiveData.value = true
+        }
+    }
+
+    fun onBack() {
+        _navigationBackLiveData.value = true
     }
 
 }

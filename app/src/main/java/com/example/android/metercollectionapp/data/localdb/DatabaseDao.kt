@@ -25,6 +25,10 @@ interface DatabaseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewDevice(newDevice: DBDevice)
 
+    // получить устройство по GUID или null если устройство не существует
+    @Query("select * from devices_table where guid=:guid")
+    fun getDeviceById(guid: Long): DBDevice?
+
     // получить список всех устройств
     @Query("select * from devices_table")
     fun getAllDevices(): List<DBDevice>

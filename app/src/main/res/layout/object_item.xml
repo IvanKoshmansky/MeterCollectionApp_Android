@@ -9,11 +9,15 @@
         <variable
             name="objectUiState"
             type="com.example.android.metercollectionapp.presentation.uistate.ObjectUiState" />
+        <variable
+            name="clickListener"
+            type="com.example.android.metercollectionapp.presentation.adapters.ObjectClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> clickListener.onClick(objectUiState)}">
 
         <TextView
             android:id="@+id/tw_uid"

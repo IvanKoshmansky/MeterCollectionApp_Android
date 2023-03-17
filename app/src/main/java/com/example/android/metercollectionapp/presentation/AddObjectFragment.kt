@@ -22,13 +22,8 @@ class AddObjectFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _addObjectViewModel: AddObjectViewModel? = null
-    private val addObjectViewModel: AddObjectViewModel
-        get() = _addObjectViewModel!!
-
-    private var _binding: FragmentAddObjectBinding? = null
-    private val binding: FragmentAddObjectBinding
-        get() = _binding!!
+    private lateinit var addObjectViewModel: AddObjectViewModel
+    private lateinit var binding: FragmentAddObjectBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,11 +32,11 @@ class AddObjectFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _addObjectViewModel = ViewModelProvider(this, viewModelFactory).get(AddObjectViewModel::class.java)
+        addObjectViewModel = ViewModelProvider(this, viewModelFactory).get(AddObjectViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_object, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add_object, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.addObjectViewModel = addObjectViewModel
         return binding.root
@@ -51,38 +46,36 @@ class AddObjectFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         addObjectViewModel.navigateUp.observe(viewLifecycleOwner) {
-            if (it != null) {
-                if (it) {
-                    findNavController().navigateUp()
-                }
+            if (it) {
+                findNavController().navigateUp()
             }
         }
 
         addObjectViewModel.navigateToScanner.observe(viewLifecycleOwner) {
             if (it) {
                 findNavController().navigate(
-                    AddObjectFragmentDirections.actionAddObjectFragmentToScannerFragment()
+                    AddObjectFragmentDirections.actionAddObjectFragmentToScannerFragment(
+                        ScannerFeature.SCAN_FOR_NEW
+                    )
                 )
                 addObjectViewModel.navigateToScannerDone()
             }
         }
 
         addObjectViewModel.addObjectUiState.observe(viewLifecycleOwner) {
-            if (it != null) {
-                when {
-                    it.emptyName -> Snackbar.make(binding.root, R.string.enter_name_of_new_object,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.emptyGuid -> Snackbar.make(binding.root, R.string.scan_qr_code_or_enter_object_id,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.error -> Snackbar.make(binding.root, R.string.new_object_save_error,
-                        Snackbar.LENGTH_SHORT).show()
-                    it.cameraNotGranted -> Snackbar.make(binding.root, R.string.camera_permission_not_granted,
-                        Snackbar.LENGTH_SHORT).show()
-                    // обработка дубликатов
-                    it.duplicatedGuid -> {}
-                }
+            when {
+                it.emptyName -> Snackbar.make(binding.root, R.string.enter_name_of_new_object,
+                    Snackbar.LENGTH_SHORT).show()
+                it.emptyGuid -> Snackbar.make(binding.root, R.string.scan_qr_code_or_enter_object_id,
+                    Snackbar.LENGTH_SHORT).show()
+                it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
+                    Snackbar.LENGTH_SHORT).show()
+                it.error -> Snackbar.make(binding.root, R.string.new_object_save_error,
+                    Snackbar.LENGTH_SHORT).show()
+                it.cameraNotGranted -> Snackbar.make(binding.root, R.string.camera_permission_not_granted,
+                    Snackbar.LENGTH_SHORT).show()
+                // обработка дубликатов
+                it.duplicatedGuid -> {}
             }
         }
     }

@@ -43,7 +43,14 @@ class RepositoryImpl @Inject constructor (
     }
 
     override suspend fun getDeviceById(guid: Long): Device {
-        TODO("Not yet implemented")
+        var device: Device? = null
+        withContext(Dispatchers.IO) {
+            val dbDevice = localDatabase.databaseDao.getDeviceById(guid)
+            if (dbDevice != null) {
+                device = ToDomainMapper().mapDevice(dbDevice)
+            }
+        }
+        return device ?: throw IOException("device not found")
     }
 
     // TODO: отслеживать ситуацию, когда устройство с данным GUID уже существует

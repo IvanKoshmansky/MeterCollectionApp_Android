@@ -22,13 +22,8 @@ class DeviceParamsListFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
-    private var _deviceParamsListViewModel: DeviceParamsListViewModel? = null
-    private val deviceParamsListViewModel: DeviceParamsListViewModel
-        get() = _deviceParamsListViewModel!!
-
-    private var _binding: FragmentDeviceParamsListBinding? = null
-    private val binding: FragmentDeviceParamsListBinding
-        get() = _binding!!
+    private lateinit var deviceParamsListViewModel: DeviceParamsListViewModel
+    private lateinit var binding: FragmentDeviceParamsListBinding
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -37,33 +32,29 @@ class DeviceParamsListFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _deviceParamsListViewModel =
+        deviceParamsListViewModel =
             ViewModelProvider(this, viewModelFactory).get(DeviceParamsListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_params_list, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_device_params_list, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         binding.deviceParamsListViewModel = deviceParamsListViewModel
 
         val adapter = DeviceParamsListAdapter()
         binding.rwParams.adapter = adapter
         deviceParamsListViewModel.uiState.observe(viewLifecycleOwner) {
-            it?.let {
-                if (!it.isLoading) {
-                    adapter.submitList(it.paramsUiState)
-                }
+            if (!it.isLoading) {
+                adapter.submitList(it.paramsUiState)
             }
         }
 
         deviceParamsListViewModel.navigateToAdd.observe(viewLifecycleOwner) {
-            it?.let {
-                if (it) {
-                    findNavController().navigate(
-                        DeviceParamsListFragmentDirections.actionDeviceParamsListFragmentToAddDeviceParamFragment()
-                    )
-                    deviceParamsListViewModel.navigateToAddDone()
-                }
+            if (it) {
+                findNavController().navigate(
+                    DeviceParamsListFragmentDirections.actionDeviceParamsListFragmentToAddDeviceParamFragment()
+                )
+                deviceParamsListViewModel.navigateToAddDone()
             }
         }
 

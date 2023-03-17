@@ -18,7 +18,7 @@
     <string name="trackman_not_found">Обходчик не найден</string>
     <string name="no_registered_trackmans">Отсутствуют зарегистрированные обходчики. Добавьте нового обходчика</string>
     <string name="loading_list_of_trackmans">Загрузка списка обходчиков</string>
-    <string name="select_object">Выбор объекта</string>
+    <string name="available_objects">Доступные объекты</string>
     <string name="take_qr_code">Считать QR код</string>
     <string name="edit_objects_list">Редактировать список объектов</string>
     <string name="edit_params_list">Редактировать список параметров</string>
@@ -53,6 +53,7 @@
     <string name="selection_params_for_objects">Выбор параметров для объектов</string>
     <string name="select_device">Выберите устройство</string>
     <string name="no_devices">Устройств нет</string>
+    <string name="no_associated_params">Нет присвоенных параметров</string>
     <string name="right_arrow"><![CDATA[>>]]></string>
     <string name="left_arrow"><![CDATA[<<]]></string>
     <string name="add_all">Добавить все</string>
@@ -64,6 +65,14 @@
     <string name="scanning_process">Идет процесс сканирования…</string>
     <string name="camera_permission_not_granted">Разрешение на запуск камеры не было предоставлено</string>
     <string name="scanning_status">Статус сканирования:</string>
+    <string name="scanning_done">Сканирование завершено</string>
     <string name="device_recognized">Распознано устройство:</string>
     <string name="device_not_recognized">Устройство не распознано!</string>
+    <string name="device_guid_name_placeholders">GUID: %1$d NAME: %2$s</string>
+    <string name="placeholder_equals_sign">%1$s = </string>
+    <string name="enter_values">Ввод значений</string>
+    <string name="select_param">Выберите параметр</string>
+    <string name="enter_value">Введите значение</string>
+    <string name="enter">Ввод</string>
+    <string name="device_not_found_in_device_list">Устройство не найдено в списке устройств</string>
 </resources>

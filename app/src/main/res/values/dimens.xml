@@ -5,6 +5,7 @@
 <!--"палитра" размеров текста-->
     <dimen name="text_14">14sp</dimen>
     <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
 
 <!--"палитра" "свободных пространств": отступы, паддинги, марджины-->
     <dimen name="space_4">4dp</dimen>
@@ -22,5 +23,6 @@
     <dimen name="size_64">64dp</dimen>
     <dimen name="size_72">72dp</dimen>
     <dimen name="size_128">128dp</dimen>
+    <dimen name="size_200">200dp</dimen>
     <dimen name="size_400">400dp</dimen>
 </resources>

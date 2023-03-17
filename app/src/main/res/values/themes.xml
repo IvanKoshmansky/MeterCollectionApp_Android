@@ -17,6 +17,7 @@
         <item name="fontFamily">@font/mark_pro</item>
         <item name="bodyTextSize">@dimen/text_14</item>
         <item name="subtitleTextSize">@dimen/text_16</item>
+        <item name="titleTextSize">@dimen/text_18</item>
         <!-- ИКОНКИ -->
         <item name="smallIconSize">@dimen/size_24</item>
         <item name="largeIconSize">@dimen/size_48</item>
@@ -25,6 +26,7 @@
         <!-- ПОЛЯ ВВОДА -->
         <item name="smallEditTextHeight">@dimen/size_48</item>
         <item name="largeEditTextHeight">@dimen/size_64</item>
+        <item name="largeFixedExitTextWidth">@dimen/size_200</item>
         <!-- ШИРИНА КОЛОНОК ТАБЛИЦ -->
         <item name="smallFixedColumnWidth">@dimen/size_72</item>
         <item name="largeFixedColumnWidth">@dimen/size_128</item>
