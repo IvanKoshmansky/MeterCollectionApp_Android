@@ -16,6 +16,62 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/tw_delete"
+            android:layout_width="?attr/largeIconSize"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            android:gravity="center"
+            android:text="@string/cross_symbol"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+        <TextView
+            android:id="@+id/tw_param_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:text="@string/value"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
+            app:layout_constraintStart_toEndOf="@+id/tw_short_param_name"
+            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+        <TextView
+            android:id="@+id/tw_short_param_name"
+            android:layout_width="?attr/largeFixedColumnWidth"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            android:text="@string/parameter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/divider4" />
+
+        <TextView
+            android:id="@+id/tw_meas_unit"
+            android:layout_width="?attr/smallFixedColumnWidth"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_8"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            android:text="@string/meas_unit_abbr"
+            app:layout_constraintEnd_toStartOf="@+id/tw_delete"
+            app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+        <TextView
             android:id="@+id/tw_param_short_name"
             android:layout_width="0dp"
             android:layout_height="?largeEditTextHeight"
@@ -50,8 +106,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider4">
-        </androidx.recyclerview.widget.RecyclerView>
+            app:layout_constraintTop_toBottomOf="@+id/tw_param_value"></androidx.recyclerview.widget.RecyclerView>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline8"

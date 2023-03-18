@@ -71,11 +71,8 @@ class WriteValuesFragment : Fragment() {
                 else -> spinnerAdapter.submitList(newState.deviceParams.params)
                 // адаптер не чувствителен к передаче одной и той же ссылки
             }
-
-            if (newState.selectedParamShortName.isNotEmpty()) {
-                binding.twParamShortName.text = getString(R.string.placeholder_equals_sign,
+            binding.twParamShortName.text = getString(R.string.placeholder_equals_sign,
                     newState.selectedParamShortName)
-            }
 
 //            enteredValuesAdapter.submitList()
         }

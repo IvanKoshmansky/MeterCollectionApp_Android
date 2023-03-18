@@ -16,7 +16,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_72"
+        android:layout_height="wrap_content"
         android:onClick="@{() -> clickListener.onClick(userUiState)}">
 
         <ImageView
@@ -24,6 +24,7 @@
             android:layout_width="?largeIconSize"
             android:layout_height="?largeIconSize"
             android:layout_marginStart="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:adjustViewBounds="true"
             android:scaleType="center"
             app:imageViewSyncStatus48="@{userUiState.status}"
@@ -52,6 +53,7 @@
             android:layout_width="1dp"
             android:layout_height="?largeIconSize"
             android:layout_marginStart="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:background="?android:attr/listDivider"
             app:layout_constraintStart_toEndOf="@+id/iw_object_status"
             app:layout_constraintTop_toTopOf="parent" />
@@ -61,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_marginStart="@dimen/space_8"
-            android:layout_marginTop="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_8"
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
