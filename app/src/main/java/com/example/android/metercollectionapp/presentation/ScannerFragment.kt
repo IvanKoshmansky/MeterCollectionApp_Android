@@ -78,7 +78,8 @@ class ScannerFragment : Fragment() {
                     // устройство не найдено в локальной БД
                     binding.twStatus.text = getText(R.string.device_not_found_in_device_list)
                     binding.twDeviceRecognized.text = getString(R.string.device_guid_name_placeholders,
-                        newState.objectGuid, newState.objectName)  // строковый ресурс с placeholders
+                        newState.objectGuid, newState.objectName)
+                    // строковый ресурс с placeholders
                 }
                 newState.newObjectSaved -> Snackbar.make(binding.root, R.string.new_object_save_success,
                     Snackbar.LENGTH_SHORT).show()

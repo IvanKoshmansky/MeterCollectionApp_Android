@@ -48,4 +48,8 @@ interface DatabaseDao {
     // добавить новый параметр устройств в локальную БД
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewDeviceParam(newDeviceParam: DBDeviceParam)
+
+    // добавить новую строку собранных данных в локальную БД
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertNewCollectedDataRow(newCollectedData: DBCollectedData)
 }

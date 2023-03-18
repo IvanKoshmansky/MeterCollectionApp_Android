@@ -187,12 +187,16 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
                 if (associatedIds != null) {
                     viewModelScope.launch {
                         repository.setDeviceParamsAssociatedTo(guid, associatedIds)
-                        _saveStatusUiState.value = DeviceParamsSelectSaveStatusUiState(saveSuccess = true)
+                        _saveStatusUiState.value = DeviceParamsSelectSaveStatusUiState(
+                            DeviceParamsSelectSaveStatusUiState.ShortMessageCode.SUCCESS
+                        )
                     }
                 }
             }
         } else {
-            _saveStatusUiState.value = DeviceParamsSelectSaveStatusUiState(saveError = true)
+            _saveStatusUiState.value = DeviceParamsSelectSaveStatusUiState(
+                DeviceParamsSelectSaveStatusUiState.ShortMessageCode.ERROR
+            )
         }
     }
 

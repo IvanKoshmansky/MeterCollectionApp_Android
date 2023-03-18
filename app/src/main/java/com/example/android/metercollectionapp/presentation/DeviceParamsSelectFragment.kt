@@ -15,6 +15,7 @@ import com.example.android.metercollectionapp.databinding.FragmentDeviceParamsSe
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.presentation.adapters.DeviceParamsSelectListAdapter
 import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
+import com.example.android.metercollectionapp.presentation.uistate.DeviceParamsSelectSaveStatusUiState
 import com.example.android.metercollectionapp.presentation.uistate.ObjectUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.DeviceParamsSelectViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -97,11 +98,12 @@ class DeviceParamsSelectFragment : Fragment() {
         }
 
         deviceParamsSelectViewModel.saveStatusUiState.observe(viewLifecycleOwner) {
-            when {
-                it.saveSuccess -> Snackbar.make(binding.root, R.string.save_success,
-                    Snackbar.LENGTH_SHORT).show()
-                it.saveError -> Snackbar.make(binding.root, R.string.save_error,
-                    Snackbar.LENGTH_SHORT).show()
+            when (it.shortMessage) {
+                DeviceParamsSelectSaveStatusUiState.ShortMessageCode.SUCCESS -> Snackbar.make(binding.root,
+                    R.string.save_success, Snackbar.LENGTH_SHORT).show()
+                DeviceParamsSelectSaveStatusUiState.ShortMessageCode.ERROR -> Snackbar.make(binding.root,
+                    R.string.save_error, Snackbar.LENGTH_SHORT).show()
+                else -> {}
             }
         }
     }

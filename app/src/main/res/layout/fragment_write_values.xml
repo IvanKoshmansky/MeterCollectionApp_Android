@@ -142,6 +142,7 @@
             android:layout_marginEnd="@dimen/space_8"
             android:layout_marginBottom="@dimen/space_8"
             android:text="@string/cancel"
+            android:onClick="@{() -> writeValuesViewModel.onCancel()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline8"
             app:layout_constraintStart_toStartOf="parent" />
@@ -155,6 +156,7 @@
             android:layout_marginEnd="@dimen/space_8"
             android:layout_marginBottom="@dimen/space_8"
             android:text="@string/save"
+            android:onClick="@{() -> writeValuesViewModel.onSave()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline8" />

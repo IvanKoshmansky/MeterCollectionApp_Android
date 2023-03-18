@@ -55,18 +55,18 @@ class AddDeviceParamViewModel @Inject constructor (private val repository: Repos
                 viewModelScope.launch {
                     repository.addNewDeviceParam(newDeviceParam)
                     // показать что все успешно
-                    _addParamUiState.value = AddDeviceParamUiState(success = true)
+                    _addParamUiState.value = AddDeviceParamUiState(AddDeviceParamUiState.ShortMessageCode.SUCCESS)
                     // перейти по навигации на предыдущий фрагмент
                     _navigateUp.value = true
                 }
             } catch (e: NumberFormatException) {
                 e.printStackTrace()
                 // показать ошибку "ошибка при заполнении uid"
-                _addParamUiState.value = AddDeviceParamUiState(error = true)
+                _addParamUiState.value = AddDeviceParamUiState(AddDeviceParamUiState.ShortMessageCode.ERROR)
             }
         } else {
             // не все поля заполнены
-            _addParamUiState.value = AddDeviceParamUiState(emptyFields = true)
+            _addParamUiState.value = AddDeviceParamUiState(AddDeviceParamUiState.ShortMessageCode.EMPTY_FIELDS)
         }
     }
 

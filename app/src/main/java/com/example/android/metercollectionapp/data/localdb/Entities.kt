@@ -40,17 +40,19 @@ data class DBDeviceParam constructor (
     val status: SyncStatus
 )
 
-@Entity(tableName = "collection_table")
-data class DBCollectionTable constructor (
+@Entity(tableName = "collected_data")
+data class DBCollectedData constructor (
     @PrimaryKey(autoGenerate = true)
     val id: Long,
     @ColumnInfo(name = "unix_time")
-    val unixTime: Int,
+    val unixTime: Long,
     @ColumnInfo(name = "user_id")
     val userId: Long,
     @ColumnInfo(name = "device_id")
     val deviceId: Long,
     @ColumnInfo(name = "param_id")
     val paramId: Long,
+    @ColumnInfo(name = "param_value")
+    val paramValue: Float,
     val status: SyncStatus
 )

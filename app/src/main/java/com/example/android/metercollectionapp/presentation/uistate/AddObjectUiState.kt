@@ -1,10 +1,15 @@
 package com.example.android.metercollectionapp.presentation.uistate
 
 data class AddObjectUiState (
-    val emptyName: Boolean = false,
-    val emptyGuid: Boolean = false,
-    val success: Boolean = false,
-    val error: Boolean = false,
-    val duplicatedGuid: Boolean = false,
-    val cameraNotGranted: Boolean = false
-)
+    val shortMessage: ShortMessageCode = ShortMessageCode.NOTHING_TO_SHOW
+) {
+    enum class ShortMessageCode {
+        NOTHING_TO_SHOW,
+        EMPTY_NAME,
+        EMPTY_GUID,
+        SUCCESS,
+        ERROR,
+        DUBLICATE_GUID,
+        CAMERA_NOT_GRANTED
+    }
+}

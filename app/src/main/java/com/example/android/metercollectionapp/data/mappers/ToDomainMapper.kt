@@ -1,12 +1,10 @@
 package com.example.android.metercollectionapp.data.mappers
 
+import com.example.android.metercollectionapp.data.localdb.DBCollectedData
 import com.example.android.metercollectionapp.data.localdb.DBDevice
 import com.example.android.metercollectionapp.data.localdb.DBDeviceParam
 import com.example.android.metercollectionapp.data.localdb.DBUser
-import com.example.android.metercollectionapp.domain.model.Device
-import com.example.android.metercollectionapp.domain.model.DeviceParam
-import com.example.android.metercollectionapp.domain.model.DeviceParamType
-import com.example.android.metercollectionapp.domain.model.User
+import com.example.android.metercollectionapp.domain.model.*
 
 class ToDomainMapper {
 
@@ -46,5 +44,19 @@ class ToDomainMapper {
 
     fun mapDeviceParams(dbDeviceParams: List<DBDeviceParam>) = dbDeviceParams.map {
         mapDeviceParam(it)
+    }
+
+    fun mapCollectedData(dbCollectedData: DBCollectedData) = CollectedData(
+        _id = dbCollectedData.id,
+        _unixTime = dbCollectedData.unixTime,
+        _userId = dbCollectedData.userId,
+        _deviceGuid = dbCollectedData.deviceId,
+        _paramUid = dbCollectedData.paramId,
+        _paramValue = dbCollectedData.paramValue,
+        _status = dbCollectedData.status
+    )
+
+    fun mapCollectedDataList(dbCollectedDataList: List<DBCollectedData>) = dbCollectedDataList.map {
+        mapCollectedData(it)
     }
 }

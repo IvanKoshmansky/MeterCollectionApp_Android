@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentWriteValuesBinding
@@ -17,6 +18,7 @@ import com.example.android.metercollectionapp.domain.model.DeviceParamType
 import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
 import com.example.android.metercollectionapp.presentation.adapters.WriteValuesListAdapter
 import com.example.android.metercollectionapp.presentation.uistate.DeviceParamUiState
+import com.example.android.metercollectionapp.presentation.uistate.WriteValuesUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.WriteValuesViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -89,14 +91,25 @@ class WriteValuesFragment : Fragment() {
                 }
             }
             writeValuesAdapter.submitList(newState.enteredValues)
-            // сообщения в snackbar
-            if (newState.alreadyEntered) {
-                Snackbar.make(binding.root, R.string.value_already_entered, Snackbar.LENGTH_SHORT).show()
-            }
-            if (newState.convError) {
-                Snackbar.make(binding.root, R.string.incorrect_value, Snackbar.LENGTH_SHORT).show()
+            // сообщения для snackbar
+            when (newState.shortMessage) {
+                WriteValuesUiState.ShortMessageCode.ALREADY_ENTERED ->
+                    Snackbar.make(binding.root, R.string.value_already_entered, Snackbar.LENGTH_SHORT).show()
+                WriteValuesUiState.ShortMessageCode.CONVERSION_ERROR ->
+                    Snackbar.make(binding.root, R.string.incorrect_value, Snackbar.LENGTH_SHORT).show()
+                WriteValuesUiState.ShortMessageCode.SAVE_SUCCESS ->
+                    Snackbar.make(binding.root, R.string.values_save_success, Snackbar.LENGTH_SHORT).show()
+                WriteValuesUiState.ShortMessageCode.ENTERED_VALUES_EMPTY ->
+                    Snackbar.make(binding.root, R.string.list_of_entered_values_empty, Snackbar.LENGTH_SHORT).show()
+                else -> {}
             }
             // имя устройства присваивается в xml
+        }
+
+        writeValuesViewModel.navigateUp.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigateUp()
+            }
         }
     }
 }

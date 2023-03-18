@@ -9,12 +9,6 @@ data class LoginUiState (
     val isNewUser: Boolean = false
 )
 
-//data class LoginUiState (
-//    val header: String,
-//    val syncStatus: SyncStatus,
-//    val login: String,
-//    val pass: String,
-//)
 //можно сделать и "двунаправленный" UiState, но тогда нужно либо отслеживать смену конфигурации для
 //восстановления текстовых полей (если они не будут восстанавливаться сами через saveStateHandle)
 //потому что байндинг не работает на ввод с несовпадающими типами данных,

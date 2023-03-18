@@ -5,12 +5,12 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-private const val DATABASE_NAME = "local_db_debug_9"
+private const val DATABASE_NAME = "local_db_debug_10"
 
 @Database(entities = [DBUser::class,
                       DBDevice::class,
                       DBDeviceParam::class,
-                      DBCollectionTable::class], version = 1)
+                      DBCollectedData::class], version = 1)
 abstract class LocalDatabase: RoomDatabase() {
     abstract val databaseDao: DatabaseDao
 }

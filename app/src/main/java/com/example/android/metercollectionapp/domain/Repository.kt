@@ -31,6 +31,13 @@ interface Repository {
     suspend fun getDeviceParamsUnassociatedFrom(guid: Long): List<DeviceParam>
     suspend fun setDeviceParamsAssociatedTo(guid: Long, ids: List<Long>)
 
+    // добавить новую строчку в список данных для синхронизации, дата-время генерируется автоматически внутри
+    suspend fun addNewCollectedDataRow(newRowUserId: Long, newRowDeviceGuid: Long, newRowParamUid: Long,
+                                       newRowParamValue: Float)
+
     suspend fun sync() // будет вызываться переодически из WorkManager, синхронизация по цепочке начиная с пользователей
 
 }
+
+// для соблюдения принципа сегрегации интерфесов (ISP) SOLID лучше сделать несколько однотипных методов
+// с разными сигнатурами под конкретные нужды клиентского кода, чтобы не было ситуации "как с TextWatcher"

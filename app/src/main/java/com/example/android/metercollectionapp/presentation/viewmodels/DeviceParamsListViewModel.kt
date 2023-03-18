@@ -49,3 +49,5 @@ class DeviceParamsListViewModel @Inject constructor (private val repository: Rep
     }
 
 }
+
+// TODO: добавить автозаполнение остальных полей по uid при наличии связи с сервером

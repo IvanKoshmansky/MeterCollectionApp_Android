@@ -26,7 +26,9 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
     val enteredParamValue = MutableLiveData("")
 
     // переменные для навигации
-
+    private val _navigateUp = MutableLiveData(false)
+    val navigateUp: LiveData<Boolean>
+        get() = _navigateUp
 
     // установка начального состояния отображения экрана
     fun setup(objectGuid: Long, objectName: String) {
@@ -57,7 +59,7 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
     // выбор параметра из списка параметров по индексу
     fun selectParamByIndex(idx: Int) {
         var state = _uiState.value ?: return
-        state = state.copy(alreadyEntered = false, convError = false)
+        state = state.copy(shortMessage = WriteValuesUiState.ShortMessageCode.NOTHING_TO_SHOW)
         if (idx < state.deviceParams.params.size) {
             val shortName = state.deviceParams.params[idx].shortName
             val paramType = state.deviceParams.params[idx].paramType
@@ -69,7 +71,7 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
     // callback который вызывается при удалении введенного значения с данным uid
     private fun deleteElementCallback(uid: Long) {
         var state = _uiState.value ?: return
-        state = state.copy(alreadyEntered = false, convError = false)
+        state = state.copy(shortMessage = WriteValuesUiState.ShortMessageCode.NOTHING_TO_SHOW)
         val elementToDelete = state.enteredValues.find { element -> element.uid == uid }
         if (elementToDelete != null) {
             val newList = state.enteredValues - elementToDelete
@@ -94,7 +96,7 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
     // сформировать новое значение на сохранение в БД
     fun onWrite() {
         var state = _uiState.value ?: return
-        state = state.copy(alreadyEntered = false, convError = false)
+        state = state.copy(shortMessage = WriteValuesUiState.ShortMessageCode.NOTHING_TO_SHOW)
         val paramIdx = selectedParamIndex.value ?: return
         val enteredText = enteredParamValue.value ?: return
         if (textToFloat(enteredText) != null) {
@@ -113,13 +115,49 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
                     _uiState.value = state.copy(enteredValues = newList)
                 } else {
                     // значение параметра уже было введено!
-                    _uiState.value = state.copy(alreadyEntered = true)
+                    _uiState.value = state.copy(
+                        shortMessage = WriteValuesUiState.ShortMessageCode.ALREADY_ENTERED)
                 }
             }
         } else {
             // ошибка преобразования во float!
-            _uiState.value = state.copy(convError = true)
+            _uiState.value = state.copy(shortMessage = WriteValuesUiState.ShortMessageCode.CONVERSION_ERROR)
         }
+    }
+
+    fun onSave() {
+        var state = _uiState.value ?: return
+        state = state.copy(shortMessage = WriteValuesUiState.ShortMessageCode.NOTHING_TO_SHOW)
+        if (state.enteredValues.isNotEmpty()) {
+            viewModelScope.launch {
+                var cnt = 0
+                state.enteredValues.forEach { element ->
+                    val value = textToFloat(element.stringValue)
+                    if (value != null) {
+                        repository.addNewCollectedDataRow(
+                            newRowUserId = 0,  // как определяется userId?
+                            newRowDeviceGuid = state.objectUiState.uid,
+                            newRowParamUid = element.uid,
+                            newRowParamValue = value
+                        )
+                        cnt++
+                    }
+                }
+                if (cnt > 0) {
+                    _uiState.value = state.copy(
+                        shortMessage = WriteValuesUiState.ShortMessageCode.SAVE_SUCCESS)
+                    _navigateUp.value = true
+                }
+            }
+        } else {
+            // список данных для добавления в локальную БД пуст!
+            _uiState.value = state.copy(
+                shortMessage = WriteValuesUiState.ShortMessageCode.ENTERED_VALUES_EMPTY)
+        }
+    }
+
+    fun onCancel() {
+        _navigateUp.value = true
     }
 }
 

@@ -13,6 +13,7 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentAddObjectBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
+import com.example.android.metercollectionapp.presentation.uistate.AddObjectUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.AddObjectViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -63,19 +64,20 @@ class AddObjectFragment : Fragment() {
         }
 
         addObjectViewModel.addObjectUiState.observe(viewLifecycleOwner) {
-            when {
-                it.emptyName -> Snackbar.make(binding.root, R.string.enter_name_of_new_object,
-                    Snackbar.LENGTH_SHORT).show()
-                it.emptyGuid -> Snackbar.make(binding.root, R.string.scan_qr_code_or_enter_object_id,
-                    Snackbar.LENGTH_SHORT).show()
-                it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
-                    Snackbar.LENGTH_SHORT).show()
-                it.error -> Snackbar.make(binding.root, R.string.new_object_save_error,
-                    Snackbar.LENGTH_SHORT).show()
-                it.cameraNotGranted -> Snackbar.make(binding.root, R.string.camera_permission_not_granted,
-                    Snackbar.LENGTH_SHORT).show()
+            when (it.shortMessage) {
+                AddObjectUiState.ShortMessageCode.EMPTY_NAME -> Snackbar.make(binding.root,
+                    R.string.enter_name_of_new_object, Snackbar.LENGTH_SHORT).show()
+                AddObjectUiState.ShortMessageCode.EMPTY_GUID -> Snackbar.make(binding.root,
+                    R.string.scan_qr_code_or_enter_object_id, Snackbar.LENGTH_SHORT).show()
+                AddObjectUiState.ShortMessageCode.SUCCESS -> Snackbar.make(binding.root,
+                    R.string.new_object_save_success, Snackbar.LENGTH_SHORT).show()
+                AddObjectUiState.ShortMessageCode.ERROR -> Snackbar.make(binding.root,
+                    R.string.new_object_save_error, Snackbar.LENGTH_SHORT).show()
+                AddObjectUiState.ShortMessageCode.CAMERA_NOT_GRANTED -> Snackbar.make(binding.root,
+                    R.string.camera_permission_not_granted, Snackbar.LENGTH_SHORT).show()
                 // обработка дубликатов
-                it.duplicatedGuid -> {}
+                AddObjectUiState.ShortMessageCode.DUBLICATE_GUID -> {}
+                else -> {}
             }
         }
     }

@@ -1,16 +1,20 @@
 package com.example.android.metercollectionapp.data
 
+import androidx.work.impl.model.systemIdInfo
+import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.data.localdb.LocalDatabase
 import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
 import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
 import com.example.android.metercollectionapp.data.storage.Storage
 import com.example.android.metercollectionapp.domain.Repository
+import com.example.android.metercollectionapp.domain.model.CollectedData
 import com.example.android.metercollectionapp.domain.model.Device
 import com.example.android.metercollectionapp.domain.model.DeviceParam
 import com.example.android.metercollectionapp.domain.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.sql.Timestamp
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor (
@@ -105,11 +109,27 @@ class RepositoryImpl @Inject constructor (
     // затем запрашивались привязанные ID (второй запрос к SD карте)
     // и с помощью фильтра отсекались ненужные - подход не правильный,
     // все "составные" запросы лучше перенести на уровень базы данных для обеспечения атомарности
-    // (пусть не в данном конкретном случае) и недопущения загрузки в RAM всего только для применения фильтра
+    // (пусть в данном конкретном случае она и не нарушается) и недопущения перегрузки RAM только для применения фильтра
 
     override suspend fun setDeviceParamsAssociatedTo(guid: Long, ids: List<Long>) {
         withContext(Dispatchers.IO) {
             storage.setDeviceParamsIdsAssociatedTo(guid, ids)
+        }
+    }
+
+    override suspend fun addNewCollectedDataRow(newRowUserId: Long, newRowDeviceGuid: Long, newRowParamUid: Long,
+                                                newRowParamValue: Float) {
+        val collectedData = CollectedData().apply {
+            unixTime = Timestamp(System.currentTimeMillis()).time
+            userId = newRowUserId
+            deviceGuid = newRowDeviceGuid
+            paramUid = newRowParamUid
+            paramValue = newRowParamValue
+        }
+        // в формат DB
+        val dbRow = FromDomainMapper().mapCollectedData(collectedData)
+        withContext(Dispatchers.IO) {
+            localDatabase.databaseDao.insertNewCollectedDataRow(dbRow)
         }
     }
 
@@ -119,6 +139,6 @@ class RepositoryImpl @Inject constructor (
 
 }
 
-// из конструктора репозитория нужно убрать мапперы посольку они не участвуют в модульных тестах
+// из конструктора репозитория убраны мапперы посольку они не участвуют в модульных тестах
 // UseCase имеет смысл применять только для "среза" данных из разных репозиториев или источников
 // необходимость в UseCase есть для того, чтобы переиспользовать бизнес логику

@@ -14,8 +14,14 @@ data class WriteValuesUiState (
     val selectedParamType: DeviceParamType = DeviceParamType.FLOAT,
     // список введенных значений
     val enteredValues: List<WriteValuesElementUiState> = listOf(),
-    // значение данного параметра уже было введено (оповещение)
-    val alreadyEntered: Boolean = false,
-    // ошибка преобразования текста во float
-    val convError: Boolean = false
-)
+    // короткие сообщения
+    val shortMessage: ShortMessageCode = ShortMessageCode.NOTHING_TO_SHOW
+) {
+    enum class ShortMessageCode {
+        NOTHING_TO_SHOW,
+        ALREADY_ENTERED,
+        CONVERSION_ERROR,
+        SAVE_SUCCESS,
+        ENTERED_VALUES_EMPTY,
+    }
+}

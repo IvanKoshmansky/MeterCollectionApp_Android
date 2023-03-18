@@ -15,6 +15,7 @@ import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentAddDeviceParamBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.domain.model.DeviceParamType
+import com.example.android.metercollectionapp.presentation.uistate.AddDeviceParamUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.AddDeviceParamViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
@@ -63,13 +64,13 @@ class AddDeviceParamFragment : Fragment() {
         }
 
         addDeviceParamViewModel.addParamUiState.observe(viewLifecycleOwner) {
-            when {
-                it.emptyFields -> Snackbar.make(binding.root, R.string.fill_all_fields,
-                    Snackbar.LENGTH_SHORT).show()
-                it.success -> Snackbar.make(binding.root, R.string.new_param_save_success,
-                    Snackbar.LENGTH_SHORT).show()
-                it.error -> Snackbar.make(binding.root, R.string.new_param_save_error,
-                    Snackbar.LENGTH_SHORT).show()
+            when (it.shortMessage) {
+                AddDeviceParamUiState.ShortMessageCode.EMPTY_FIELDS -> Snackbar.make(binding.root,
+                    R.string.fill_all_fields, Snackbar.LENGTH_SHORT).show()
+                AddDeviceParamUiState.ShortMessageCode.SUCCESS -> Snackbar.make(binding.root,
+                    R.string.new_param_save_success, Snackbar.LENGTH_SHORT).show()
+                AddDeviceParamUiState.ShortMessageCode.ERROR -> Snackbar.make(binding.root,
+                    R.string.new_param_save_error, Snackbar.LENGTH_SHORT).show()
                 else -> {}
             }
         }

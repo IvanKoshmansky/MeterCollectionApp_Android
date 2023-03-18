@@ -1,6 +1,5 @@
 package com.example.android.metercollectionapp.presentation.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.domain.Repository
@@ -40,7 +39,7 @@ class AddObjectViewModel @Inject constructor (
         if (application.cameraPermissionGranted) {
             _navigateToScanner.value = true
         } else {
-            _newObjectUiState.value = AddObjectUiState(cameraNotGranted = true)
+            _newObjectUiState.value = AddObjectUiState(AddObjectUiState.ShortMessageCode.CAMERA_NOT_GRANTED)
         }
     }
 
@@ -53,18 +52,18 @@ class AddObjectViewModel @Inject constructor (
                     val newGuid = newGuidString.toLong()
                     viewModelScope.launch {
                         repository.addNewDeviceById(newName, newGuid)
-                        _newObjectUiState.value = AddObjectUiState(success = true)
+                        _newObjectUiState.value = AddObjectUiState(AddObjectUiState.ShortMessageCode.SUCCESS)
                         _navigateUp.value = true
                     }
                 } catch (e: NumberFormatException) {
                     e.printStackTrace()
-                    _newObjectUiState.value = AddObjectUiState(error = true)
+                    _newObjectUiState.value = AddObjectUiState(AddObjectUiState.ShortMessageCode.ERROR)
                 }
             } else {
-                _newObjectUiState.value = AddObjectUiState(emptyGuid = true)
+                _newObjectUiState.value = AddObjectUiState(AddObjectUiState.ShortMessageCode.EMPTY_GUID)
             }
         } else {
-            _newObjectUiState.value = AddObjectUiState(emptyName = true)
+            _newObjectUiState.value = AddObjectUiState(AddObjectUiState.ShortMessageCode.EMPTY_NAME)
         }
     }
 

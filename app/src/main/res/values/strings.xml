@@ -77,6 +77,8 @@
     <string name="parameter">Параметр</string>
     <string name="value_already_entered">Значение уже введено</string>
     <string name="incorrect_value">Некорректное значение</string>
+    <string name="list_of_entered_values_empty">Список введенных значений пуст</string>
+    <string name="values_save_success">Значения параметров успешно сохранены</string>
 </resources>
 <!--изменения в принципе работы со строковыми ресурсами:-->
 <!--строковый ресурс именуется просто в виде англоязычного сокращения текста-->

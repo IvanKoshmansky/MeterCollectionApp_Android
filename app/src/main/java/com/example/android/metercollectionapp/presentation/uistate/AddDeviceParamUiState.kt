@@ -1,8 +1,13 @@
 package com.example.android.metercollectionapp.presentation.uistate
 
 data class AddDeviceParamUiState (
-    val emptyFields: Boolean = false,
-    val success: Boolean = false,
-    val error: Boolean = false,
-    val duplicatedUid: Boolean = false,
-)
+    val shortMessage: ShortMessageCode = ShortMessageCode.NOTHING_TO_SHOW
+) {
+    enum class ShortMessageCode {
+        NOTHING_TO_SHOW,
+        EMPTY_FIELDS,
+        SUCCESS,
+        ERROR,
+        DUBLICATE_UID
+    }
+}

@@ -69,7 +69,8 @@ class SelectObjectFragment : Fragment() {
 
         selectObjectViewModel.uiState.observe(viewLifecycleOwner) { newState ->
             if (newState.cameraNotGranted) {
-                Snackbar.make(binding.root, R.string.camera_permission_not_granted, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, R.string.camera_permission_not_granted,
+                    Snackbar.LENGTH_SHORT).show()
             }
         }
     }
