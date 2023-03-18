@@ -40,6 +40,7 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
             val uiParams = paramsFromRepo.map {
                 ShortDeviceParamUiState(
                     uid = it.uid,
+                    measUnit = it.measUnit,
                     name = it.name,
                     shortName = it.shortName
                 )
@@ -56,8 +57,49 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
         if (idx < state.deviceParams.params.size) {
             val shortName = state.deviceParams.params[idx].shortName
             _uiState.value = state.copy(selectedParamShortName = shortName)
+            enteredParamValue.value = ""
+        }
+    }
+
+    private fun deleteElementCallback(uid: Long) {
+        val state = _uiState.value ?: return
+        val elementToDelete = state.enteredValues.find { element -> element.uid == uid }
+        if (elementToDelete != null) {
+            val newList = state.enteredValues - elementToDelete
+            val newState = state.copy(enteredValues = newList)
+            _uiState.value = newState
+        }
+    }
+
+    // сформировать новое значение на сохранение в БД
+    fun onWrite() {
+        val state = _uiState.value ?: return
+        val paramIdx = selectedParamIndex.value ?: return
+        val enteredText = enteredParamValue.value ?: return
+        if (paramIdx < state.deviceParams.params.size) {
+            val valueFormatted = enteredText
+            val newElement = WriteValuesElementUiState(
+                uid = state.deviceParams.params[paramIdx].uid,
+                shortName = state.deviceParams.params[paramIdx].shortName,
+                stringValue = valueFormatted,
+                measUnit = state.deviceParams.params[paramIdx].measUnit,
+                deleteElementLambda = { uid -> deleteElementCallback(uid) }
+            )
+            val findDublicate = state.enteredValues.find { element -> element.uid == newElement.uid }
+            if (findDublicate == null) {
+                // дубликатов нет
+                val newList = state.enteredValues + newElement  // получить список с добавленным элементом
+                val newState = state.copy(enteredValues = newList)
+                _uiState.value = newState
+            } else {
+                // значение параметра уже было введено!
+
+            }
         }
     }
 }
 
 // все манипуляции со списком введенных параметров полностью на стороне ViewModel
+// кэш для сохранения уже введенных значений (в неком своем формате) при уходе с фрагмента для данного устройства
+// можно реализовать в репозитории (при необходимости)
+// по умолчанию при уходе с фрагмента ранее набранные значения не сохраняются

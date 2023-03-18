@@ -13,6 +13,7 @@ import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentWriteValuesBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
 import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
+import com.example.android.metercollectionapp.presentation.adapters.WriteValuesListAdapter
 import com.example.android.metercollectionapp.presentation.uistate.ShortDeviceParamUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.WriteValuesViewModel
 import javax.inject.Inject
@@ -26,7 +27,7 @@ class WriteValuesFragment : Fragment() {
     private lateinit var binding: FragmentWriteValuesBinding
 
     private lateinit var spinnerAdapter: SpinnerTextViewAdapter<ShortDeviceParamUiState>
-//    private lateinit var enteredValuesAdapter: EnteredValuesAdapter
+    private lateinit var writeValuesAdapter: WriteValuesListAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -46,6 +47,8 @@ class WriteValuesFragment : Fragment() {
             it.name
         }
         binding.srSelectParam.adapter = spinnerAdapter
+        writeValuesAdapter = WriteValuesListAdapter()
+        binding.rwValuesTable.adapter = writeValuesAdapter
         return binding.root
     }
 
@@ -73,12 +76,12 @@ class WriteValuesFragment : Fragment() {
             }
             binding.twParamShortName.text = getString(R.string.placeholder_equals_sign,
                     newState.selectedParamShortName)
-
-//            enteredValuesAdapter.submitList()
+            writeValuesAdapter.submitList(newState.enteredValues)
+            // имя устройства присваивается в xml
         }
-        // имя устройства присваивается в xml
     }
 }
 
 // в зависимости от типа данных должен динамически меняться InputType у EditText, при этом все значения всех типов
 // храняться и передаются в формате FLOAT
+// создание адаптеров в onCreateView(), присвоение списков адаптерам в onViewCreated()

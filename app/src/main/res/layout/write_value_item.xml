@@ -25,10 +25,10 @@
             android:padding="@dimen/space_4"
             android:textAppearance="@style/SubtitleTextAppearance"
             android:text="@{uiState.stringValue}"
-            app:layout_constraintBottom_toBottomOf="@+id/iw_object_status"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_delete_element"
             app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
             app:layout_constraintStart_toEndOf="@+id/tw_short_param_name"
-            app:layout_constraintTop_toTopOf="@+id/iw_object_status"
+            app:layout_constraintTop_toTopOf="@+id/iw_delete_element"
             tools:text="100500" />
 
         <TextView
@@ -41,9 +41,9 @@
             android:padding="@dimen/space_4"
             android:textAppearance="@style/SubtitleTextAppearance"
             android:text="@{uiState.shortName}"
-            app:layout_constraintBottom_toBottomOf="@+id/iw_object_status"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_delete_element"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/iw_object_status"
+            app:layout_constraintTop_toTopOf="@+id/iw_delete_element"
             tools:text="Pвых." />
 
         <TextView
@@ -55,21 +55,22 @@
             android:padding="@dimen/space_4"
             android:textAppearance="@style/SubtitleTextAppearance"
             android:text="@{uiState.measUnit}"
-            app:layout_constraintBottom_toBottomOf="@+id/iw_object_status"
-            app:layout_constraintEnd_toStartOf="@+id/iw_object_status"
-            app:layout_constraintTop_toTopOf="@+id/iw_object_status"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_delete_element"
+            app:layout_constraintEnd_toStartOf="@+id/iw_delete_element"
+            app:layout_constraintTop_toTopOf="@+id/iw_delete_element"
             tools:text="Вт" />
 
         <ImageView
-            android:id="@+id/iw_object_status"
+            android:id="@+id/iw_delete_element"
             android:layout_width="?largeIconSize"
             android:layout_height="?largeIconSize"
             android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_4"
             android:adjustViewBounds="true"
-            android:onClick="@{() -> uiState.deleteElementLambda}"
             android:scaleType="center"
             android:src="@drawable/ic_delete_48"
+            android:clickable="true"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,7 +84,7 @@
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iw_object_status" />
+            app:layout_constraintTop_toBottomOf="@+id/iw_delete_element" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

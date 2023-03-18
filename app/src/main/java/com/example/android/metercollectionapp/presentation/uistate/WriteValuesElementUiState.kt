@@ -5,5 +5,5 @@ data class WriteValuesElementUiState (
     val shortName: String = "",
     val stringValue: String = "",
     val measUnit: String = "",
-    val deleteElementLambda: () -> Unit  // срабатыват при нажатии кнопки "удалить" в элементе списка
+    val deleteElementLambda: (uid: Long) -> Unit  // срабатыват при нажатии кнопки "удалить" в элементе списка
 )
