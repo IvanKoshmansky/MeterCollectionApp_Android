@@ -2,6 +2,7 @@ package com.example.android.metercollectionapp.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +13,12 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentWriteValuesBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
+import com.example.android.metercollectionapp.domain.model.DeviceParamType
 import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
 import com.example.android.metercollectionapp.presentation.adapters.WriteValuesListAdapter
-import com.example.android.metercollectionapp.presentation.uistate.ShortDeviceParamUiState
+import com.example.android.metercollectionapp.presentation.uistate.DeviceParamUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.WriteValuesViewModel
+import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
 class WriteValuesFragment : Fragment() {
@@ -26,7 +29,7 @@ class WriteValuesFragment : Fragment() {
     private lateinit var writeValuesViewModel: WriteValuesViewModel
     private lateinit var binding: FragmentWriteValuesBinding
 
-    private lateinit var spinnerAdapter: SpinnerTextViewAdapter<ShortDeviceParamUiState>
+    private lateinit var spinnerAdapter: SpinnerTextViewAdapter<DeviceParamUiState>
     private lateinit var writeValuesAdapter: WriteValuesListAdapter
 
     override fun onAttach(context: Context) {
@@ -67,16 +70,32 @@ class WriteValuesFragment : Fragment() {
 
         writeValuesViewModel.uiState.observe(viewLifecycleOwner) { newState ->
             when {
-                newState.deviceParams.isLoading -> spinnerAdapter.submitList(listOf(ShortDeviceParamUiState(0,
-                    getString(R.string.loading))))
-                newState.deviceParams.params.isEmpty() -> spinnerAdapter.submitList(listOf(ShortDeviceParamUiState(0,
-                    getString(R.string.no_associated_params))))
+                newState.deviceParams.isLoading -> spinnerAdapter.submitList(
+                    listOf(DeviceParamUiState(name = getString(R.string.loading)))
+                )
+                newState.deviceParams.params.isEmpty() -> spinnerAdapter.submitList(
+                    listOf(DeviceParamUiState(name = getString(R.string.no_associated_params)))
+                )
                 else -> spinnerAdapter.submitList(newState.deviceParams.params)
                 // адаптер не чувствителен к передаче одной и той же ссылки
             }
             binding.twParamShortName.text = getString(R.string.placeholder_equals_sign,
                     newState.selectedParamShortName)
+            binding.etParamValue.inputType = when (newState.selectedParamType) {
+                DeviceParamType.UINT32 -> { InputType.TYPE_CLASS_NUMBER }
+                DeviceParamType.INT32 -> { InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED }
+                DeviceParamType.FLOAT -> { InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED or
+                    InputType.TYPE_NUMBER_FLAG_DECIMAL
+                }
+            }
             writeValuesAdapter.submitList(newState.enteredValues)
+            // сообщения в snackbar
+            if (newState.alreadyEntered) {
+                Snackbar.make(binding.root, R.string.value_already_entered, Snackbar.LENGTH_SHORT).show()
+            }
+            if (newState.convError) {
+                Snackbar.make(binding.root, R.string.incorrect_value, Snackbar.LENGTH_SHORT).show()
+            }
             // имя устройства присваивается в xml
         }
     }
@@ -84,4 +103,4 @@ class WriteValuesFragment : Fragment() {
 
 // в зависимости от типа данных должен динамически меняться InputType у EditText, при этом все значения всех типов
 // храняться и передаются в формате FLOAT
-// создание адаптеров в onCreateView(), присвоение списков адаптерам в onViewCreated()
+// разделение: создание адаптеров в onCreateView(), присвоение списков адаптерам в onViewCreated()

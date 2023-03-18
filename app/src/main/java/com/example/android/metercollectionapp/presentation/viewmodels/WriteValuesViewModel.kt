@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.android.metercollectionapp.domain.Repository
 import com.example.android.metercollectionapp.presentation.uistate.*
 import kotlinx.coroutines.launch
+import java.lang.Float.NEGATIVE_INFINITY
+import java.lang.Float.POSITIVE_INFINITY
 import javax.inject.Inject
 
 class WriteValuesViewModel @Inject constructor (private val repository: Repository) : ViewModel() {
@@ -38,8 +40,9 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
         viewModelScope.launch {
             val paramsFromRepo = repository.getDeviceParamsAssociatedFrom(objectGuid)
             val uiParams = paramsFromRepo.map {
-                ShortDeviceParamUiState(
+                DeviceParamUiState(
                     uid = it.uid,
+                    paramType = it.paramType,
                     measUnit = it.measUnit,
                     name = it.name,
                     shortName = it.shortName
@@ -53,52 +56,76 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
 
     // выбор параметра из списка параметров по индексу
     fun selectParamByIndex(idx: Int) {
-        val state = _uiState.value ?: return
+        var state = _uiState.value ?: return
+        state = state.copy(alreadyEntered = false, convError = false)
         if (idx < state.deviceParams.params.size) {
             val shortName = state.deviceParams.params[idx].shortName
-            _uiState.value = state.copy(selectedParamShortName = shortName)
+            val paramType = state.deviceParams.params[idx].paramType
+            _uiState.value = state.copy(selectedParamShortName = shortName, selectedParamType = paramType)
             enteredParamValue.value = ""
         }
     }
 
+    // callback который вызывается при удалении введенного значения с данным uid
     private fun deleteElementCallback(uid: Long) {
-        val state = _uiState.value ?: return
+        var state = _uiState.value ?: return
+        state = state.copy(alreadyEntered = false, convError = false)
         val elementToDelete = state.enteredValues.find { element -> element.uid == uid }
         if (elementToDelete != null) {
             val newList = state.enteredValues - elementToDelete
-            val newState = state.copy(enteredValues = newList)
-            _uiState.value = newState
+            _uiState.value = state.copy(enteredValues = newList)
         }
+    }
+
+    // в случае возникновения исключения возвращается null
+    private fun textToFloat(text: String): Float? {
+        var result: Float?
+        try {
+            result = text.toFloat()
+            if ((result == POSITIVE_INFINITY) || (result == NEGATIVE_INFINITY)) {
+                throw NumberFormatException()
+            }
+        } catch (e: NumberFormatException) {
+            result = null
+        }
+        return result
     }
 
     // сформировать новое значение на сохранение в БД
     fun onWrite() {
-        val state = _uiState.value ?: return
+        var state = _uiState.value ?: return
+        state = state.copy(alreadyEntered = false, convError = false)
         val paramIdx = selectedParamIndex.value ?: return
         val enteredText = enteredParamValue.value ?: return
-        if (paramIdx < state.deviceParams.params.size) {
-            val valueFormatted = enteredText
-            val newElement = WriteValuesElementUiState(
-                uid = state.deviceParams.params[paramIdx].uid,
-                shortName = state.deviceParams.params[paramIdx].shortName,
-                stringValue = valueFormatted,
-                measUnit = state.deviceParams.params[paramIdx].measUnit,
-                deleteElementLambda = { uid -> deleteElementCallback(uid) }
-            )
-            val findDublicate = state.enteredValues.find { element -> element.uid == newElement.uid }
-            if (findDublicate == null) {
-                // дубликатов нет
-                val newList = state.enteredValues + newElement  // получить список с добавленным элементом
-                val newState = state.copy(enteredValues = newList)
-                _uiState.value = newState
-            } else {
-                // значение параметра уже было введено!
-
+        if (textToFloat(enteredText) != null) {
+            if (paramIdx < state.deviceParams.params.size) {
+                val newElement = WriteValuesElementUiState(
+                    uid = state.deviceParams.params[paramIdx].uid,
+                    shortName = state.deviceParams.params[paramIdx].shortName,
+                    stringValue = enteredText,
+                    measUnit = state.deviceParams.params[paramIdx].measUnit,
+                    deleteElementLambda = { uid -> deleteElementCallback(uid) }
+                )
+                val findDublicate = state.enteredValues.find { element -> element.uid == newElement.uid }
+                if (findDublicate == null) {
+                    // дубликатов нет
+                    val newList = state.enteredValues + newElement  // получить список с добавленным элементом
+                    _uiState.value = state.copy(enteredValues = newList)
+                } else {
+                    // значение параметра уже было введено!
+                    _uiState.value = state.copy(alreadyEntered = true)
+                }
             }
+        } else {
+            // ошибка преобразования во float!
+            _uiState.value = state.copy(convError = true)
         }
     }
 }
 
+// все значения в локальной БД сохраняются в формате float, реализована только проверка преобразования во float
+// можно сделать проверку на возможность преобразования введенного текста в требуемую разрядность и представление
+// согласно типу данных
 // все манипуляции со списком введенных параметров полностью на стороне ViewModel
 // кэш для сохранения уже введенных значений (в неком своем формате) при уходе с фрагмента для данного устройства
 // можно реализовать в репозитории (при необходимости)

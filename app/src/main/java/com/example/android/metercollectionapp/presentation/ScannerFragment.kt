@@ -163,6 +163,7 @@ class ScannerFragment : Fragment() {
 //ScannerFragmentDirections.actionScannerFragmentToWriteValuesFragment(), navOptions
 //)
 // держите ваши UI контроллеры максимально "худыми" насколько это возможно - из рекомендаций гугл по архитектуре
+// но вместе с тем, ViewModel должна как можно меньше "знать" о деталях реализации UI контроллеров
 //newState.inProcess -> run {
 //    binding.twStatus.text = getText(R.string.scanning_process)
 //    return@run  // не перебирать дальше варианты

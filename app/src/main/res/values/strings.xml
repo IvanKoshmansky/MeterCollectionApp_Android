@@ -75,6 +75,8 @@
     <string name="cross_symbol"><![CDATA[\u2715]]></string>
     <string name="value">Значение</string>
     <string name="parameter">Параметр</string>
+    <string name="value_already_entered">Значение уже введено</string>
+    <string name="incorrect_value">Некорректное значение</string>
 </resources>
 <!--изменения в принципе работы со строковыми ресурсами:-->
 <!--строковый ресурс именуется просто в виде англоязычного сокращения текста-->

@@ -36,7 +36,7 @@
             android:layout_marginStart="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_8"
             android:hint="@string/enter_pass"
-            android:inputType="textPersonName"
+            android:inputType="textPassword"
             android:text="@={loginViewModel.passTextLiveData}"
             android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"

@@ -66,7 +66,7 @@ class AddDeviceParamFragment : Fragment() {
             when {
                 it.emptyFields -> Snackbar.make(binding.root, R.string.fill_all_fields,
                     Snackbar.LENGTH_SHORT).show()
-                it.success -> Snackbar.make(binding.root, R.string.new_object_save_success,
+                it.success -> Snackbar.make(binding.root, R.string.new_param_save_success,
                     Snackbar.LENGTH_SHORT).show()
                 it.error -> Snackbar.make(binding.root, R.string.new_param_save_error,
                     Snackbar.LENGTH_SHORT).show()

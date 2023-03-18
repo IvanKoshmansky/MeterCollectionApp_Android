@@ -20,7 +20,7 @@ class DeviceParamsSelectListAdapter : ListAdapter<DeviceParamSelectUiState, Devi
         val item = getItem(position)
         holder.binding.deviceParamSelectUiState = item
         holder.binding.cbSelected.setOnCheckedChangeListener { _, isChecked ->
-            item.checkingLambda(isChecked)
+            item.checkingLambda(item.uid, isChecked)
         }
         holder.binding.executePendingBindings()
     }

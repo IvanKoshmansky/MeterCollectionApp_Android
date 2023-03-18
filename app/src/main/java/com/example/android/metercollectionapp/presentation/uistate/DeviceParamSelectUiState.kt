@@ -5,7 +5,7 @@ data class DeviceParamSelectUiState (
     val uid: Long = 0,
     val name: String = "",
     val checked: Boolean = false,
-    val checkingLambda: (newState: Boolean) -> Unit
+    val checkingLambda: (uid: Long, newState: Boolean) -> Unit
 )
 
 // вот здесь в UiState не нужно использовать платформенно зависимые элементы, такие как LiveData

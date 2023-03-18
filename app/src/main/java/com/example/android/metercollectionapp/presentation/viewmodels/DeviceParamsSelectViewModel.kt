@@ -81,9 +81,7 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
         if (paramsFromRepo.isNotEmpty()) {
             uiParamsList = paramsFromRepo.map {
                 DeviceParamSelectUiState(uid = it.uid, name = it.name,
-                    checkingLambda = { newState ->
-                        setCheckedUiAction(ListSelector.AVAILABLE, it.uid, newState)
-                    }
+                    checkingLambda = { uid, newState -> setCheckedUiAction(ListSelector.AVAILABLE, uid, newState) }
                 )
             }
             state = state.copy(availableParamsLoading = false, availableParams = uiParamsList)
@@ -94,9 +92,7 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
         if (paramsFromRepo.isNotEmpty()) {
             uiParamsList = paramsFromRepo.map {
                 DeviceParamSelectUiState(uid = it.uid, name = it.name,
-                    checkingLambda = { newState ->
-                        setCheckedUiAction(ListSelector.SELECTED, it.uid, newState)
-                    }
+                    checkingLambda = { uid, newState -> setCheckedUiAction(ListSelector.SELECTED, it.uid, newState) }
                 )
             }
             state = state.copy(selectedParamsLoading = false, selectedParams = uiParamsList)
@@ -148,8 +144,8 @@ class DeviceParamsSelectViewModel @Inject constructor (private val repository: R
             val element = listFrom[index]
             if (element.checked || all) {
                 listFrom.remove(element)
-                val modified = element.copy(checked = false, checkingLambda = { newState -> setCheckedUiAction(
-                    if (fromAvailable) ListSelector.SELECTED else ListSelector.AVAILABLE, element.uid, newState) })
+                val modified = element.copy(checked = false, checkingLambda = { uid, newState -> setCheckedUiAction(
+                    if (fromAvailable) ListSelector.SELECTED else ListSelector.AVAILABLE, uid, newState) })
                 listTo.add(modified)
             }
             index--

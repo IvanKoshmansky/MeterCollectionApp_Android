@@ -15,18 +15,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_4"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tw_short_param_name" />
+
         <TextView
             android:id="@+id/tw_delete"
             android:layout_width="?attr/largeIconSize"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_4"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="1"
             android:padding="@dimen/space_4"
-            android:textAppearance="@style/SubtitleTextAppearance"
-            android:gravity="center"
             android:text="@string/cross_symbol"
+            android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
@@ -34,11 +46,11 @@
             android:id="@+id/tw_param_value"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:ellipsize="end"
+            android:gravity="end"
             android:maxLines="1"
             android:padding="@dimen/space_4"
-            android:gravity="end"
             android:text="@string/value"
             android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
@@ -50,12 +62,12 @@
             android:layout_width="?attr/largeFixedColumnWidth"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="@dimen/space_4"
-            android:textAppearance="@style/SubtitleTextAppearance"
             android:text="@string/parameter"
+            android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/divider4" />
 
@@ -63,12 +75,12 @@
             android:id="@+id/tw_meas_unit"
             android:layout_width="?attr/smallFixedColumnWidth"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="@dimen/space_4"
-            android:textAppearance="@style/SubtitleTextAppearance"
             android:text="@string/meas_unit_abbr"
+            android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintEnd_toStartOf="@+id/tw_delete"
             app:layout_constraintTop_toBottomOf="@+id/divider4" />
 
@@ -107,7 +119,7 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_cancel"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tw_param_value">
+            app:layout_constraintTop_toBottomOf="@+id/divider5">
         </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.constraintlayout.widget.Guideline
@@ -166,12 +178,14 @@
             android:layout_marginTop="@dimen/space_8"
             android:layout_marginEnd="@dimen/space_8"
             android:hint="@string/enter_value"
-            android:inputType="number"
+            android:inputType="numberSigned"
             android:maxLines="1"
             android:textAppearance="@style/SubtitleTextAppearance"
             android:text="@={writeValuesViewModel.enteredParamValue}"
             app:layout_constraintEnd_toStartOf="@+id/btn_value_enter"
             app:layout_constraintTop_toBottomOf="@+id/sr_select_param" />
+<!--        в целом набор атрибутов для ввода чисел можно вынести в стиль-->
+<!--        number, numberSigned, numberDecimal-->
 
         <TextView
             android:id="@+id/tw_object_name"
