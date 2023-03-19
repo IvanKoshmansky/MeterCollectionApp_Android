@@ -21,8 +21,7 @@ class ScannerViewModel @Inject constructor (private val repository: Repository) 
     }
 
     // UiState
-//    private val _uiState = MutableLiveData(ScannerUiState(inProcess = true))
-    private val _uiState = MutableLiveData(ScannerUiState(objectName = "name", objectGuid = 777))
+    private val _uiState = MutableLiveData(ScannerUiState(inProcess = true))
     val uiState: LiveData<ScannerUiState>
         get() = _uiState
 

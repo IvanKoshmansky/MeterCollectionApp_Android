@@ -40,10 +40,10 @@
             android:layout_marginBottom="@dimen/space_8"
             android:text="@string/next"
             android:onClick="@{() -> scannerViewModel.onNext()}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline6" />
-<!--        android:visibility="gone"-->
 
         <Button
             android:id="@+id/btn_back"

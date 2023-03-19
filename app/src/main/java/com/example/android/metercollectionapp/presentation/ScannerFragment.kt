@@ -65,7 +65,7 @@ class ScannerFragment : Fragment() {
                 newState.inProcess -> binding.twStatus.text = getText(R.string.scanning_process)
                 newState.scanSuccess -> {
                     // устройство есть в БД либо это новое устройство
-                    binding.twStatusLabel.text = getText(R.string.device_recognized)
+                    binding.twStatus.text = getText(R.string.device_recognized)
                     binding.twDeviceRecognized.text = newState.objectName
                     // активировать кнопку "Далее"
                     binding.btnNext.visibility = View.VISIBLE
@@ -132,12 +132,10 @@ class ScannerFragment : Fragment() {
                 .also {
                     it.setAnalyzer(cameraExecutor, QrCodeAnalyzer { result ->
                         Log.d("scanner", result.text)
-                        // остановить генерацию кадров
-                        preview.setSurfaceProvider(null)
                         // передать в очередь событий потока UiThread Runnable с кодом обработки результата сканирования
                         activity?.runOnUiThread {
+                            cameraProvider.unbindAll()
                             scannerViewModel.scanningDone(result.text)
-                            //scannerViewModel.scanningDone("123:0:name")
                         }
                     })
                 }
@@ -150,6 +148,7 @@ class ScannerFragment : Fragment() {
             } catch(exc: Exception) {
                 Log.e("scanner", "Use case binding failed", exc)
             }
+
         },
         ContextCompat.getMainExecutor(requireContext()))
     }

@@ -59,7 +59,8 @@
     <string name="save_success">Сохранено успешно</string>
     <string name="save_error">Ошибка при сохранении</string>
     <string name="no_selected_device">Не выбрано устройство</string>
-    <string name="scanning_process">Идет процесс сканирования…</string>
+    <string name="qr_scanner">Сканнер QR</string>
+    <string name="scanning_process">Процесс сканирования…</string>
     <string name="camera_permission_not_granted">Разрешение на запуск камеры не было предоставлено</string>
     <string name="scanning_status">Статус сканирования:</string>
     <string name="scanning_done">Сканирование завершено</string>

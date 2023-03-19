@@ -92,8 +92,8 @@
     <fragment
         android:id="@+id/scannerFragment"
         android:name="com.example.android.metercollectionapp.presentation.ScannerFragment"
-        android:label="@string/scanning_process"
-        tools:layout="@layout/fragment_scanner" >
+        android:label="@string/qr_scanner"
+        tools:layout="@layout/fragment_scanner">
         <action
             android:id="@+id/action_scannerFragment_to_writeValuesFragment"
             app:destination="@id/writeValuesFragment"
