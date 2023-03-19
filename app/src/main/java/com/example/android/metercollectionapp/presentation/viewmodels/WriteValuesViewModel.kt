@@ -5,13 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.android.metercollectionapp.domain.Repository
+import com.example.android.metercollectionapp.domain.UserManager
 import com.example.android.metercollectionapp.presentation.uistate.*
 import kotlinx.coroutines.launch
 import java.lang.Float.NEGATIVE_INFINITY
 import java.lang.Float.POSITIVE_INFINITY
 import javax.inject.Inject
 
-class WriteValuesViewModel @Inject constructor (private val repository: Repository) : ViewModel() {
+class WriteValuesViewModel @Inject constructor (
+    private val repository: Repository,
+    private val userManager: UserManager
+) : ViewModel() {
 
     // UiState
     private val _uiState = MutableLiveData(WriteValuesUiState())
@@ -127,6 +131,7 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
 
     fun onSave() {
         var state = _uiState.value ?: return
+        val currentUserId = userManager.currentUser?.id ?: return
         state = state.copy(shortMessage = WriteValuesUiState.ShortMessageCode.NOTHING_TO_SHOW)
         if (state.enteredValues.isNotEmpty()) {
             viewModelScope.launch {
@@ -135,7 +140,7 @@ class WriteValuesViewModel @Inject constructor (private val repository: Reposito
                     val value = textToFloat(element.stringValue)
                     if (value != null) {
                         repository.addNewCollectedDataRow(
-                            newRowUserId = 0,  // как определяется userId?
+                            newRowUserId = currentUserId,
                             newRowDeviceGuid = state.objectUiState.uid,
                             newRowParamUid = element.uid,
                             newRowParamValue = value
