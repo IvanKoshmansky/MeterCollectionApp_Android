@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="64dp"
+    app:behavior_peekHeight="?bottomDrawerHeight"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <RelativeLayout
         android:background="#aa4545"
         android:layout_width="match_parent"
-        android:layout_height="64dp">
+        android:layout_height="?bottomDrawerHeight">
 
     </RelativeLayout>
 

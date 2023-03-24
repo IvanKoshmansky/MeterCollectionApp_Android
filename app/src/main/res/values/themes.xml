@@ -40,5 +40,7 @@
         <item name="defaultScannerBorderColor">?colorOnPrimary</item>
         <item name="defaultScannerOverlayColor">@color/grey_alfa_30</item>
         <item name="defaultScannerBorderWidth">@dimen/size_4</item>
+        <!-- СТАТУСНАЯ СТРОКА СНИЗУ С ВЫДВИЖЕНИЕМ В СТИЛЕ BOTTOM DRAWER -->
+        <item name="bottomDrawerHeight">@dimen/size_32</item>
     </style>
 </resources>
