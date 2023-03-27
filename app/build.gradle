@@ -35,6 +35,10 @@ android {
     dataBinding {
         enabled = true
     }
+    // не работает с переменными в xml
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {

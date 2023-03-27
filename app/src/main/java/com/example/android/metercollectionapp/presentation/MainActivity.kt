@@ -4,9 +4,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.LinearLayout
+import android.util.Log
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -15,13 +15,9 @@ import androidx.navigation.ui.NavigationUI
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.ActivityMainBinding
-import com.example.android.metercollectionapp.databinding.BottomSheetBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var bottomSheetBinding: BottomSheetBinding
-    lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as MeterCollectionApplication).appComponent.inject(this)
@@ -35,12 +31,20 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
 
-        // TODO: уточнить что передавать в качестве parent
-        bottomSheetBinding = DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet, null,
-            false)
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetBinding.bottomSheet)
+        // прописать callback'и для обновления данных в BottomSheet при различных событиях
+        // для ускорения подгрузки возможно потребуется кэширование на уровне репозитория
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
+        bottomSheetBehavior.addBottomSheetCallback(
+            object : BottomSheetBehavior.BottomSheetCallback() {
+                override fun onStateChanged(bottomSheet: View, newState: Int) {
+                    binding.bottomSheetContainer.getFragment<BottomSheetFragment>().syncData()
+                }
 
-        //BottomSheetBehavior.from(findViewById<LinearLayout>(R.id.bottom_sheet))
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                    Log.d("debug_bottom_sheet", "onSlide")
+                }
+            }
+        )
 
         managePermissions()
     }

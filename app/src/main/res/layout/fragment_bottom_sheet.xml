@@ -5,19 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<LinearLayout
-    android:id="@+id/bottom_sheet"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:maxHeight="?bottomDrawerMaxHeight"
-    tools:layout_height="400dp"
-    android:orientation="vertical"
-    android:fitsSystemWindows="true"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="?bottomDrawerPeekHeight"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-    <!-- Behavior работает в паре с CoordinatorLayout -->
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -199,7 +186,4 @@
         </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</LinearLayout>
-
 </layout>

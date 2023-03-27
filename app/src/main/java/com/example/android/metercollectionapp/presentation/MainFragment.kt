@@ -2,9 +2,7 @@ package com.example.android.metercollectionapp.presentation
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
@@ -14,15 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
-import com.example.android.metercollectionapp.databinding.ActivityMainBinding
-import com.example.android.metercollectionapp.databinding.BottomSheetBinding
 import com.example.android.metercollectionapp.databinding.FragmentMainBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
-import com.example.android.metercollectionapp.presentation.adapters.SyncValuesListAdapter
 import com.example.android.metercollectionapp.presentation.adapters.UserClickListener
 import com.example.android.metercollectionapp.presentation.adapters.UsersListAdapter
 import com.example.android.metercollectionapp.presentation.viewmodels.MainViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import javax.inject.Inject
 
 class MainFragment : Fragment() {
@@ -68,22 +62,22 @@ class MainFragment : Fragment() {
             }
         }
 
-        // адаптер для RecylerView в BottomSheet
-        (activity as MainActivity).bottomSheetBinding.rwValues.adapter = SyncValuesListAdapter()
-
-        // прописать callback'и для обновления данных в BottomSheet при различных событиях
-        // для ускорения подгрузки возможно потребуется кэширование на уровне репозитория
-        (activity as MainActivity).bottomSheetBehavior.addBottomSheetCallback(
-            object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    Log.d("debug_bottom_sheet", "onStateChanged")
-                }
-
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    Log.d("debug_bottom_sheet", "onSlide")
-                }
-            }
-        )
+//        // адаптер для RecylerView в BottomSheet
+//        (activity as MainActivity).bottomSheetBinding.rwValues.adapter = SyncValuesListAdapter()
+//
+//        // прописать callback'и для обновления данных в BottomSheet при различных событиях
+//        // для ускорения подгрузки возможно потребуется кэширование на уровне репозитория
+//        (activity as MainActivity).bottomSheetBehavior.addBottomSheetCallback(
+//            object : BottomSheetBehavior.BottomSheetCallback() {
+//                override fun onStateChanged(bottomSheet: View, newState: Int) {
+//                    Log.d("debug_bottom_sheet", "onStateChanged")
+//                }
+//
+//                override fun onSlide(bottomSheet: View, slideOffset: Float) {
+//                    Log.d("debug_bottom_sheet", "onSlide")
+//                }
+//            }
+//        )
 
         return binding.root
     }
