@@ -26,7 +26,8 @@
     <attr name="spinnerHeight" format="integer" />
     <attr name="smallFixedButtonWidth" format="integer" />
     <attr name="dividerSpaces" format="integer" />
-    <attr name="bottomDrawerHeight" format="integer" />
+    <attr name="bottomDrawerPeekHeight" format="integer" />
+    <attr name="bottomDrawerMaxHeight" format="integer" />
 </resources>
 
 <!-- <declare-styleable> доступно через AttributeSet и TypedArray -->

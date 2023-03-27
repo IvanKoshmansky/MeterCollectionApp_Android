@@ -4,7 +4,9 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
@@ -13,8 +15,13 @@ import androidx.navigation.ui.NavigationUI
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.ActivityMainBinding
+import com.example.android.metercollectionapp.databinding.BottomSheetBinding
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var bottomSheetBinding: BottomSheetBinding
+    lateinit var bottomSheetBehavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as MeterCollectionApplication).appComponent.inject(this)
@@ -28,11 +35,19 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
 
+        // TODO: уточнить что передавать в качестве parent
+        bottomSheetBinding = DataBindingUtil.inflate(layoutInflater, R.layout.bottom_sheet, null,
+            false)
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetBinding.bottomSheet)
+
+        //BottomSheetBehavior.from(findViewById<LinearLayout>(R.id.bottom_sheet))
+
         managePermissions()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.navHostFragment)
+        // TODO: добавить в BottomSheet в качестве openableLayout
         return NavigationUI.navigateUp(navController, null)
     }
 

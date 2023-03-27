@@ -87,9 +87,7 @@
         <com.example.android.metercollectionapp.presentation.ScannerOverlayView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:borderColor="?defaultScannerBorderColor"
-            app:borderWidth="?defaultScannerBorderWidth"
-            app:overlayColor="?defaultScannerOverlayColor"
+            style="@style/QrCodeScannerStyle"
             app:layout_constraintBottom_toTopOf="@+id/guideline7"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +106,6 @@
             android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintBottom_toTopOf="@+id/tw_status"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline

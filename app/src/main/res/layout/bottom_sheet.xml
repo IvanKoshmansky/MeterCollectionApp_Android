@@ -1,26 +1,205 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<LinearLayout
+    android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:maxHeight="?bottomDrawerMaxHeight"
+    tools:layout_height="400dp"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="?bottomDrawerHeight"
+    app:behavior_peekHeight="?bottomDrawerPeekHeight"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    <!-- Behavior работает в паре с CoordinatorLayout -->
 
-    <RelativeLayout
-        android:background="#aa4545"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?bottomDrawerHeight">
+        android:layout_height="match_parent"
+        android:background="?colorOnPrimarySurface">
+        <!-- обязательно задавать цвет background иначе по умолчанию будет прозрачный фон! -->
 
-    </RelativeLayout>
+        <!-- когда View накрывают друг друга и что-то должно рисоваться поверх другого - здесь становится важен -->
+        <!-- порядок описания этих View сверху вниз в layout-файле -->
+        <!-- в данном случае первым рисуется View с бэкграундом -->
 
-    <RelativeLayout
-        android:background="#cca145"
-        android:layout_width="match_parent"
-        android:layout_height="250dp">
+        <View
+            android:id="@+id/div"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_4"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tw_collected" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tw_collected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_4"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/collected_and_transfered"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tw_user_name_label" />
+
+        <TextView
+            android:id="@+id/tw_user_name_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/size_8"
+            android:layout_marginEnd="@dimen/space_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/current_trackman"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/tw_user_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginEnd="@dimen/space_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text=""
+            android:textAppearance="@style/SubtitleTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline9"
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            tools:text="username" />
+
+        <TextView
+            android:id="@+id/tw_meas_unit"
+            android:layout_width="?attr/smallFixedColumnWidth"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:text="@string/meas_unit_abbr"
+            android:textAppearance="@style/BodyTextAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/div" />
+
+        <TextView
+            android:id="@+id/tw_param_value2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:text="@string/value"
+            android:textAppearance="@style/BodyTextAppearance"
+            app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
+            app:layout_constraintStart_toEndOf="@+id/tw_short_param_name"
+            app:layout_constraintTop_toBottomOf="@+id/div" />
+
+        <TextView
+            android:id="@+id/tw_short_param_name"
+            android:layout_width="?attr/largeFixedColumnWidth"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="?smallIconSize"
+            android:layout_marginTop="@dimen/space_4"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/space_4"
+            android:text="@string/parameter"
+            android:textAppearance="@style/BodyTextAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/div" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="?bottomDrawerPeekHeight"
+            android:background="?colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iw_eject_left"
+            style="@style/BottomDrawerIcons"
+            android:layout_width="?smallIconSize"
+            android:layout_height="?smallIconSize"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_4"
+            android:src="@drawable/ic_eject_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iw_eject_right"
+            style="@style/BottomDrawerIcons"
+            android:layout_width="?smallIconSize"
+            android:layout_height="?smallIconSize"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_4"
+            android:src="@drawable/ic_eject_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tw_status"
+            style="@style/BottomDrawerTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/synchronization_status_pull_up"
+            android:textAppearance="@style/SubtitleTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toStartOf="@+id/iw_eject_right"
+            app:layout_constraintStart_toEndOf="@+id/iw_eject_left"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline9"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintGuide_percent="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rw_values"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_4"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tw_short_param_name">
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
+
+</layout>

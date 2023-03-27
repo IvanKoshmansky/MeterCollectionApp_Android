@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="uiState"
+            type="com.example.android.metercollectionapp.presentation.uistate.SyncValuesElementUiState" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iw_status"
+            android:layout_width="?smallIconSize"
+            android:layout_height="?smallIconSize"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_4"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            app:imageViewSyncStatus24="@{uiState.syncStatus}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_sync_24" />
+
+        <TextView
+            android:id="@+id/tw_meas_unit"
+            android:layout_width="?attr/smallFixedColumnWidth"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/space_4"
+            android:paddingLeft="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4"
+            android:paddingRight="@dimen/space_4"
+            android:text="@{uiState.measUnit}"
+            android:textAppearance="@style/BodyTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iw_status"
+            tools:text="Вт"/>
+
+        <TextView
+            android:id="@+id/tw_param_value2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/space_4"
+            android:paddingLeft="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4"
+            android:paddingRight="@dimen/space_4"
+            android:text="@{uiState.stringValue}"
+            android:textAppearance="@style/BodyTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_status"
+            app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
+            app:layout_constraintStart_toEndOf="@+id/tw_short_param_name"
+            app:layout_constraintTop_toTopOf="@+id/iw_status"
+            tools:text="100500"/>
+
+        <TextView
+            android:id="@+id/tw_short_param_name"
+            android:layout_width="?attr/largeFixedColumnWidth"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingStart="@dimen/space_4"
+            android:paddingLeft="@dimen/space_4"
+            android:paddingEnd="@dimen/space_4"
+            android:paddingRight="@dimen/space_4"
+            android:text="@{uiState.shortName}"
+            android:textAppearance="@style/BodyTextAppearance"
+            app:layout_constraintBottom_toBottomOf="@+id/iw_status"
+            app:layout_constraintStart_toEndOf="@+id/iw_status"
+            app:layout_constraintTop_toTopOf="@+id/iw_status"
+            tools:text="Pвых"/>
+
+        <View
+            android:id="@+id/div"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/space_4"
+            android:layout_marginTop="@dimen/space_4"
+            android:layout_marginEnd="@dimen/space_4"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iw_status" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+
+<!-- для разграничения элементов списка можно использовать декоратор для адаптера -->
+<!-- он уже реализован, нужно только правильно прописать в коде фрагмента подключение этого декоратора -->

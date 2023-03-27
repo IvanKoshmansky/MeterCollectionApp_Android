@@ -41,6 +41,7 @@
         <item name="defaultScannerOverlayColor">@color/grey_alfa_30</item>
         <item name="defaultScannerBorderWidth">@dimen/size_4</item>
         <!-- СТАТУСНАЯ СТРОКА СНИЗУ С ВЫДВИЖЕНИЕМ В СТИЛЕ BOTTOM DRAWER -->
-        <item name="bottomDrawerHeight">@dimen/size_32</item>
+        <item name="bottomDrawerPeekHeight">@dimen/size_32</item>
+        <item name="bottomDrawerMaxHeight">@dimen/size_400</item>
     </style>
 </resources>
