@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.domain.Repository
 import com.example.android.metercollectionapp.domain.model.DeviceParam
-import com.example.android.metercollectionapp.domain.model.DeviceParamType
 import com.example.android.metercollectionapp.presentation.uistate.AddDeviceParamUiState
 import kotlinx.coroutines.launch
 import java.lang.NumberFormatException
@@ -20,7 +19,7 @@ class AddDeviceParamViewModel @Inject constructor (private val repository: Repos
     val nameLiveData = MutableLiveData("")
     val shortNameLiveData = MutableLiveData("")
     val measUnitLiveData = MutableLiveData("")
-    val dataTypeLiveData = MutableLiveData(DeviceParamType.FLOAT.ordinal)  // ordinal порядковый номер начиная с нуля
+    val dataTypeLiveData = MutableLiveData(DeviceParam.ParamType.FLOAT.ordinal)  // ordinal порядковый номер начиная с нуля
     // для позиции спиннера есть готовый Two-Way биндинг адаптер
     // такой же адаптер есть и для date-time piker'ов
 
@@ -43,7 +42,7 @@ class AddDeviceParamViewModel @Inject constructor (private val repository: Repos
             // сохранить в БД
             try {
                 val uid = uidLiveData.value!!.toLong()
-                val dataType = DeviceParamType.values()[dataTypeLiveData.value!!]
+                val dataType = DeviceParam.ParamType.values()[dataTypeLiveData.value!!]
                 val newDeviceParam = DeviceParam(
                     uid,
                     dataType,

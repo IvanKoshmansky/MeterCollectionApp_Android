@@ -1,8 +1,6 @@
 package com.example.android.metercollectionapp.domain
 
-import com.example.android.metercollectionapp.domain.model.Device
-import com.example.android.metercollectionapp.domain.model.DeviceParam
-import com.example.android.metercollectionapp.domain.model.User
+import com.example.android.metercollectionapp.domain.model.*
 
 interface Repository {
     suspend fun getAllUsers(): List<User>
@@ -35,9 +33,11 @@ interface Repository {
     suspend fun addNewCollectedDataRow(newRowUserId: Long, newRowDeviceGuid: Long, newRowParamUid: Long,
                                        newRowParamValue: Float)
 
-    suspend fun sync() // будет вызываться переодически из WorkManager, синхронизация по цепочке начиная с пользователей
+    suspend fun getCollectedData(userId: Long): List<CollectedDataExt>
+
+    suspend fun sync() // будет вызываться периодически из WorkManager, синхронизация по цепочке начиная с пользователей
 
 }
 
-// для соблюдения принципа сегрегации интерфесов (ISP) SOLID лучше сделать несколько однотипных методов
+// для соблюдения принципа сегрегации интерфейсов (ISP) SOLID лучше сделать несколько однотипных методов
 // с разными сигнатурами под конкретные нужды клиентского кода, чтобы не было ситуации "как с TextWatcher"

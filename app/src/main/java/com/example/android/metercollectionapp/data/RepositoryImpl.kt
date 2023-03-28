@@ -1,16 +1,11 @@
 package com.example.android.metercollectionapp.data
 
-import androidx.work.impl.model.systemIdInfo
-import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.data.localdb.LocalDatabase
 import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
 import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
 import com.example.android.metercollectionapp.data.storage.Storage
 import com.example.android.metercollectionapp.domain.Repository
-import com.example.android.metercollectionapp.domain.model.CollectedData
-import com.example.android.metercollectionapp.domain.model.Device
-import com.example.android.metercollectionapp.domain.model.DeviceParam
-import com.example.android.metercollectionapp.domain.model.User
+import com.example.android.metercollectionapp.domain.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -133,6 +128,13 @@ class RepositoryImpl @Inject constructor (
         }
     }
 
+    override suspend fun getCollectedData(userId: Long): List<CollectedDataExt> {
+        TODO("Not yet implemented")
+        // все запросы в связанные таблицы переложить на API Room
+        // Room выдает максимально подготовленную выборку для экономии обращений к SD карте и лучшей оптимизации
+
+    }
+
     override suspend fun sync() {
         TODO("Not yet implemented")
     }
@@ -142,3 +144,6 @@ class RepositoryImpl @Inject constructor (
 // из конструктора репозитория убраны мапперы посольку они не участвуют в модульных тестах
 // UseCase имеет смысл применять только для "среза" данных из разных репозиториев или источников
 // необходимость в UseCase есть для того, чтобы переиспользовать бизнес логику
+
+// все запросы в связанные таблицы переложить на API Room
+// Room выдает максимально подготовленную выборку для экономии обращений к SD карте и лучшей оптимизации

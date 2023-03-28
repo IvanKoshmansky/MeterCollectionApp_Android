@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cardUiState"
+            type="com.example.android.metercollectionapp.presentation.uistate.SyncValuesCardUiState" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp"
+        app:contentPadding="@dimen/space_4">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tw_object_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/space_4"
+                android:layout_marginEnd="@dimen/space_4"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:text="@{cardUiState.objectName}"
+                android:textAppearance="@style/SubtitleTextAppearance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Сыктывкар 1" />
+
+            <View
+                android:id="@+id/div"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="?dividerSpaces"
+                android:layout_marginTop="@dimen/space_4"
+                android:layout_marginEnd="?dividerSpaces"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tw_object_name" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rw_rows"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:clipToPadding="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/div">
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>
+
+<!-- можно задать максимальную высоту элемента в ConstraintLayout: app:layout_constraintHeight_max -->

@@ -8,7 +8,7 @@
     <data>
         <variable
             name="uiState"
-            type="com.example.android.metercollectionapp.presentation.uistate.SyncValuesElementUiState" />
+            type="com.example.android.metercollectionapp.presentation.uistate.SyncValuesRowUiState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +23,7 @@
             android:layout_marginTop="@dimen/space_4"
             android:adjustViewBounds="true"
             android:scaleType="center"
-            app:imageViewSyncStatus24="@{uiState.syncStatus}"
+            app:imageViewSyncStatus24="@{uiState.valueSyncStatus}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_sync_24" />

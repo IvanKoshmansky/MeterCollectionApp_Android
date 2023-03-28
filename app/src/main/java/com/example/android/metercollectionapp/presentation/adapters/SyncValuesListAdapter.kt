@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.metercollectionapp.databinding.SyncValueItemBinding
-import com.example.android.metercollectionapp.presentation.uistate.SyncValuesElementUiState
+import com.example.android.metercollectionapp.presentation.uistate.SyncValuesRowUiState
 
-class SyncValuesListAdapter : ListAdapter<SyncValuesElementUiState, SyncValuesListAdapter.SyncValueViewHolder>(DiffCallback()) {
+class SyncValuesListAdapter : ListAdapter<SyncValuesRowUiState, SyncValuesListAdapter.SyncValueViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SyncValueViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -24,11 +24,11 @@ class SyncValuesListAdapter : ListAdapter<SyncValuesElementUiState, SyncValuesLi
 
     class SyncValueViewHolder (val binding: SyncValueItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    class DiffCallback: DiffUtil.ItemCallback<SyncValuesElementUiState>() {
-        override fun areItemsTheSame(oldItem: SyncValuesElementUiState, newItem: SyncValuesElementUiState): Boolean {
+    class DiffCallback: DiffUtil.ItemCallback<SyncValuesRowUiState>() {
+        override fun areItemsTheSame(oldItem: SyncValuesRowUiState, newItem: SyncValuesRowUiState): Boolean {
             return oldItem.uid == newItem.uid
         }
-        override fun areContentsTheSame(oldItem: SyncValuesElementUiState, newItem: SyncValuesElementUiState): Boolean {
+        override fun areContentsTheSame(oldItem: SyncValuesRowUiState, newItem: SyncValuesRowUiState): Boolean {
             return oldItem == newItem
         }
     }

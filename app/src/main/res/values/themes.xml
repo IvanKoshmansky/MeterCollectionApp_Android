@@ -42,6 +42,6 @@
         <item name="defaultScannerBorderWidth">@dimen/size_4</item>
         <!-- СТАТУСНАЯ СТРОКА СНИЗУ С ВЫДВИЖЕНИЕМ В СТИЛЕ BOTTOM DRAWER -->
         <item name="bottomDrawerPeekHeight">@dimen/size_32</item>
-        <item name="bottomDrawerMaxHeight">@dimen/size_400</item>
+        <item name="bottomDrawerCardsListMaxHeight">@dimen/size_400</item>
     </style>
 </resources>

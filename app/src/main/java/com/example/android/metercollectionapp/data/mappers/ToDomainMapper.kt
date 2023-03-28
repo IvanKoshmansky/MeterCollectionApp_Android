@@ -35,7 +35,7 @@ class ToDomainMapper {
 
     fun mapDeviceParam(dbDeviceParam: DBDeviceParam) = DeviceParam(
         _uid = dbDeviceParam.uid,
-        _paramType = DeviceParamType.values()[dbDeviceParam.paramType],
+        _paramType = DeviceParam.ParamType.values()[dbDeviceParam.paramType],
         _measUnit = dbDeviceParam.measUnit,
         _name = dbDeviceParam.name,
         _shortName = dbDeviceParam.shortName,

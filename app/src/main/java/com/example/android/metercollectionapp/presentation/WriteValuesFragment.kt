@@ -14,7 +14,7 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentWriteValuesBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
-import com.example.android.metercollectionapp.domain.model.DeviceParamType
+import com.example.android.metercollectionapp.domain.model.DeviceParam
 import com.example.android.metercollectionapp.presentation.adapters.SpinnerTextViewAdapter
 import com.example.android.metercollectionapp.presentation.adapters.WriteValuesListAdapter
 import com.example.android.metercollectionapp.presentation.uistate.DeviceParamUiState
@@ -84,9 +84,9 @@ class WriteValuesFragment : Fragment() {
             binding.twParamShortName.text = getString(R.string.placeholder_equals_sign,
                     newState.selectedParamShortName)
             binding.etParamValue.inputType = when (newState.selectedParamType) {
-                DeviceParamType.UINT32 -> { InputType.TYPE_CLASS_NUMBER }
-                DeviceParamType.INT32 -> { InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED }
-                DeviceParamType.FLOAT -> { InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED or
+                DeviceParam.ParamType.UINT32 -> { InputType.TYPE_CLASS_NUMBER }
+                DeviceParam.ParamType.INT32 -> { InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED }
+                DeviceParam.ParamType.FLOAT -> { InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED or
                     InputType.TYPE_NUMBER_FLAG_DECIMAL
                 }
             }

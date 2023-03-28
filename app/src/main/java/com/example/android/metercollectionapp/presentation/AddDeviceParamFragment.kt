@@ -14,7 +14,7 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentAddDeviceParamBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
-import com.example.android.metercollectionapp.domain.model.DeviceParamType
+import com.example.android.metercollectionapp.domain.model.DeviceParam
 import com.example.android.metercollectionapp.presentation.uistate.AddDeviceParamUiState
 import com.example.android.metercollectionapp.presentation.viewmodels.AddDeviceParamViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -46,7 +46,7 @@ class AddDeviceParamFragment : Fragment() {
         binding.srDataType.adapter = ArrayAdapter(
             requireActivity(),
             R.layout.textview_spinner_item,
-            DeviceParamType.values().map { it.name }
+            DeviceParam.ParamType.values().map { it.name }
         )
         // для простейших применений spinner можно использовать ArrayAdapter, но ArrayAdapter не дает доступ к списку,
         // с которым он сейчас работает, здесь применен BaseAdapter чтобы иметь такой доступ

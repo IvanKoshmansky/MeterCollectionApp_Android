@@ -1,7 +1,5 @@
 package com.example.android.metercollectionapp.data.mappers
 
-import androidx.room.ColumnInfo
-import androidx.room.PrimaryKey
 import com.example.android.metercollectionapp.data.localdb.DBCollectedData
 import com.example.android.metercollectionapp.data.localdb.DBDevice
 import com.example.android.metercollectionapp.data.localdb.DBDeviceParam

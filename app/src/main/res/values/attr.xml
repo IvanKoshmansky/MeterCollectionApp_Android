@@ -27,7 +27,7 @@
     <attr name="smallFixedButtonWidth" format="integer" />
     <attr name="dividerSpaces" format="integer" />
     <attr name="bottomDrawerPeekHeight" format="integer" />
-    <attr name="bottomDrawerMaxHeight" format="integer" />
+    <attr name="bottomDrawerCardsListMaxHeight" format="integer" />
 </resources>
 
 <!-- <declare-styleable> доступно через AttributeSet и TypedArray -->
