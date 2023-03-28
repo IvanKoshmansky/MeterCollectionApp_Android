@@ -19,6 +19,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MainActivity : AppCompatActivity() {
 
+    private var bottomSheetLastState: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as MeterCollectionApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
@@ -31,18 +33,19 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
 
-        // прописать callback'и для обновления данных в BottomSheet при различных событиях
-        // для ускорения подгрузки возможно потребуется кэширование на уровне репозитория
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
+        bottomSheetLastState = bottomSheetBehavior.state
         bottomSheetBehavior.addBottomSheetCallback(
             object : BottomSheetBehavior.BottomSheetCallback() {
                 override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    binding.bottomSheetContainer.getFragment<BottomSheetFragment>().syncData()
+                    if ((newState == BottomSheetBehavior.STATE_DRAGGING) &&
+                        (bottomSheetLastState == BottomSheetBehavior.STATE_COLLAPSED)) {
+                        binding.bottomSheetContainer.getFragment<BottomSheetFragment>().onSlideBegin()
+                    }
+                    bottomSheetLastState = newState
                 }
 
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                    Log.d("debug_bottom_sheet", "onSlide")
-                }
+                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
             }
         )
 

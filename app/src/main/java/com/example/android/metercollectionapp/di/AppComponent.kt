@@ -29,14 +29,12 @@ interface AppComponent {
     fun inject(deviceParamsSelectFragment: DeviceParamsSelectFragment)
     fun inject(scannerFragment: ScannerFragment)
     fun inject(writeValuesFragment: WriteValuesFragment)
+    fun inject(bottomSheetFragment: BottomSheetFragment)
 
     // singleton, доступен везде, где доступен AppComponent
     fun getUserManager(): UserManager
-    // можно использовать дополнительно субкомпоненты, чтобы ограничить область видимости этой ссылки
-    // и добавить Scope, для этого компоненты/субкомпоненты и нужны, чтобы группировать ссылки
-
-    // для камеры тоже нужен отдельный класс/субкомпонент, он должен обрабатывать lifecycle-сообщения
-    // чтобы вовремя освобождать ресурсы
+    // можно использовать дополнительно субкомпоненты, чтобы ограничить область видимости этой ссылки и добавить Scope,
+    // для этого компоненты/субкомпоненты и нужны, чтобы группировать ссылки
 
     @Component.Builder
     interface Builder {

@@ -76,7 +76,7 @@
         </LinearLayout>
 
         <!-- второй чайлд для CoordinatorLayout -->
-        <!-- с помощью данного контейнера можно отбражать фрагменты и находить его по имени -->
+        <!-- с помощью данного контейнера можно отбражать фрагменты и находить их по имени -->
         <androidx.fragment.app.FragmentContainerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -90,3 +90,6 @@
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
+
+<!-- если нужно обратиться через View Binding или Data Binding к layout в include -->
+<!-- то там где написано include нужно обязательно добавить id -->

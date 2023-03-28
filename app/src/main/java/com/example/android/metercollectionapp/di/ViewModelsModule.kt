@@ -58,4 +58,9 @@ abstract class ViewModelsModule {
     @IntoMap
     @ViewModelKey(WriteValuesViewModel::class)
     abstract fun bindWriteValuesViewModel(writeValuesViewModel: WriteValuesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(BottomSheetViewModel::class)
+    abstract fun bindBottomSheetViewModel(bottomSheetViewModel: BottomSheetViewModel): ViewModel
 }
