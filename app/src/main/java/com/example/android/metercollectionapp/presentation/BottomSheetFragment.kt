@@ -12,6 +12,7 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentBottomSheetBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
+import com.example.android.metercollectionapp.presentation.adapters.SyncValuesListAdapter
 import com.example.android.metercollectionapp.presentation.viewmodels.BottomSheetViewModel
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ class BottomSheetFragment : Fragment(), BottomSheetContract {
 
     private lateinit var bottomSheetViewModel: BottomSheetViewModel
     private lateinit var binding: FragmentBottomSheetBinding
+    private lateinit var adapter: SyncValuesListAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -36,6 +38,8 @@ class BottomSheetFragment : Fragment(), BottomSheetContract {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_bottom_sheet, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
+        adapter = SyncValuesListAdapter()
+        binding.rwValueCards.adapter = adapter
         return binding.root
     }
 
@@ -50,7 +54,7 @@ class BottomSheetFragment : Fragment(), BottomSheetContract {
             }
 
             if (!it.isLoading) {
-
+                adapter.submitList(it.values)
             }
         }
     }

@@ -48,6 +48,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tw_object_name" />
 
+            <TextView
+                android:id="@+id/tw_meas_unit"
+                android:layout_width="?attr/smallFixedColumnWidth"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="@dimen/space_4"
+                android:text="@string/meas_unit_abbr"
+                android:textAppearance="@style/BodyTextAppearance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/div" />
+
+            <TextView
+                android:id="@+id/tw_param_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_4"
+                android:ellipsize="end"
+                android:gravity="end"
+                android:maxLines="1"
+                android:padding="@dimen/space_4"
+                android:text="@string/value"
+                android:textAppearance="@style/BodyTextAppearance"
+                app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
+                app:layout_constraintStart_toEndOf="@+id/tw_short_param_name"
+                app:layout_constraintTop_toBottomOf="@+id/div" />
+
+            <TextView
+                android:id="@+id/tw_short_param_name"
+                android:layout_width="?attr/largeFixedColumnWidth"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="?smallIconSize"
+                android:layout_marginTop="@dimen/space_4"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="@dimen/space_4"
+                android:text="@string/parameter"
+                android:textAppearance="@style/BodyTextAppearance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/div" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rw_rows"
                 android:layout_width="0dp"
@@ -57,11 +99,10 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/div">
+                app:layout_constraintTop_toBottomOf="@+id/tw_short_param_name">
+
             </androidx.recyclerview.widget.RecyclerView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </com.google.android.material.card.MaterialCardView>
 
 </layout>

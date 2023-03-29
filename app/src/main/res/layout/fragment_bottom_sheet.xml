@@ -25,14 +25,14 @@
             android:background="?android:attr/listDivider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tw_collected" />
+            app:layout_constraintTop_toBottomOf="@+id/tw_user_name_label" />
 
         <TextView
             android:id="@+id/tw_collected"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/space_4"
-            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginTop="@dimen/space_4"
             android:layout_marginEnd="@dimen/space_4"
             android:ellipsize="end"
             android:gravity="center"
@@ -41,7 +41,7 @@
             android:textAppearance="@style/SubtitleTextAppearance"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tw_user_name_label" />
+            app:layout_constraintTop_toBottomOf="@+id/div" />
 
         <TextView
             android:id="@+id/tw_user_name_label"
@@ -73,48 +73,6 @@
             app:layout_constraintStart_toStartOf="@+id/guideline9"
             app:layout_constraintTop_toBottomOf="@+id/view"
             tools:text="username" />
-
-        <TextView
-            android:id="@+id/tw_meas_unit"
-            android:layout_width="?attr/smallFixedColumnWidth"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_4"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="@dimen/space_4"
-            android:text="@string/meas_unit_abbr"
-            android:textAppearance="@style/BodyTextAppearance"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/div" />
-
-        <TextView
-            android:id="@+id/tw_param_value2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_4"
-            android:ellipsize="end"
-            android:gravity="end"
-            android:maxLines="1"
-            android:padding="@dimen/space_4"
-            android:text="@string/value"
-            android:textAppearance="@style/BodyTextAppearance"
-            app:layout_constraintEnd_toStartOf="@+id/tw_meas_unit"
-            app:layout_constraintStart_toEndOf="@+id/tw_short_param_name"
-            app:layout_constraintTop_toBottomOf="@+id/div" />
-
-        <TextView
-            android:id="@+id/tw_short_param_name"
-            android:layout_width="?attr/largeFixedColumnWidth"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="?smallIconSize"
-            android:layout_marginTop="@dimen/space_4"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="@dimen/space_4"
-            android:text="@string/parameter"
-            android:textAppearance="@style/BodyTextAppearance"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/div" />
 
         <View
             android:id="@+id/view"
@@ -180,10 +138,10 @@
             android:layout_marginTop="@dimen/space_4"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintHeight_max="?bottomDrawerCardsListMaxHeight"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_max="?bottomDrawerCardsListMaxHeight"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tw_short_param_name">
+            app:layout_constraintTop_toBottomOf="@+id/tw_collected">
         </androidx.recyclerview.widget.RecyclerView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
