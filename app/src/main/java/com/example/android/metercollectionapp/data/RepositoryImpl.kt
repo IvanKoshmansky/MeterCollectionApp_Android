@@ -1,5 +1,6 @@
 package com.example.android.metercollectionapp.data
 
+import android.util.Log
 import com.example.android.metercollectionapp.data.localdb.*
 import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
 import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
@@ -137,7 +138,7 @@ class RepositoryImpl @Inject constructor (
     }
 
     override suspend fun sync() {
-        TODO("Not yet implemented")
+        Log.d("debug_sync", "sync()")
     }
 
 }

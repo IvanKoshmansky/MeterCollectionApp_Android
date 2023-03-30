@@ -3,11 +3,15 @@ package com.example.android.metercollectionapp.di
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.domain.UserManager
 import com.example.android.metercollectionapp.presentation.*
+import dagger.Binds
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
-@Component(modules = [ViewModelFactoryModule::class, ViewModelsModule::class, DataModule::class])
+@Component(modules = [ViewModelFactoryModule::class,
+                      ViewModelsModule::class,
+                      DataModule::class,
+                      WorkerConfigurationModule::class])
 @Singleton
 interface AppComponent {
 

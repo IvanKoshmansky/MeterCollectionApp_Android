@@ -11,9 +11,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.WorkRequest
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.ActivityMainBinding
+import com.example.android.metercollectionapp.infrastructure.UploadWorker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 class MainActivity : AppCompatActivity() {
