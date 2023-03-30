@@ -1,9 +1,6 @@
 package com.example.android.metercollectionapp.data.localdb
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface DatabaseDao {
@@ -52,4 +49,18 @@ interface DatabaseDao {
     // добавить новую строку собранных данных в локальную БД
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNewCollectedDataRow(newCollectedData: DBCollectedData)
+
+    // получить строку собранных данных в расширенном формате
+    @Query("""
+        SELECT * FROM collected_data
+        INNER JOIN devices_table ON devices_table.guid = collected_data.device_id
+        INNER JOIN params_table ON params_table.uid = collected_data.param_id
+        WHERE collected_data.user_id == :userId
+    """)
+    fun getDBCollectedDataExtPOJOs(userId: Long): List<DBCollectedDataExtPOJO>
+    // You can use a raw string which is more readable anyway
 }
+
+// @Relation требует явное статическое связывание через поля в обоих @Entity, отношение "один к одному" или
+// "один ко многим", не всегда это бывает удобно для реализации, особенно связь "многие ко многим",
+// поэтому в данном приложении таблицы не связаны, а сложные запросы из нескольких таблиц делаются через INNER JOIN

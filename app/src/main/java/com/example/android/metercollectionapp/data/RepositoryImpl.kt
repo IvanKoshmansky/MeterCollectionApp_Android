@@ -1,6 +1,6 @@
 package com.example.android.metercollectionapp.data
 
-import com.example.android.metercollectionapp.data.localdb.LocalDatabase
+import com.example.android.metercollectionapp.data.localdb.*
 import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
 import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
 import com.example.android.metercollectionapp.data.storage.Storage
@@ -129,10 +129,11 @@ class RepositoryImpl @Inject constructor (
     }
 
     override suspend fun getCollectedData(userId: Long): List<CollectedDataExt> {
-        TODO("Not yet implemented")
-        // все запросы в связанные таблицы переложить на API Room
-        // Room выдает максимально подготовленную выборку для экономии обращений к SD карте и лучшей оптимизации
-
+        return withContext(Dispatchers.IO) {
+            ToDomainMapper().mapCollectedDataExtList(
+                localDatabase.databaseDao.getDBCollectedDataExtPOJOs(userId)
+            )
+        }
     }
 
     override suspend fun sync() {
@@ -144,6 +145,5 @@ class RepositoryImpl @Inject constructor (
 // из конструктора репозитория убраны мапперы посольку они не участвуют в модульных тестах
 // UseCase имеет смысл применять только для "среза" данных из разных репозиториев или источников
 // необходимость в UseCase есть для того, чтобы переиспользовать бизнес логику
-
 // все запросы в связанные таблицы переложить на API Room
 // Room выдает максимально подготовленную выборку для экономии обращений к SD карте и лучшей оптимизации

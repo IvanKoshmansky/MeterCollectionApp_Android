@@ -1,9 +1,6 @@
 package com.example.android.metercollectionapp.data.mappers
 
-import com.example.android.metercollectionapp.data.localdb.DBCollectedData
-import com.example.android.metercollectionapp.data.localdb.DBDevice
-import com.example.android.metercollectionapp.data.localdb.DBDeviceParam
-import com.example.android.metercollectionapp.data.localdb.DBUser
+import com.example.android.metercollectionapp.data.localdb.*
 import com.example.android.metercollectionapp.domain.model.CollectedData
 import com.example.android.metercollectionapp.domain.model.Device
 import com.example.android.metercollectionapp.domain.model.DeviceParam

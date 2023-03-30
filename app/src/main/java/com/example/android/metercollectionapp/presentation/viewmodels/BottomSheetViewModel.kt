@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.domain.Repository
 import com.example.android.metercollectionapp.domain.UserManager
 import com.example.android.metercollectionapp.presentation.uistate.SyncValuesCardUiState
@@ -29,33 +28,30 @@ class BottomSheetViewModel @Inject constructor (
             val currentUser = userManager.currentUser
             if (currentUser != null) {
                 state = state.copy(userLoggedIn = true, userName = currentUser.name)
-                // val collectedData = repository.getCollectedData(currentUser.id)
-
-                val rows1 = listOf(
-                    SyncValuesRowUiState(0, SyncStatus.UNKNOWN, "Pвых", "25", "Вт"),
-                    SyncValuesRowUiState(123, SyncStatus.UNKNOWN, "Uвых", "12", "В"),
-                    SyncValuesRowUiState(777, SyncStatus.UNKNOWN, "Iвых", "5", "А"),
-                    SyncValuesRowUiState(53453, SyncStatus.UNKNOWN, "Pвых", "25", "Вт"),
-                    SyncValuesRowUiState(676, SyncStatus.UNKNOWN, "Uвых", "12", "В"),
-                    SyncValuesRowUiState(75767, SyncStatus.UNKNOWN, "Iвых", "5", "А"),
-                )
-                val rows2 = listOf(
-                    SyncValuesRowUiState(0, SyncStatus.UNKNOWN, "Pвых", "34", "Вт"),
-                    SyncValuesRowUiState(123, SyncStatus.UNKNOWN, "Uвых", "15", "В"),
-                    SyncValuesRowUiState(777, SyncStatus.UNKNOWN, "Iвых", "23", "А"),
-                    SyncValuesRowUiState(53453, SyncStatus.UNKNOWN, "Pвых", "25", "Вт"),
-                    SyncValuesRowUiState(676, SyncStatus.UNKNOWN, "Uвых", "12", "В"),
-                    SyncValuesRowUiState(75767, SyncStatus.UNKNOWN, "Iвых", "5", "А"),
-                )
-                val cards = listOf(
-                    SyncValuesCardUiState(333, "Сыктывкар 1", rows1),
-                    SyncValuesCardUiState(444, "Новый Уренгой 5", rows2),
-                    SyncValuesCardUiState(333, "Сыктывкар 1", rows1),
-                    SyncValuesCardUiState(444, "Новый Уренгой 5", rows2)
-                )
-                state = SyncValuesUiState(cards, false, true, "В.Иванов")
-
-                // state = state.copy(values = uiList, isLoading = false)
+                val collectedData = repository.getCollectedData(currentUser.id)
+                val split = collectedData.groupBy { it.deviceGuid }
+                val uiCardsList = mutableListOf<SyncValuesCardUiState>()
+                split.forEach { (deviceGuid, deviceData) ->
+                    val cardRows = mutableListOf<SyncValuesRowUiState>()
+                    deviceData.forEach {
+                        cardRows.add(
+                            SyncValuesRowUiState(
+                                uid = it.paramUid,
+                                shortName = it.paramInfo.shortName,
+                                measUnit = it.paramInfo.measUnit,
+                                stringValue = it.paramValue.toString(),  // в простейшем случае вывод без форматирования
+                                valueSyncStatus = it.status
+                            )
+                        )
+                    }
+                    val cardUiState = SyncValuesCardUiState(
+                        guid = deviceGuid,
+                        objectName = deviceData[0].deviceInfo.name,
+                        rows = cardRows
+                    )
+                    uiCardsList.add(cardUiState)
+                }
+                state = state.copy(values = uiCardsList, isLoading = false)
             } else {
                 state = state.copy(userLoggedIn = false, isLoading = false)
             }
@@ -64,3 +60,5 @@ class BottomSheetViewModel @Inject constructor (
     }
 
 }
+
+// TODO: тестировать через WiFi на телефоне со сканнером Qr кодов, готовить заготовку для службы синхронизации

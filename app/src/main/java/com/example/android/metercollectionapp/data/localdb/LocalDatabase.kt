@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-private const val DATABASE_NAME = "local_db_debug_11"
+private const val DATABASE_NAME = "local_db_debug_12"
 
 @Database(entities = [DBUser::class,
                       DBDevice::class,

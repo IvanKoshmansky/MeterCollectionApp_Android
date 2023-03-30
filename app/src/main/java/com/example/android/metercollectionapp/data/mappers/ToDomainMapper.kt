@@ -1,9 +1,6 @@
 package com.example.android.metercollectionapp.data.mappers
 
-import com.example.android.metercollectionapp.data.localdb.DBCollectedData
-import com.example.android.metercollectionapp.data.localdb.DBDevice
-import com.example.android.metercollectionapp.data.localdb.DBDeviceParam
-import com.example.android.metercollectionapp.data.localdb.DBUser
+import com.example.android.metercollectionapp.data.localdb.*
 import com.example.android.metercollectionapp.domain.model.*
 
 class ToDomainMapper {
@@ -58,5 +55,21 @@ class ToDomainMapper {
 
     fun mapCollectedDataList(dbCollectedDataList: List<DBCollectedData>) = dbCollectedDataList.map {
         mapCollectedData(it)
+    }
+
+    fun mapCollectedDataExt(dbCollectedDataExtPOJO: DBCollectedDataExtPOJO) = CollectedDataExt(
+        _id = dbCollectedDataExtPOJO.base.id,
+        _unixTime = dbCollectedDataExtPOJO.base.unixTime,
+        _userId = dbCollectedDataExtPOJO.base.userId,
+        _deviceGuid = dbCollectedDataExtPOJO.base.deviceId,
+        _paramUid = dbCollectedDataExtPOJO.base.paramId,
+        _paramValue = dbCollectedDataExtPOJO.base.paramValue,
+        _status = dbCollectedDataExtPOJO.base.status,
+        _deviceInfo = mapDevice(dbCollectedDataExtPOJO.device),
+        _paramInfo = mapDeviceParam(dbCollectedDataExtPOJO.param)
+    )
+
+    fun mapCollectedDataExtList(dbCollectedDataExtPOJOs: List<DBCollectedDataExtPOJO>) = dbCollectedDataExtPOJOs.map {
+        mapCollectedDataExt(it)
     }
 }

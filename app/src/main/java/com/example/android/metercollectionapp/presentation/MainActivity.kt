@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -20,12 +19,13 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 class MainActivity : AppCompatActivity() {
 
     private var bottomSheetLastState: Int = 0
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (applicationContext as MeterCollectionApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
 
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         setSupportActionBar(binding.toolbar)
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = this.findNavController(R.id.navHostFragment)
-        // TODO: добавить в BottomSheet в качестве openableLayout
+        // TODO: добавить в BottomSheet в качестве openableLayout или реализовать программный перехват нажатия кнопки
+        // Back чтобы закрыть открытый Bottom Sheet
         return NavigationUI.navigateUp(navController, null)
     }
 
