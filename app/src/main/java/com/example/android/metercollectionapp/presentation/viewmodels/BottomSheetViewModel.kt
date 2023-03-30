@@ -60,5 +60,3 @@ class BottomSheetViewModel @Inject constructor (
     }
 
 }
-
-// TODO: тестировать через WiFi на телефоне со сканнером Qr кодов, готовить заготовку для службы синхронизации
