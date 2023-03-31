@@ -12,17 +12,12 @@ class UploadWorker(
     params: WorkerParameters,
     private val repository: Repository) : CoroutineWorker(context, params) {
 
-    override suspend fun doWork(): Result =
-        withContext(Dispatchers.IO) {
-            return@withContext try {
-                // собственно синхронизация репозитория (для вывода статуса в Foreground можно использовать LiveData<>)
-                // метка (tag) должна быть уникальной лучше чтобы содержала имя пакета
-                repository.sync()
-                Result.success()
-            } catch (error: Throwable) {
-                Result.failure()
-            }
+    override suspend fun doWork(): Result {
+        return withContext(Dispatchers.IO) {
+            repository.sync()
+            Result.success()
         }
+    }
 
 }
 

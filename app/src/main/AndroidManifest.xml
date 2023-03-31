@@ -27,15 +27,23 @@
         </activity>
         <provider
             android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-            <!-- If you are using androidx.startup to initialize other components -->
-            <meta-data
-                android:name="androidx.work.impl.WorkManagerInitializer"
-                android:value="androidx.startup"
-                tools:node="remove" />
-        </provider>
+            android:authorities="com.example.android.metercollectionapp.androidx-startup"
+            tools:node="remove" />
+
     </application>
 
 </manifest>
+
+<!-- applicationId = имя пакета (com.example.android.metercollectionapp) -->
+<!-- TODO: выяснить почему инициализация (см. ниже) не приводила к подгрузке кастомной конфигурации WorkManager'а -->
+<!--<provider-->
+<!--android:name="androidx.startup.InitializationProvider"-->
+<!--android:authorities="com.example.android.metercollectionapp.androidx-startup"-->
+<!--android:exported="false"-->
+<!--tools:node="merge">-->
+<!--&lt;!&ndash; If you are using androidx.startup to initialize other components &ndash;&gt;-->
+<!--<meta-data-->
+<!--    android:name="androidx.work.impl.WorkManagerInitializer"-->
+<!--    android:value="androidx.startup"-->
+<!--    tools:node="remove" />-->
+<!--</provider>-->

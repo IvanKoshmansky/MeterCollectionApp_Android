@@ -21,7 +21,7 @@ interface AppComponent {
     // MainActivity
     fun inject(mainActivity: MainActivity)
     // ...
-    // фрагменты где нужен AppComponent и его зависимости
+    // фрагменты где нужны зависимости Dagger AppComponent
     // ...
     fun inject(mainFragment: MainFragment)
     fun inject(loginFragment: LoginFragment)

@@ -1,7 +1,7 @@
 package com.example.android.metercollectionapp.di
 
 import androidx.work.Configuration
-import com.example.android.metercollectionapp.infrastructure.UploadWorkerFactory
+import com.example.android.metercollectionapp.infrastructure.WorkerFactoriesFactory
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -11,9 +11,9 @@ class WorkerConfigurationModule {
 
     @Singleton
     @Provides
-    fun provideWorkerConfiguration(uploadWorkerFactory: UploadWorkerFactory): Configuration {
+    fun provideWorkerConfiguration(workerFactoriesFactory: WorkerFactoriesFactory): Configuration {
         return Configuration.Builder()
-            .setWorkerFactory(uploadWorkerFactory)
+            .setWorkerFactory(workerFactoriesFactory)
             .build()
     }
 
