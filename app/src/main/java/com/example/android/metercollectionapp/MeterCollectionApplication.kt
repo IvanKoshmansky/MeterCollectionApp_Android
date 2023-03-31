@@ -4,11 +4,8 @@ import android.app.Application
 import androidx.work.*
 import com.example.android.metercollectionapp.di.DaggerAppComponent
 import com.example.android.metercollectionapp.infrastructure.UploadWorker
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-
-private const val MINIMUM_LATENCY = 5L
-private const val UNIQUE_UPLOAD_WORKER = "UNIQUEUPLOADWORKER"
-private const val UPLOAD_WORKER_TAG = "UPLOADWORKERTAG"
 
 class MeterCollectionApplication : Application(), Configuration.Provider {
 
@@ -36,26 +33,28 @@ class MeterCollectionApplication : Application(), Configuration.Provider {
         appComponent.inject(this)  // workerConfiguration становится доступной
         super.onCreate()
         scheduleWork()
-        //TODO: после базовой реализации посмотреть еще раз лекцию Google Dev Summit по этой теме
-        // в том числе оповещение о статусе работы менеджера через LiveData (см. codelab)
+        //TODO: после базовой реализации имитации передачи, посмотреть еще раз лекцию Google Dev Summit по этой теме
+        // показать реализацию через Dagger
     }
 
     private fun scheduleWork() {
-        //val constraints = Constraints.Builder()
-        //    .setRequiredNetworkType(NetworkType.UNMETERED)
-        //    .build()
 
-        val uploadWorkerRequest = OneTimeWorkRequestBuilder<UploadWorker>()
-            .addTag(UPLOAD_WORKER_TAG)
-            //    .setInitialDelay(MINIMUM_LATENCY, TimeUnit.SECONDS)
-            //    .setConstraints(constraints)
+        val constraints = Constraints.Builder()
+            //.setRequiredNetworkType(NetworkType.UNMETERED)
+            .setRequiresBatteryNotLow(true)
+            .build()
+
+        val repeatingRequest = PeriodicWorkRequestBuilder<UploadWorker>(UploadWorker.REPEAT_INTERVAL, TimeUnit.MINUTES)
+            .setInitialDelay(UploadWorker.MINIMUM_LATENCY, TimeUnit.SECONDS)
+            .addTag(UploadWorker.UPLOAD_WORKER_TAG)
+            .setConstraints(constraints)
             .build()
 
         WorkManager.getInstance(this)
-            .enqueueUniqueWork(
-                UNIQUE_UPLOAD_WORKER,
-                ExistingWorkPolicy.KEEP,
-                uploadWorkerRequest
+            .enqueueUniquePeriodicWork(
+                UploadWorker.UNIQUE_UPLOAD_WORKER,
+                ExistingPeriodicWorkPolicy.KEEP,
+                repeatingRequest
             )
     }
 }

@@ -15,8 +15,16 @@ class UploadWorker(
     override suspend fun doWork(): Result {
         return withContext(Dispatchers.IO) {
             repository.sync()
-            Result.success()
+            Result.success() // TODO: сделать передачу результата - статуса через LiveData (см. codelab)
         }
+    }
+
+    companion object {
+        const val MINIMUM_LATENCY = 5L
+        //const val REPEAT_INTERVAL = 15L
+        const val REPEAT_INTERVAL = 1L
+        const val UNIQUE_UPLOAD_WORKER = "UNIQUEUPLOADWORKER"
+        const val UPLOAD_WORKER_TAG = "UPLOADWORKERTAG"
     }
 
 }
