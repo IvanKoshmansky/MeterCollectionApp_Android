@@ -1,6 +1,7 @@
 package com.example.android.metercollectionapp.data
 
 import android.util.Log
+import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.data.localdb.*
 import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
 import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
@@ -132,13 +133,51 @@ class RepositoryImpl @Inject constructor (
     override suspend fun getCollectedData(userId: Long): List<CollectedDataExt> {
         return withContext(Dispatchers.IO) {
             ToDomainMapper().mapCollectedDataExtList(
-                localDatabase.databaseDao.getDBCollectedDataExtPOJOs(userId)
+                localDatabase.databaseDao.getCollectedDataExtPOJOs(userId)
             )
         }
     }
 
-    override suspend fun sync() {
+    private suspend fun uploadForUserId(userId: Long) {
+        // авторизация
+        // отправка
+        // все успешно - отметить в локальной базе как переданные
+        localDatabase.databaseDao.updateCollectedDataStatus(userId, SyncStatus.SUCCESS)
+    }
+
+
+    override suspend fun sync(loggedUser: User?) {
         Log.d("debug_sync", "sync()")
+
+        // на каждый шаг отдельная функция, потом это можео перестроить через паттерн "стратегия"
+        // синхронизировать все устройства (обновить синк статус)
+
+        // синхронизировать все параметры устройств (обновить синк статус)
+
+        // цикл:
+        // 1. аутентификация пользователя
+        // 2. передать собранные данные от пользователя, если на текущий момент пользователь залогинен в приложении,
+        // то оставить их со статусом передано, если нет - то удалить полностью
+        // при старте приложения всегда запускать clean up для всех собранных и переданных данных - подчищать базу
+
+        withContext(Dispatchers.IO) {
+            val userIds = localDatabase.databaseDao.getAllUsers().map { it.id }
+            userIds.forEach { uploadForUserId(it) }
+            cleanUpUploaded(loggedUser)
+        }
+    }
+
+    // ? при старте приложения всегда запускать clean up для всех собранных и переданных данных
+    // (подчищать базу для всех пользователей
+
+    /**
+     * @param exceptUser: очистить таблицу с собранными данными для всех пользователей кроме exceptUser (если != null)
+     */
+    override suspend fun cleanUpUploaded(exceptUser: User?) {
+        val exceptUserId = exceptUser?.id
+        withContext(Dispatchers.IO) {
+            localDatabase.databaseDao.deleteCollectedDataExceptUser(exceptUserId, SyncStatus.SUCCESS)
+        }
     }
 
 }

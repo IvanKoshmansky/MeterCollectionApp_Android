@@ -33,10 +33,15 @@ interface Repository {
     suspend fun addNewCollectedDataRow(newRowUserId: Long, newRowDeviceGuid: Long, newRowParamUid: Long,
                                        newRowParamValue: Float)
 
+    // получить собранные (и переданные) данные для данного пользователя
     suspend fun getCollectedData(userId: Long): List<CollectedDataExt>
 
-    suspend fun sync() // будет вызываться периодически из WorkManager, синхронизация по цепочке начиная с пользователей
+    // общая синхронизация с сервером
+    suspend fun sync(loggedUser: User?)
 
+    // очистить строки в таблице с переданными данными для всех пользователей кроме exceptUser или полностью
+    // если exceptUser == null
+    suspend fun cleanUpUploaded(exceptUser: User?)
 }
 
 // для соблюдения принципа сегрегации интерфейсов (ISP) SOLID лучше сделать несколько однотипных методов

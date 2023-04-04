@@ -6,8 +6,6 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-// решить задачу синхронизации, пока синхронизация только через WorkManager по расписанию
-
 @Singleton
 class UserManager @Inject constructor (private val repository: Repository) {
 
@@ -56,6 +54,10 @@ class UserManager @Inject constructor (private val repository: Repository) {
             _currentUser = null
         }
         return status
+    }
+
+    fun deselectCurrentUser() {
+        _currentUser = null
     }
 
 }

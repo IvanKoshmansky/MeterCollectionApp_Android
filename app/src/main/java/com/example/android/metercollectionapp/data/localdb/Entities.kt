@@ -64,6 +64,9 @@ data class DBCollectedData constructor (
     @ColumnInfo(name = "collected_status")
     val status: SyncStatus
 )
+// в общем случае механизм передачи на сервер по условию local_update > remote_update
+// local_update: unixtime
+// remote_update: unixtime
 
 data class DBCollectedDataExtPOJO (
     @Embedded

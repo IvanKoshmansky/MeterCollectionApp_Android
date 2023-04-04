@@ -3,6 +3,7 @@ package com.example.android.metercollectionapp.presentation
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -11,13 +12,12 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.FragmentSelectObjectBinding
 import com.example.android.metercollectionapp.di.ViewModelFactory
-import com.example.android.metercollectionapp.presentation.adapters.ObjectClickListener
 import com.example.android.metercollectionapp.presentation.adapters.ObjectsListAdapter
 import com.example.android.metercollectionapp.presentation.viewmodels.SelectObjectViewModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
-class SelectObjectFragment : Fragment() {
+class SelectObjectFragment : Fragment(), BeforeNavigateUpContract {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -33,6 +33,16 @@ class SelectObjectFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         selectObjectViewModel = ViewModelProvider(this, viewModelFactory).get(SelectObjectViewModel::class.java)
+
+        // перехват СИСТЕМНОЙ кнопки Back на устройстве
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                beforeNavigateUp()
+                isEnabled = false
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,4 +84,10 @@ class SelectObjectFragment : Fragment() {
             }
         }
     }
+
+    // обработка ДО перехода по навигации наверх в том числе через Toolbar
+    override fun beforeNavigateUp() {
+        selectObjectViewModel.userLogOut()
+    }
+
 }

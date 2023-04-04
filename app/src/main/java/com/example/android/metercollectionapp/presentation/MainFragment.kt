@@ -62,23 +62,6 @@ class MainFragment : Fragment() {
             }
         }
 
-//        // адаптер для RecylerView в BottomSheet
-//        (activity as MainActivity).bottomSheetBinding.rwValues.adapter = SyncValuesListAdapter()
-//
-//        // прописать callback'и для обновления данных в BottomSheet при различных событиях
-//        // для ускорения подгрузки возможно потребуется кэширование на уровне репозитория
-//        (activity as MainActivity).bottomSheetBehavior.addBottomSheetCallback(
-//            object : BottomSheetBehavior.BottomSheetCallback() {
-//                override fun onStateChanged(bottomSheet: View, newState: Int) {
-//                    Log.d("debug_bottom_sheet", "onStateChanged")
-//                }
-//
-//                override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//                    Log.d("debug_bottom_sheet", "onSlide")
-//                }
-//            }
-//        )
-
         return binding.root
     }
 
@@ -121,7 +104,15 @@ class MainFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
+
 }
+
+// TODO: обработатывать переход на данный фрагмент при нажатии кнопки назад (пользователь разлогинивается)
+// userManager.deselectCurrentUser()
+// TODO: еще маленький штрих: при нажатии кнопки Back на любом фрагменте (переход по навигации назад)
+// сделать принудительное закрытие фрагмента Bottom Sheet
+// TODO: сразу после этого делать коммит, ветку firebase и переходить к Firebase - это основное
+// TODO: работу с Firebase сделать через интерфейс RemoteDataSource
 
 //onCreateView()
 //onViewCreated()

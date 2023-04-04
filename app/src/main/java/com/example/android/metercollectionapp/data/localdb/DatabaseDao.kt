@@ -1,16 +1,17 @@
 package com.example.android.metercollectionapp.data.localdb
 
 import androidx.room.*
+import com.example.android.metercollectionapp.SyncStatus
 
 @Dao
 interface DatabaseDao {
 
     // запросить список пользователей
-    @Query("select * from users_table")
+    @Query("SELECT * FROM users_table")
     fun getAllUsers(): List<DBUser>
 
     // запросить конкретного пользователя
-    @Query("select * from users_table where id=:id")
+    @Query("SELECT * FROM users_table WHERE id=:id")
     fun getUserById(id: Long): DBUser?
 
     // добавить нового пользователя
@@ -23,23 +24,23 @@ interface DatabaseDao {
     fun insertNewDevice(newDevice: DBDevice)
 
     // получить устройство по GUID или null если устройство не существует
-    @Query("select * from devices_table where guid=:guid")
+    @Query("SELECT * FROM devices_table WHERE guid=:guid")
     fun getDeviceById(guid: Long): DBDevice?
 
     // получить список всех устройств
-    @Query("select * from devices_table")
+    @Query("SELECT * FROM devices_table")
     fun getAllDevices(): List<DBDevice>
 
     // получить список всех параметров устройств
-    @Query("select * from params_table")
+    @Query("SELECT * FROM params_table")
     fun getAllDeviceParams(): List<DBDeviceParam>
 
     // получить список параметров устройств с требуемыми Id
-    @Query("select * from params_table where uid in (:ids)")
+    @Query("SELECT * FROM params_table WHERE uid IN (:ids)")
     fun getDeviceParamsByParamsIds(ids: List<Long>): List<DBDeviceParam>
 
     // получить список всех параметров устройств исключая параметры в списке
-    @Query ("select * from params_table where uid not in (:ids)")
+    @Query ("SELECT * FROM params_table WHERE uid NOT IN (:ids)")
     fun getDeviceParamsExcludingParamsIds(ids: List<Long>): List<DBDeviceParam>
 
     // добавить новый параметр устройств в локальную БД
@@ -57,8 +58,15 @@ interface DatabaseDao {
         INNER JOIN params_table ON params_table.uid = collected_data.param_id
         WHERE collected_data.user_id == :userId
     """)
-    fun getDBCollectedDataExtPOJOs(userId: Long): List<DBCollectedDataExtPOJO>
+    fun getCollectedDataExtPOJOs(userId: Long): List<DBCollectedDataExtPOJO>
     // You can use a raw string which is more readable anyway
+
+    // обновить статус данных в таблице collected_data
+    @Query("UPDATE collected_data SET collected_status = :newStatus WHERE user_id = :userId")
+    fun updateCollectedDataStatus(userId: Long, newStatus: SyncStatus)
+
+    @Query("DELETE FROM collected_data WHERE collected_status = :statusToDelete AND user_id != :userId")
+    fun deleteCollectedDataExceptUser(userId: Long?, statusToDelete: SyncStatus)
 }
 
 // @Relation требует явное статическое связывание через поля в обоих @Entity, отношение "один к одному" или

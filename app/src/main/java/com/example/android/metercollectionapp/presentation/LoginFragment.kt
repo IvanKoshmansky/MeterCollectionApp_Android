@@ -2,9 +2,11 @@ package com.example.android.metercollectionapp.presentation
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -71,5 +73,4 @@ class LoginFragment : Fragment() {
             }
         }
     }
-
 }

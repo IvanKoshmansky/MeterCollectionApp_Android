@@ -8,10 +8,11 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.ActivityNavigator
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
-import androidx.work.*
 import com.example.android.metercollectionapp.*
 import com.example.android.metercollectionapp.R
 import com.example.android.metercollectionapp.databinding.ActivityMainBinding
@@ -31,8 +32,23 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
         val navController = navHostFragment.navController
+
+        // This line is only necessary if using the default action bar.
         NavigationUI.setupActionBarWithNavController(this, navController)
         NavigationUI.setupWithNavController(binding.navView, navController)
+        NavigationUI.setupWithNavController(binding.toolbar, navController)  // setupWith... используем Toolbar
+        // Перехват нажатий на иконки Toolbar
+        binding.toolbar.setNavigationOnClickListener {
+            val currentDestination = navController.currentDestination ?: return@setNavigationOnClickListener
+            if (currentDestination.id == R.id.selectObjectFragment) {
+                // ограничение: через childFragmentManager можно обратиться только к стеку фрагментов
+                // найти фрагмент по id нельзя (возвращает null)
+                // либо второй вариант - привязать к графу навигации ViewModel и обработывать состояния ViewModel
+                val fragment = navHostFragment.childFragmentManager.fragments[0] ?: return@setNavigationOnClickListener
+                (fragment as? BeforeNavigateUpContract)?.beforeNavigateUp()
+            }
+            NavigationUI.navigateUp(navController, null)
+        }
 
         val bottomSheetBehavior = BottomSheetBehavior.from(binding.bottomSheetContainer)
         bottomSheetLastState = bottomSheetBehavior.state
@@ -53,12 +69,10 @@ class MainActivity : AppCompatActivity() {
         managePermissions()
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = this.findNavController(R.id.navHostFragment)
-        // TODO: добавить в BottomSheet в качестве openableLayout или реализовать программный перехват нажатия кнопки
-        // Back чтобы закрыть открытый Bottom Sheet
-        return NavigationUI.navigateUp(navController, null)
-    }
+//    override fun onSupportNavigateUp(): Boolean {
+//        val navController = this.findNavController(R.id.navHostFragment)
+//        return NavigationUI.navigateUp(navController, null)
+//    }
 
     private fun managePermissions() {
         // создать объект для запроса разрешений

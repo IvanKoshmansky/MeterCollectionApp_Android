@@ -44,6 +44,7 @@ class MeterCollectionApplication : Application(), Configuration.Provider {
             .setRequiresBatteryNotLow(true)
             .build()
 
+        // ограничение на 15 минут для периодических задач
         val repeatingRequest = PeriodicWorkRequestBuilder<UploadWorker>(UploadWorker.REPEAT_INTERVAL, TimeUnit.MINUTES)
             .setInitialDelay(UploadWorker.MINIMUM_LATENCY, TimeUnit.SECONDS)
             .addTag(UploadWorker.UPLOAD_WORKER_TAG)

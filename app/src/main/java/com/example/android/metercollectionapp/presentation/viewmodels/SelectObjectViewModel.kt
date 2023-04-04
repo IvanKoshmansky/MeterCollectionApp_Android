@@ -6,13 +6,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.domain.Repository
+import com.example.android.metercollectionapp.domain.UserManager
 import com.example.android.metercollectionapp.presentation.uistate.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SelectObjectViewModel @Inject constructor (
     private val application: MeterCollectionApplication,
-    private val repository: Repository
+    private val repository: Repository,
+    private val userManager: UserManager
 ) : AndroidViewModel(application) {
 
     private val _uiState = MutableLiveData(SelectObjectUiState(isLoading = true))
@@ -48,6 +50,10 @@ class SelectObjectViewModel @Inject constructor (
             val state = _uiState.value ?: return
             _uiState.value = state.copy(cameraNotGranted = true)
         }
+    }
+
+    fun userLogOut() {
+        userManager.deselectCurrentUser()
     }
 
 }
