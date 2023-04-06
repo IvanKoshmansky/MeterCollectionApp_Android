@@ -107,12 +107,7 @@ class MainFragment : Fragment() {
 
 }
 
-// TODO: обработатывать переход на данный фрагмент при нажатии кнопки назад (пользователь разлогинивается)
-// userManager.deselectCurrentUser()
-// TODO: еще маленький штрих: при нажатии кнопки Back на любом фрагменте (переход по навигации назад)
-// сделать принудительное закрытие фрагмента Bottom Sheet
-// TODO: сразу после этого делать коммит, ветку firebase и переходить к Firebase - это основное
-// TODO: работу с Firebase сделать через интерфейс RemoteDataSource
+//TODO: работу с Firebase сделать через интерфейс RemoteDataSource
 
 //onCreateView()
 //onViewCreated()

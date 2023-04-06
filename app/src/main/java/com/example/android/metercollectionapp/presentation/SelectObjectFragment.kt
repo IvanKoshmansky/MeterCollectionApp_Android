@@ -34,11 +34,14 @@ class SelectObjectFragment : Fragment(), BeforeNavigateUpContract {
         super.onCreate(savedInstanceState)
         selectObjectViewModel = ViewModelProvider(this, viewModelFactory).get(SelectObjectViewModel::class.java)
 
-        // перехват СИСТЕМНОЙ кнопки Back на устройстве
+        // перехват СИСТЕММНОЙ кнопки Back на устройстве
         val onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
+                // кастомная обработка
                 beforeNavigateUp()
+                // деактивировать этот callback
                 isEnabled = false
+                // вызвать по очереди добавленные callback'и пропуская не активные (до первого активного)
                 requireActivity().onBackPressedDispatcher.onBackPressed()
             }
         }
@@ -85,7 +88,8 @@ class SelectObjectFragment : Fragment(), BeforeNavigateUpContract {
         }
     }
 
-    // обработка ДО перехода по навигации наверх в том числе через Toolbar
+    // обработка ДО перехода по навигации наверх в том числе через Toolbar (обрабатывается отдельно
+    // от системмной кнопки Back на устройстве - это разные обработчики)
     override fun beforeNavigateUp() {
         selectObjectViewModel.userLogOut()
     }
