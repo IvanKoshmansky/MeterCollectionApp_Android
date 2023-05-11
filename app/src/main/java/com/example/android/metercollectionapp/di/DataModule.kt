@@ -4,6 +4,8 @@ import com.example.android.metercollectionapp.MeterCollectionApplication
 import com.example.android.metercollectionapp.data.RepositoryImpl
 import com.example.android.metercollectionapp.data.localdb.LocalDatabase
 import com.example.android.metercollectionapp.data.localdb.getDatabase
+import com.example.android.metercollectionapp.data.remote.FirebaseRemoteDataSource
+import com.example.android.metercollectionapp.data.remote.RemoteDataSource
 import com.example.android.metercollectionapp.data.storage.Storage
 import com.example.android.metercollectionapp.data.storage.getSharedPreferencesStorage
 import com.example.android.metercollectionapp.domain.Repository
@@ -25,12 +27,21 @@ class DataModule {
     fun provideStorage(context: MeterCollectionApplication): Storage {
         return getSharedPreferencesStorage(context)
     }
-    // здесь Storage - интерфейс, зависимость на интерфейс
 
     @Singleton
     @Provides
-    fun provideRepository(localDatabase: LocalDatabase, storage: Storage): Repository {
-        return RepositoryImpl(localDatabase, storage)
+    fun provideRemoteDataSource(): RemoteDataSource {
+        return FirebaseRemoteDataSource()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(
+        localDatabase: LocalDatabase,
+        storage: Storage,
+        remoteDataSource: RemoteDataSource
+    ): Repository {
+        return RepositoryImpl(localDatabase, storage, remoteDataSource)
     }
 
 }

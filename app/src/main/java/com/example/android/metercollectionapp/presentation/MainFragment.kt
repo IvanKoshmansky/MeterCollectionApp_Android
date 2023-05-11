@@ -107,8 +107,6 @@ class MainFragment : Fragment() {
 
 }
 
-//TODO: работу с Firebase сделать через интерфейс RemoteDataSource
-
 //onCreateView()
 //onViewCreated()
 //вызываются при восстановлении фрагмента из бэкстека когда фрагмент поднимается выше

@@ -14,7 +14,7 @@ class UploadWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        repository.sync(userManager.currentUser)
+        //repository.sync(userManager.currentUser)
         return Result.success()
     }
 

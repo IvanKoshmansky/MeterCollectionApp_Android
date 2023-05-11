@@ -40,6 +40,9 @@ class SelectObjectViewModel @Inject constructor (
             } else {
                 _uiState.value = SelectObjectUiState(objects = emptyList(), isLoading = false)
             }
+
+            // тест синхронизации firebase
+            repository.sync(userManager.currentUser)
         }
     }
 

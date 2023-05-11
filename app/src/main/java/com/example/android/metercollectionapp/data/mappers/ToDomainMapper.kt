@@ -1,11 +1,12 @@
 package com.example.android.metercollectionapp.data.mappers
 
 import com.example.android.metercollectionapp.data.localdb.*
+import com.example.android.metercollectionapp.data.remote.entities.RemoteUser
 import com.example.android.metercollectionapp.domain.model.*
 
 class ToDomainMapper {
 
-    fun mapUser(dbUser: DBUser) = User(
+    fun mapUserFromDB(dbUser: DBUser) = User(
         _id = dbUser.id,
         _login = dbUser.login,
         _passEncrypted = dbUser.passEncrypted,
@@ -13,8 +14,16 @@ class ToDomainMapper {
         _status = dbUser.status
     )
 
+    fun mapUserFromRemote(remoteUser: RemoteUser) = User(
+        _id = remoteUser.id,
+        _login = remoteUser.login,
+        _passEncrypted = remoteUser.passEncrypted,
+        _name = remoteUser.name,
+        _status = remoteUser.status
+    )
+
     fun mapUsers(dbUsers: List<DBUser>) = dbUsers.map {
-        mapUser(it)
+        mapUserFromDB(it)
     }
 
     fun mapDevice(dbDevice: DBDevice) = Device(

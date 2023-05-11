@@ -1,10 +1,10 @@
 package com.example.android.metercollectionapp.data
 
-import android.util.Log
 import com.example.android.metercollectionapp.SyncStatus
 import com.example.android.metercollectionapp.data.localdb.*
 import com.example.android.metercollectionapp.data.mappers.FromDomainMapper
 import com.example.android.metercollectionapp.data.mappers.ToDomainMapper
+import com.example.android.metercollectionapp.data.remote.RemoteDataSource
 import com.example.android.metercollectionapp.data.storage.Storage
 import com.example.android.metercollectionapp.domain.Repository
 import com.example.android.metercollectionapp.domain.model.*
@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor (
     private val localDatabase: LocalDatabase,
-    private val storage: Storage
+    private val storage: Storage,
+    private val remoteDataSource: RemoteDataSource
 ): Repository {
 
     override suspend fun getAllUsers(): List<User> {
@@ -30,14 +31,14 @@ class RepositoryImpl @Inject constructor (
         withContext(Dispatchers.IO) {
             val dbUser = localDatabase.databaseDao.getUserById(id)
             if (dbUser != null) {
-                user = ToDomainMapper().mapUser(dbUser)
+                user = ToDomainMapper().mapUserFromDB(dbUser)
             }
         }
         return user ?: throw IOException("user not found")
     }
 
     override suspend fun addNewUser(user: User): Long {
-        val dbUser = FromDomainMapper().mapUser(user)
+        val dbUser = FromDomainMapper().mapUserToDB(user)
         return withContext(Dispatchers.IO) {
             localDatabase.databaseDao.insertNewUser(dbUser)
         }
@@ -145,30 +146,21 @@ class RepositoryImpl @Inject constructor (
         localDatabase.databaseDao.updateCollectedDataStatus(userId, SyncStatus.SUCCESS)
     }
 
-
     override suspend fun sync(loggedUser: User?) {
-        Log.d("debug_sync", "sync()")
-
-        // на каждый шаг отдельная функция, потом это можео перестроить через паттерн "стратегия"
-        // синхронизировать все устройства (обновить синк статус)
-
-        // синхронизировать все параметры устройств (обновить синк статус)
-
-        // цикл:
-        // 1. аутентификация пользователя
-        // 2. передать собранные данные от пользователя, если на текущий момент пользователь залогинен в приложении,
-        // то оставить их со статусом передано, если нет - то удалить полностью
-        // при старте приложения всегда запускать clean up для всех собранных и переданных данных - подчищать базу
-
         withContext(Dispatchers.IO) {
-            val userIds = localDatabase.databaseDao.getAllUsers().map { it.id }
-            userIds.forEach { uploadForUserId(it) }
-            cleanUpUploaded(loggedUser)
+//            val userIds = localDatabase.databaseDao.getAllUsers().map { it.id }
+//            userIds.forEach { uploadForUserId(it) }
+//            cleanUpUploaded(loggedUser)
+
+            // тест авторизации
+            remoteDataSource.authUser(
+                FromDomainMapper().mapUserToRemote(loggedUser!!)
+            )
+
+            // синхронизация устройств и параметров устройств
+
         }
     }
-
-    // ? при старте приложения всегда запускать clean up для всех собранных и переданных данных
-    // (подчищать базу для всех пользователей
 
     /**
      * @param exceptUser: очистить таблицу с собранными данными для всех пользователей кроме exceptUser (если != null)
