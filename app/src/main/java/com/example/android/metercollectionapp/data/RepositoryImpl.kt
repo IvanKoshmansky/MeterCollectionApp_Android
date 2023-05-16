@@ -22,7 +22,7 @@ class RepositoryImpl @Inject constructor (
 
     override suspend fun getAllUsers(): List<User> {
         return withContext(Dispatchers.IO) {
-            ToDomainMapper().mapUsers(localDatabase.databaseDao.getAllUsers())
+            ToDomainMapper().mapUsersFromDB(localDatabase.databaseDao.getAllUsers())
         }
     }
 
@@ -49,7 +49,7 @@ class RepositoryImpl @Inject constructor (
         withContext(Dispatchers.IO) {
             val dbDevice = localDatabase.databaseDao.getDeviceById(guid)
             if (dbDevice != null) {
-                device = ToDomainMapper().mapDevice(dbDevice)
+                device = ToDomainMapper().mapDeviceFromDB(dbDevice)
             }
         }
         return device ?: throw IOException("device not found")
@@ -61,7 +61,7 @@ class RepositoryImpl @Inject constructor (
             it.name = name
             it.guid = guid
         }
-        val dbDevice = FromDomainMapper().mapDevice(device)
+        val dbDevice = FromDomainMapper().mapDeviceToDB(device)
         withContext(Dispatchers.IO) {
             localDatabase.databaseDao.insertNewDevice(dbDevice)
         }
@@ -70,19 +70,19 @@ class RepositoryImpl @Inject constructor (
     override suspend fun getAllDevices(): List<Device> {
         return withContext(Dispatchers.IO) {
             val dbDevices = localDatabase.databaseDao.getAllDevices()
-            ToDomainMapper().mapDevices(dbDevices)
+            ToDomainMapper().mapDevicesFromDB(dbDevices)
         }
     }
 
     override suspend fun getAllDeviceParams(): List<DeviceParam> {
         return withContext(Dispatchers.IO) {
             val dbDeviceParams = localDatabase.databaseDao.getAllDeviceParams()
-            ToDomainMapper().mapDeviceParams(dbDeviceParams)
+            ToDomainMapper().mapDeviceParamsFromDB(dbDeviceParams)
         }
     }
 
     override suspend fun addNewDeviceParam(deviceParam: DeviceParam) {
-        val dbDeviceParam = FromDomainMapper().mapDeviceParam(deviceParam)
+        val dbDeviceParam = FromDomainMapper().mapDeviceParamToDB(deviceParam)
         withContext(Dispatchers.IO) {
             localDatabase.databaseDao.insertNewDeviceParam(dbDeviceParam)
         }
@@ -92,7 +92,7 @@ class RepositoryImpl @Inject constructor (
         return withContext(Dispatchers.IO) {
             val ids = storage.getDeviceParamsIdsAssociatedFrom(guid)
             val dbDeviceParams = localDatabase.databaseDao.getDeviceParamsByParamsIds(ids)
-            ToDomainMapper().mapDeviceParams(dbDeviceParams)
+            ToDomainMapper().mapDeviceParamsFromDB(dbDeviceParams)
         }
     }
 
@@ -100,7 +100,7 @@ class RepositoryImpl @Inject constructor (
         return withContext(Dispatchers.IO) {
             val ids = storage.getDeviceParamsIdsAssociatedFrom(guid)
             val dbDeviceParams = localDatabase.databaseDao.getDeviceParamsExcludingParamsIds(ids)
-            ToDomainMapper().mapDeviceParams(dbDeviceParams)
+            ToDomainMapper().mapDeviceParamsFromDB(dbDeviceParams)
         }
     }
     // вот здесь в раньше запрашивались все параметры из репозитория (первый запрос к SD карте),
@@ -146,18 +146,38 @@ class RepositoryImpl @Inject constructor (
         localDatabase.databaseDao.updateCollectedDataStatus(userId, SyncStatus.SUCCESS)
     }
 
+    private suspend fun syncDevices() {
+        val localDevices = ToDomainMapper().mapDevicesFromDB(
+            localDatabase.databaseDao.getAllDevices()
+        )
+        val syncedDevices = ToDomainMapper().mapDevicesFromRemote(
+            remoteDataSource.syncDevices(
+                FromDomainMapper().mapDevicesToRemote(localDevices)
+            )
+        )
+        val syncedIds = syncedDevices.filter { it.status == SyncStatus.SUCCESS }.map { it.guid }
+        val failedIds = syncedDevices.filter { it.status == SyncStatus.FAILED }.map { it.guid }
+        localDatabase.databaseDao.updateDeviceStatus(syncedIds, SyncStatus.SUCCESS)
+        localDatabase.databaseDao.updateDeviceStatus(failedIds, SyncStatus.FAILED)
+    }
+
+    private suspend fun syncDeviceParams() {
+
+    }
+
     override suspend fun sync(loggedUser: User?) {
         withContext(Dispatchers.IO) {
-//            val userIds = localDatabase.databaseDao.getAllUsers().map { it.id }
-//            userIds.forEach { uploadForUserId(it) }
-//            cleanUpUploaded(loggedUser)
+            val userIds = localDatabase.databaseDao.getAllUsers().map { it.id }
+            userIds.forEach { uploadForUserId(it) }
+            cleanUpUploaded(loggedUser)
 
-            // тест авторизации
-            remoteDataSource.authUser(
-                FromDomainMapper().mapUserToRemote(loggedUser!!)
-            )
+//            // тест авторизации
+//            remoteDataSource.authUser(
+//                FromDomainMapper().mapUserToRemote(loggedUser!!)
+//            )
 
-            // синхронизация устройств и параметров устройств
+            // тест синхронизации устройств
+            syncDevices()
 
         }
     }

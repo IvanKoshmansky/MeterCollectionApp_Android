@@ -67,6 +67,10 @@ interface DatabaseDao {
 
     @Query("DELETE FROM collected_data WHERE collected_status = :statusToDelete AND user_id != :userId")
     fun deleteCollectedDataExceptUser(userId: Long?, statusToDelete: SyncStatus)
+
+    // обновить статус устройств с заданными guids
+    @Query("UPDATE devices_table SET device_status = :newStatus WHERE guid IN (:guids)")
+    fun updateDeviceStatus(guids: List<Long>, newStatus: SyncStatus)
 }
 
 // @Relation требует явное статическое связывание через поля в обоих @Entity, отношение "один к одному" или

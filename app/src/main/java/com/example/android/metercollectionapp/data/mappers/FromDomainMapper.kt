@@ -1,7 +1,9 @@
 package com.example.android.metercollectionapp.data.mappers
 
 import com.example.android.metercollectionapp.data.localdb.*
-import com.example.android.metercollectionapp.data.remote.entities.RemoteUser
+import com.example.android.metercollectionapp.data.remote.datatransferobjects.RemoteDevice
+import com.example.android.metercollectionapp.data.remote.datatransferobjects.RemoteDeviceParam
+import com.example.android.metercollectionapp.data.remote.datatransferobjects.RemoteUser
 import com.example.android.metercollectionapp.domain.model.CollectedData
 import com.example.android.metercollectionapp.domain.model.Device
 import com.example.android.metercollectionapp.domain.model.DeviceParam
@@ -25,16 +27,42 @@ class FromDomainMapper {
         status = user.status
     )
 
-    fun mapDevice(device: Device) = DBDevice(
+    fun mapDeviceToDB(device: Device) = DBDevice(
         guid = device.guid,
         devType = device.devType,
         name = device.name,
-        lat = 0.0,
-        lon = 0.0,
+        lat = device.lat,
+        lon = device.lon,
         status = device.status
     )
 
-    fun mapDeviceParam(deviceParam: DeviceParam) = DBDeviceParam(
+    fun mapDeviceToRemote(device: Device) = RemoteDevice(
+        guid = device.guid,
+        devType = device.devType,
+        name = device.name,
+        lat = device.lat,
+        lon = device.lon,
+        status = device.status
+    )
+
+    fun mapDevicesToDB(devices: List<Device>) = devices.map {
+        mapDeviceToDB(it)
+    }
+
+    fun mapDevicesToRemote(devices: List<Device>) = devices.map {
+        mapDeviceToRemote(it)
+    }
+
+    fun mapDeviceParamToDB(deviceParam: DeviceParam) = DBDeviceParam(
+        uid = deviceParam.uid,
+        paramType = deviceParam.paramType.ordinal,
+        measUnit = deviceParam.measUnit,
+        name = deviceParam.name,
+        shortName = deviceParam.shortName,
+        status = deviceParam.status
+    )
+
+    fun mapDeviceParamToRemote(deviceParam: DeviceParam) = RemoteDeviceParam(
         uid = deviceParam.uid,
         paramType = deviceParam.paramType.ordinal,
         measUnit = deviceParam.measUnit,

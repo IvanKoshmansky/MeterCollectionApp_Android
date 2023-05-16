@@ -1,7 +1,9 @@
 package com.example.android.metercollectionapp.data.mappers
 
 import com.example.android.metercollectionapp.data.localdb.*
-import com.example.android.metercollectionapp.data.remote.entities.RemoteUser
+import com.example.android.metercollectionapp.data.remote.datatransferobjects.RemoteDevice
+import com.example.android.metercollectionapp.data.remote.datatransferobjects.RemoteDeviceParam
+import com.example.android.metercollectionapp.data.remote.datatransferobjects.RemoteUser
 import com.example.android.metercollectionapp.domain.model.*
 
 class ToDomainMapper {
@@ -22,11 +24,11 @@ class ToDomainMapper {
         _status = remoteUser.status
     )
 
-    fun mapUsers(dbUsers: List<DBUser>) = dbUsers.map {
+    fun mapUsersFromDB(dbUsers: List<DBUser>) = dbUsers.map {
         mapUserFromDB(it)
     }
 
-    fun mapDevice(dbDevice: DBDevice) = Device(
+    fun mapDeviceFromDB(dbDevice: DBDevice) = Device(
         _guid = dbDevice.guid,
         _devType = dbDevice.devType,
         _name = dbDevice.name,
@@ -35,11 +37,24 @@ class ToDomainMapper {
         _status = dbDevice.status
     )
 
-    fun mapDevices(dbDevices: List<DBDevice>) = dbDevices.map {
-        mapDevice(it)
+    fun mapDeviceFromRemote(remoteDevice: RemoteDevice) = Device(
+        _guid = remoteDevice.guid,
+        _devType = remoteDevice.devType,
+        _name = remoteDevice.name,
+        _lat = remoteDevice.lat,
+        _lon = remoteDevice.lon,
+        _status = remoteDevice.status
+    )
+
+    fun mapDevicesFromDB(dbDevices: List<DBDevice>) = dbDevices.map {
+        mapDeviceFromDB(it)
     }
 
-    fun mapDeviceParam(dbDeviceParam: DBDeviceParam) = DeviceParam(
+    fun mapDevicesFromRemote(remoteDevices: List<RemoteDevice>) = remoteDevices.map {
+        mapDeviceFromRemote(it)
+    }
+
+    fun mapDeviceParamFromDB(dbDeviceParam: DBDeviceParam) = DeviceParam(
         _uid = dbDeviceParam.uid,
         _paramType = DeviceParam.ParamType.values()[dbDeviceParam.paramType],
         _measUnit = dbDeviceParam.measUnit,
@@ -48,8 +63,17 @@ class ToDomainMapper {
         _status = dbDeviceParam.status
     )
 
-    fun mapDeviceParams(dbDeviceParams: List<DBDeviceParam>) = dbDeviceParams.map {
-        mapDeviceParam(it)
+    fun mapDeviceParamFromRemote(remoteDeviceParam: RemoteDeviceParam) = DeviceParam(
+        _uid = remoteDeviceParam.uid,
+        _paramType = DeviceParam.ParamType.values()[remoteDeviceParam.paramType],
+        _measUnit = remoteDeviceParam.measUnit,
+        _name = remoteDeviceParam.name,
+        _shortName = remoteDeviceParam.shortName,
+        _status = remoteDeviceParam.status
+    )
+
+    fun mapDeviceParamsFromDB(dbDeviceParams: List<DBDeviceParam>) = dbDeviceParams.map {
+        mapDeviceParamFromDB(it)
     }
 
     fun mapCollectedData(dbCollectedData: DBCollectedData) = CollectedData(
@@ -74,8 +98,8 @@ class ToDomainMapper {
         _paramUid = dbCollectedDataExtPOJO.base.paramId,
         _paramValue = dbCollectedDataExtPOJO.base.paramValue,
         _status = dbCollectedDataExtPOJO.base.status,
-        _deviceInfo = mapDevice(dbCollectedDataExtPOJO.device),
-        _paramInfo = mapDeviceParam(dbCollectedDataExtPOJO.param)
+        _deviceInfo = mapDeviceFromDB(dbCollectedDataExtPOJO.device),
+        _paramInfo = mapDeviceParamFromDB(dbCollectedDataExtPOJO.param)
     )
 
     fun mapCollectedDataExtList(dbCollectedDataExtPOJOs: List<DBCollectedDataExtPOJO>) = dbCollectedDataExtPOJOs.map {
